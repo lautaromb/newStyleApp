@@ -14,7 +14,9 @@ public class Servicio {
     Long id;
     String nombre;
     double precio;
-    String imagen;
+    String imagenPrincipal;
+    String imagenDesc1;
+    String imagenDesc2;
     String descripcion;
 
 
@@ -31,10 +33,12 @@ public class Servicio {
     public Servicio() {
     }
 
-    public Servicio( String nombre, double precio, String imagen, String descripcion, Negocio negocio) {
+    public Servicio( String nombre, double precio, String imagen,String imagenDesc1,String imagenDesc2, String descripcion, Negocio negocio) {
         this.nombre = nombre;
         this.precio = precio;
-        this.imagen = imagen;
+        this.imagenPrincipal = imagen;
+        this.imagenDesc1 = imagenDesc1;
+        this.imagenDesc2 = imagenDesc2;
         this.descripcion = descripcion;
         this.negocio = negocio;
     }
@@ -59,12 +63,29 @@ public class Servicio {
         this.precio = precio;
     }
 
-    public String getImagen() {
-        return imagen;
+
+    public String getImagenPrincipal() {
+        return imagenPrincipal;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setImagenPrincipal(String imagenPrincipal) {
+        this.imagenPrincipal = imagenPrincipal;
+    }
+
+    public String getImagenDesc1() {
+        return imagenDesc1;
+    }
+
+    public void setImagenDesc1(String imagenDesc1) {
+        this.imagenDesc1 = imagenDesc1;
+    }
+
+    public String getImagenDesc2() {
+        return imagenDesc2;
+    }
+
+    public void setImagenDesc2(String imagenDesc2) {
+        this.imagenDesc2 = imagenDesc2;
     }
 
     public String getDescripcion() {
