@@ -2,10 +2,9 @@ package com.mindhub.newStyle.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Servicio {
@@ -15,7 +14,16 @@ public class Servicio {
     Long id;
     String nombre;
     double precio;
+    String imagen;
     String descripcion;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="negocio")
+    private Negocio negocio;
+
+//    @OneToMany(mappedBy = "servicio", fetch = FetchType.EAGER)
+//    private Set<SucursalServicio> sucursalServicios = new HashSet<>();
 
     //relacion n a n con Sucursal
 
@@ -23,10 +31,12 @@ public class Servicio {
     public Servicio() {
     }
 
-    public Servicio(String nombre, double precio, String descripcion) {
+    public Servicio( String nombre, double precio, String imagen, String descripcion, Negocio negocio) {
         this.nombre = nombre;
         this.precio = precio;
+        this.imagen = imagen;
         this.descripcion = descripcion;
+        this.negocio = negocio;
     }
 
     public Long getId() {
@@ -49,6 +59,13 @@ public class Servicio {
         this.precio = precio;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 
     public String getDescripcion() {
         return descripcion;
@@ -57,4 +74,20 @@ public class Servicio {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public Negocio getNegocio() {
+        return negocio;
+    }
+
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
+    }
+
+    //    public Set<SucursalServicio> getSucursalServicios() {
+//        return sucursalServicios;
+//    }
+//
+//    public void setSucursalServicios(Set<SucursalServicio> sucursalServicios) {
+//        this.sucursalServicios = sucursalServicios;
+//    }
 }

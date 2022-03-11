@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Sucursal {
@@ -36,6 +38,8 @@ public class Sucursal {
     @JoinColumn(name="negocio")
     private Negocio negocio;
 
+//    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER)
+//    private Set<SucursalServicio> sucursalServicios = new HashSet<>();
 
 
 
@@ -104,7 +108,31 @@ public class Sucursal {
         this.hoy = hoy;
     }
 
-//    public ZonedDateTime getSucursalAbre() {
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Negocio getNegocio() {
+        return negocio;
+    }
+
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
+    }
+
+//    public Set<SucursalServicio> getSucursalServicios() {
+//        return sucursalServicios;
+//    }
+//
+//    public void setSucursalServicios(Set<SucursalServicio> sucursalServicios) {
+//        this.sucursalServicios = sucursalServicios;
+ //   }
+
+    //    public ZonedDateTime getSucursalAbre() {
 //        return sucursalAbre;
 //    }
 //

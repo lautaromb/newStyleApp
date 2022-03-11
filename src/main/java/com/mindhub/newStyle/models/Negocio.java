@@ -19,6 +19,9 @@ public class Negocio {
     @OneToMany(mappedBy = "negocio", fetch = FetchType.EAGER)
     private Set<Sucursal> sucursales = new HashSet<>();
 
+    @OneToMany(mappedBy = "negocio", fetch = FetchType.EAGER)
+    private Set<Servicio> servicio = new HashSet<>();
+
     /*Relacion con Sucursal*/
 
 
@@ -60,6 +63,14 @@ public class Negocio {
 
     public void setSucursales(Set<Sucursal> sucursales) {
         this.sucursales = sucursales;
+    }
+
+    public Set<Servicio> getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(Set<Servicio> servicio) {
+        this.servicio = servicio;
     }
 }
 
