@@ -22,6 +22,7 @@ public class ClienteDTO {
         this.numeroTel = cliente.getNumeroTel();
     }
 
+    /*Este es un comentario*/
 
     public String getPrimerNombre() {
         return primerNombre;
