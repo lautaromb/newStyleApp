@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Registro</title>
+</head>
+
+<body>
+  <div class="container" id="app">
+    <input type="checkbox" id="flip">
+    <div class="cover">
+      <div class="front">
+        <img src="../assets/mujer.jpg" alt="">
+      </div>
+      <div class="back">
+        <img class="backImg" src="../assets/mujer2.jpg" alt="">
+      </div>
+    </div>
+    <div class="formulario">
+      <div class="formulario-contenido">
+        <div class="formulario-ingreso">
+          <div class="titulo">Entrar</div>
+          <form action="#">
+            <div class="input-boxes">
+              <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Correo Electrónico" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Contraseña" required>
+              </div>
+              <div class="text"><a href="#">¿Has olvidado la contraseña?</a></div>
+              <div class="boton input-box">
+                <input type="submit" value="Entrar">
+              </div>
+              <div class="text texto-registrarse">¿No tienes una cuenta? <label for="flip">Regístrate</label></div>
+            </div>
+          </form>
+        </div>
+        <div class="registrate">
+          <div class="titulo">Registrarte</div>
+          <form action="#">
+            <div class="input-boxes">
+              <div class="input-box">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Nombre y Apellido" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Correo Electrónico" required>
+              </div>
+              <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Contraseña" required>
+              </div>
+              <div class="boton input-box">
+                <input type="submit" value="Registrarte">
+              </div>
+              <div class="text texto-registrarse">¿Tienes una cuenta? <label for="flip">Entrar</label></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/index.js"></script>
+</body>
+
+</html>

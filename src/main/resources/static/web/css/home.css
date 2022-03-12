@@ -1,0 +1,282 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+}
+
+/* NAV HAMBURGUESA */
+
+nav {
+  display: flex;
+  height: 80px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(235, 80, 146, 1) 0%,
+    rgba(236, 71, 105, 1) 60%,
+    rgba(238, 61, 67, 1) 90%
+  );
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px 0 100px;
+  flex-wrap: wrap;
+}
+nav .logo {
+  color: #fff;
+  font-size: 35px;
+  font-weight: 600;
+}
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin-bottom: 0 !important;
+}
+
+.li-servicio {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+nav ul li {
+  margin: 0 5px;
+}
+nav ul li a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+nav ul li a.active,
+nav ul li a:hover {
+  color: #111;
+  background: #fff;
+}
+nav .menu-btn i {
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  display: none;
+}
+input[type="checkbox"] {
+  display: none;
+}
+
+@media (max-width: 1300px) {
+  nav {
+    padding: 0 40px 0 50px;
+  }
+}
+@media (max-width: 1100px) {
+  nav .menu-btn i {
+    display: block;
+  }
+  #click:checked ~ .menu-btn i:before {
+    content: "\f00d";
+  }
+  nav ul {
+    z-index: 3;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    background: rgb(243, 171, 183);
+    height: 100vh;
+    width: 30%;
+    text-align: center;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  #click:checked ~ ul {
+    left: 0;
+  }
+  nav ul li {
+    width: 100%;
+    margin: 40px 0;
+  }
+  nav ul li a {
+    width: 100%;
+    margin-left: -100%;
+    display: block;
+    font-size: 20px;
+    transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  #click:checked ~ ul li a {
+    margin-left: 0px;
+  }
+  nav ul li a.active,
+  nav ul li a:hover {
+    background: none;
+    color: #111;
+  }
+}
+
+@media (max-width: 510px) {
+  nav .menu-btn i {
+    display: block;
+  }
+  #click:checked ~ .menu-btn i:before {
+    content: "\f00d";
+  }
+  nav ul {
+    z-index: 3;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    background: rgb(243, 171, 183);
+    height: 100vh;
+    width: fit-content;
+    text-align: center;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  #click:checked ~ ul {
+    left: 0;
+  }
+  nav ul li {
+    width: 100%;
+    margin: 40px 0;
+  }
+  nav ul li a {
+    width: 100%;
+    margin-left: -100%;
+    display: block;
+    font-size: 20px;
+    transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  #click:checked ~ ul li a {
+    margin-left: 0px;
+  }
+  nav ul li a.active,
+  nav ul li a:hover {
+    background: none;
+    color: #111;
+  }
+}
+
+/* CAROUSEL 2 */
+
+.carousel-indicators2 {
+  bottom: -50px !important;
+  margin-right: 45% !important;
+  margin-left: 45% !important;
+
+ 
+}
+
+.carousel-indicators2 button {
+  color: #000;
+}
+
+.carousel-indicators div {
+  background: #000;
+  border-radius: 50%;
+  width: 40px;
+  height: 15px;
+}
+
+.carousel-indicators .active {
+  background: #fff;
+}
+
+@media (max-width: 767px) {
+  .card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* FOOTER */
+footer {
+  width: 100%;
+  display: flex;
+  background: linear-gradient(
+    90deg,
+    rgba(235, 80, 146, 1) 0%,
+    rgba(236, 71, 105, 1) 60%,
+    rgba(238, 61, 67, 1) 90%
+  );
+}
+
+.bloque1 {
+  display: flex;
+  align-items: center;
+  padding: 0rem;
+  width: 100vw;
+  margin-top: 2rem;
+}
+
+.datos-footer {
+  display: flex;
+  align-items: center;
+}
+.a-footer {
+  justify-content: space-between;
+  font-size: 25px;
+  color: white !important;
+  text-decoration: none;
+}
+
+.horario {
+  display: flex;
+  padding-bottom: 0.5rem;
+}
+
+.metodos-redes {
+  font-size: 25px;
+  font-style: italic;
+  color: white;
+}
+
+.bloque2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0rem;
+}
+
+.footer-final {
+  display: flex;
+}
+
+.logo-footer {
+  padding-right: 0.5rem;
+}
+
+.parrafo-footer {
+  font-size: 19px;
+  color: white;
+}
+
+footer.p {
+  color: white !important;
+  text-decoration: italic;
+}
+
+.div-cuentas {
+  display: flex;
+}
+
+.line {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  height: 2px;
+  background: white;
+  margin-bottom: 60px;
+  margin-bottom: 1rem;
+}
