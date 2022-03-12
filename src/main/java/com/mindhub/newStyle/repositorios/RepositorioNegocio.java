@@ -1,6 +1,6 @@
 package com.mindhub.newStyle.repositorios;
 
-import com.mindhub.newStyle.models.Negocio;
+import com.mindhub.newStyle.modelos.Negocio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

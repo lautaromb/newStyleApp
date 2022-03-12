@@ -1,4 +1,4 @@
-package com.mindhub.newStyle.models;
+package com.mindhub.newStyle.modelos;
 
 
 import org.hibernate.annotations.GenericGenerator;
@@ -12,9 +12,9 @@ public class Negocio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    Long id;
-    String nombre;
-    String email;
+    private Long id;
+    private String nombre;
+    private String email;
 
     @OneToMany(mappedBy = "negocio", fetch = FetchType.EAGER)
     private Set<Sucursal> sucursales = new HashSet<>();
