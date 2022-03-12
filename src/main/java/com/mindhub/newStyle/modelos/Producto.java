@@ -1,4 +1,4 @@
-package com.mindhub.newStyle.models;
+package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,11 +12,11 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    Long id;
-    String nombre;
-    double precio;
-    int stock;
-    String descripcion;
+    private Long id;
+    private String nombre;
+    private double precio;
+    private int stock;
+    private String descripcion;
 
     //relacion n a n  con Sucursal
 

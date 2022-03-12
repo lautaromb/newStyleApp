@@ -1,23 +1,23 @@
-package com.mindhub.newStyle.models;
+package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Servicio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    Long id;
-    String nombre;
-    double precio;
-    String imagenPrincipal;
-    String imagenDesc1;
-    String imagenDesc2;
-    String descripcion;
+    private Long id;
+    private String nombre;
+    private double valor;
+    private String imagenPrincipal;
+    private String imagenDesc1;
+    private String imagenDesc2;
+    private String descripcion;
+    private String horario;
+    private String atencion;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -35,7 +35,7 @@ public class Servicio {
 
     public Servicio( String nombre, double precio, String imagen,String imagenDesc1,String imagenDesc2, String descripcion, Negocio negocio) {
         this.nombre = nombre;
-        this.precio = precio;
+        this.valor = precio;
         this.imagenPrincipal = imagen;
         this.imagenDesc1 = imagenDesc1;
         this.imagenDesc2 = imagenDesc2;
@@ -55,12 +55,12 @@ public class Servicio {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getValor() {
+        return valor;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
 

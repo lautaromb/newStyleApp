@@ -1,29 +1,25 @@
-package com.mindhub.newStyle.models;
+package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    Long id;
-    String nombre;
-    String email;
-    String direccion;
-    String inicioHS; //ejemplo "8:00"
-    String cierreHS; //ejemplo "21:00"
+    private Long id;
+    private String nombre;
+    private String email;
+    private String direccion;
+    private String inicioHS; //ejemplo "8:00"
+    private String cierreHS; //ejemplo "21:00"
 
-    ZoneId zona = ZoneId.systemDefault();
-    LocalDate hoy = LocalDate.now();
+    private ZoneId zona = ZoneId.systemDefault();
+    private LocalDate hoy = LocalDate.now();
 
     //Datos de horarios
 //    LocalTime inicioHS = LocalTime.of(8, 0); //Sucursal abre a las 08:00

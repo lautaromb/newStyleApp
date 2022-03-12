@@ -1,4 +1,4 @@
-package com.mindhub.newStyle.models;
+package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -13,19 +13,21 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    Long id;
-    String primerNombre;
-    String apellido;
-    String email;
-    String numeroTel = null;
+    private Long id;
+    private String primerNombre;
+    private String apellido;
+    private String email;
+    private String password;
+    private String numeroTel = null;
 
     public Cliente() {
     }
 
-    public Cliente(String primerNombre, String apellido, String email, String numeroTel) {
+    public Cliente(String primerNombre, String apellido, String email, String password, String numeroTel) {
         this.primerNombre = primerNombre;
         this.apellido = apellido;
         this.email = email;
+        this.password = password;
         this.numeroTel = numeroTel;
     }
 
@@ -55,6 +57,14 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNumeroTel() {

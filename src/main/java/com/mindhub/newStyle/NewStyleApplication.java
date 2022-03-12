@@ -1,19 +1,18 @@
 package com.mindhub.newStyle;
 
-import com.mindhub.newStyle.models.*;
+import com.mindhub.newStyle.modelos.*;
 import com.mindhub.newStyle.repositorios.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class NewStyleApplication {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(NewStyleApplication.class, args);
@@ -25,8 +24,8 @@ public class NewStyleApplication {
 									  RepositorioSucursal repositorioSucursal,
 									  RepositorioCliente repositorioCliente,
 									  RepositorioProducto repositorioProducto,
-									  RepositorioServicio repositorioServicio,
-									  RepositorioSucursalServicio repositorioSucursalServicio){
+									  RepositorioServicio repositorioServicio
+									 ){
 		return (args) ->{
 
 			Negocio newStyle = new Negocio("New Style", "newStyle@gmail.com");
@@ -42,7 +41,8 @@ public class NewStyleApplication {
 			Servicio servicioManicura = new Servicio("Manicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza, esmaltado", newStyle);
 			Servicio servicioPedicura = new Servicio("Pedicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza y esmaltado", newStyle);
 
-			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", "0000");
+			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
+			Cliente cliente1 = new Cliente("User", "Resu", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
 
 //
 //			ArrayList<Object> servicios = new ArrayList<>();
@@ -66,12 +66,17 @@ public class NewStyleApplication {
 			repositorioSucursal.save(sucursalZS);
 
 
+
 			repositorioServicio.save(servicioCorteDePelo);
 			repositorioServicio.save(servicioBarberia);
 			repositorioServicio.save(servicioAlisado);
 			repositorioServicio.save(servicioTintura);
 			repositorioServicio.save(servicioManicura);
 			repositorioServicio.save(servicioPedicura);
+
+			repositorioCliente.save(cliente1);
+			repositorioCliente.save(admin);
+
 
 
 		};
