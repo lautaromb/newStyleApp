@@ -31,7 +31,7 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
 
         auth.userDetailsService(inputName-> {
 
-            Cliente cliente = repositorioCliente.getByEmail(inputName);
+            Cliente cliente = repositorioCliente.findByEmail(inputName);
 
 
             if (cliente != null) {

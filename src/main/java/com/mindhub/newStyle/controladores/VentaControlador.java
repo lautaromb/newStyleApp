@@ -22,6 +22,6 @@ public class VentaControlador {
     RepositorioServicio repositorioServicio;
 
 
-    //@GetMapping()
+    @GetMapping()
 
 }
