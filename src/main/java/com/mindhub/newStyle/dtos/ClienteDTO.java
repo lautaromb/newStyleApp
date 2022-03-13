@@ -4,7 +4,7 @@ import ch.qos.logback.core.net.server.Client;
 import com.mindhub.newStyle.modelos.Cliente;
 
 public class ClienteDTO {
-
+    private long id;
     private String primerNombre;
     private String apellido;
     private String email;
@@ -15,6 +15,7 @@ public class ClienteDTO {
     }
 
     public ClienteDTO(Cliente cliente) {
+        this.id = cliente.getId();
         this.primerNombre = cliente.getPrimerNombre();
         this.apellido = cliente.getApellido();
         this.email = cliente.getEmail();
@@ -23,6 +24,10 @@ public class ClienteDTO {
     }
 
     /*Este es un comentario 2*/
+
+    public long getId() {
+        return id;
+    }
 
     public String getPrimerNombre() {
         return primerNombre;

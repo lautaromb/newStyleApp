@@ -1,16 +1,18 @@
 package com.mindhub.newStyle.controladores;
 
+import ch.qos.logback.core.net.server.Client;
 import com.mindhub.newStyle.dtos.ClienteDTO;
+import com.mindhub.newStyle.modelos.Cliente;
 import com.mindhub.newStyle.repositorios.RepositorioCliente;
 import com.mindhub.newStyle.repositorios.RepositorioProducto;
 import com.mindhub.newStyle.repositorios.RepositorioServicio;
 import com.mindhub.newStyle.servicios.implementaciones.ClienteServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +31,9 @@ public class ClienteControlador {
     RepositorioServicio repositorioServicio;
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
     ClienteServicio clienteServicio;
 
     @GetMapping("/cliente")
@@ -39,6 +44,37 @@ public class ClienteControlador {
     @GetMapping("/cliente/{id}")
     public ClienteDTO getClientDTO(@PathVariable Long id){
         return clienteServicio.findClienteByID(id);
+    }
+
+    @GetMapping("/cliente/current")
+    public ClienteDTO getClienteByEmail(Authentication authentication){
+        ClienteDTO clienteDTO = new ClienteDTO(clienteServicio.findClienteByEmail(authentication.getName()));
+        return clienteDTO;
+    }
+
+    @PostMapping("/clientes")
+    public ResponseEntity<Object> registrar (
+            @RequestParam String primerNombre,@RequestParam String apellido, @RequestParam String email,
+            @RequestParam String password, @RequestParam String numeroTel){
+
+
+
+
+        if(primerNombre.isEmpty() || apellido.isEmpty() || email.isEmpty() ||password.isEmpty() || numeroTel.isEmpty()){
+            return new ResponseEntity<>("Faltan datos", HttpStatus.FORBIDDEN);
+        }
+
+        if(clienteServicio.findClienteByEmail(email) != null){
+            return new ResponseEntity<>("Email ya registrado", HttpStatus.FORBIDDEN);
+        }
+
+
+
+        Cliente cliente = new Cliente(primerNombre, apellido, email, passwordEncoder.encode(password) , numeroTel);
+        clienteServicio.saveCliente(cliente);
+
+        return new ResponseEntity<>("Cliente creado", HttpStatus.CREATED);
+
     }
 
 
