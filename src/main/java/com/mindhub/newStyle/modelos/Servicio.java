@@ -16,8 +16,7 @@ public class Servicio {
     private String imagenDesc1;
     private String imagenDesc2;
     private String descripcion;
-    private String horario;
-    private String atencion;
+
 
 
     @ManyToOne(fetch = FetchType.EAGER)

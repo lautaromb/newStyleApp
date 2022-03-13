@@ -14,7 +14,7 @@ public class Producto {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private String nombre;
-    private double precio;
+    private double valor;
     private int stock;
     private String descripcion;
 
@@ -24,9 +24,9 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, double precio, int stock, String descripcion) {
+    public Producto(String nombre, double valor, int stock, String descripcion) {
         this.nombre = nombre;
-        this.precio = precio;
+        this.valor = valor;
         this.stock = stock;
         this.descripcion = descripcion;
     }
@@ -43,12 +43,12 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getValor() {
+        return valor;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public int getStock() {

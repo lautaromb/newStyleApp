@@ -4,6 +4,7 @@ import com.mindhub.newStyle.dtos.ClienteDTO;
 import com.mindhub.newStyle.repositorios.RepositorioCliente;
 import com.mindhub.newStyle.repositorios.RepositorioProducto;
 import com.mindhub.newStyle.repositorios.RepositorioServicio;
+import com.mindhub.newStyle.servicios.implementaciones.ClienteServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,13 @@ public class ClienteControlador {
     @Autowired
     RepositorioServicio repositorioServicio;
 
-//    @GetMapping("/cliente")
-//    public List<ClienteDTO> getClientDTOByEmail(Authentication authentication){
-//        ClienteDTO clienteDTO = new ClienteDTO(repositorioCliente.findByEmail(authentication.getName()));
-//        return clienteDTO;
-//    }
+    @Autowired
+    ClienteServicio clienteServicio;
+
+    @GetMapping("/cliente")
+    public List<ClienteDTO> getClientDTOByEmail(Authentication authentication){
+        return clienteServicio.getClientesDTO();
+    }
 
 
 
