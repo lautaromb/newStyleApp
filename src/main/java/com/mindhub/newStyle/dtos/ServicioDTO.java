@@ -24,7 +24,6 @@ public class ServicioDTO {
         this.imagenDesc1 = servicio.getImagenDesc1();
         this.imagenDesc2 = servicio.getImagenDesc2();
         this.descripcion = servicio.getDescripcion();
-        this.negocio = servicio.getNegocio();
     }
 
     public Long getId() {

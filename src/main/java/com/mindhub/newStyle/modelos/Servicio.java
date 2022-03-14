@@ -1,6 +1,8 @@
 package com.mindhub.newStyle.modelos;
 
+import com.mindhub.newStyle.repositorios.RepositorioNegocio;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -23,6 +25,12 @@ public class Servicio {
     @JoinColumn(name="negocio")
     private Negocio negocio;
 
+
+//    @Autowired
+//    RepositorioNegocio repositorioNegocio;
+
+    //Negocio newStyle = repositorioNegocio.findByEmail("newStyle@gmail.com");
+
 //    @OneToMany(mappedBy = "servicio", fetch = FetchType.EAGER)
 //    private Set<SucursalServicio> sucursalServicios = new HashSet<>();
 
@@ -32,14 +40,13 @@ public class Servicio {
     public Servicio() {
     }
 
-    public Servicio( String nombre, double precio, String imagen,String imagenDesc1,String imagenDesc2, String descripcion, Negocio negocio) {
+    public Servicio( String nombre, double precio, String imagen,String imagenDesc1,String imagenDesc2, String descripcion) {
         this.nombre = nombre;
         this.valor = precio;
         this.imagenPrincipal = imagen;
         this.imagenDesc1 = imagenDesc1;
         this.imagenDesc2 = imagenDesc2;
         this.descripcion = descripcion;
-        this.negocio = negocio;
     }
 
     public Long getId() {
@@ -49,7 +56,6 @@ public class Servicio {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -57,7 +63,6 @@ public class Servicio {
     public double getValor() {
         return valor;
     }
-
     public void setValor(double valor) {
         this.valor = valor;
     }
@@ -66,7 +71,6 @@ public class Servicio {
     public String getImagenPrincipal() {
         return imagenPrincipal;
     }
-
     public void setImagenPrincipal(String imagenPrincipal) {
         this.imagenPrincipal = imagenPrincipal;
     }
@@ -74,7 +78,6 @@ public class Servicio {
     public String getImagenDesc1() {
         return imagenDesc1;
     }
-
     public void setImagenDesc1(String imagenDesc1) {
         this.imagenDesc1 = imagenDesc1;
     }
@@ -82,7 +85,6 @@ public class Servicio {
     public String getImagenDesc2() {
         return imagenDesc2;
     }
-
     public void setImagenDesc2(String imagenDesc2) {
         this.imagenDesc2 = imagenDesc2;
     }
@@ -90,7 +92,6 @@ public class Servicio {
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -98,16 +99,9 @@ public class Servicio {
     public Negocio getNegocio() {
         return negocio;
     }
-
     public void setNegocio(Negocio negocio) {
         this.negocio = negocio;
     }
 
-    //    public Set<SucursalServicio> getSucursalServicios() {
-//        return sucursalServicios;
-//    }
-//
-//    public void setSucursalServicios(Set<SucursalServicio> sucursalServicios) {
-//        this.sucursalServicios = sucursalServicios;
-//    }
+
 }

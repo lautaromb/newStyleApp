@@ -15,9 +15,10 @@ public class Negocio {
     private Long id;
     private String nombre;
     private String email;
+    private String direccion;
 
     @OneToMany(mappedBy = "negocio", fetch = FetchType.EAGER)
-    private Set<Sucursal> sucursales = new HashSet<>();
+    private Set<Cliente> clientes = new HashSet<>();
 
     @OneToMany(mappedBy = "negocio", fetch = FetchType.EAGER)
     private Set<Servicio> servicio = new HashSet<>();
@@ -31,9 +32,10 @@ public class Negocio {
     public Negocio() {
     }
 
-    public Negocio(String nombre, String email) {
+    public Negocio(String nombre, String email, String direccion) {
         this.nombre = nombre;
         this.email = email;
+        this.direccion = direccion;
     }
 
     public Long getId() {
@@ -44,7 +46,6 @@ public class Negocio {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -52,23 +53,27 @@ public class Negocio {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public Set<Sucursal> getSucursales() {
-        return sucursales;
+    public String getDireccion() {
+        return direccion;
+    }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public void setSucursales(Set<Sucursal> sucursales) {
-        this.sucursales = sucursales;
+    public Set<Cliente> getClientes() {
+        return clientes;
+    }
+    public void setClientess(Set<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     public Set<Servicio> getServicio() {
         return servicio;
     }
-
     public void setServicio(Set<Servicio> servicio) {
         this.servicio = servicio;
     }

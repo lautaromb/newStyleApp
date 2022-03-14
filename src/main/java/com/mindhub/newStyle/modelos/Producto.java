@@ -2,10 +2,9 @@ package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Producto {
@@ -18,7 +17,15 @@ public class Producto {
     private int stock;
     private String descripcion;
 
-    //relacion n a n  con Sucursal
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn (name = "negocio")
+    private Negocio negocio;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn (name = "compra")
+    private Compra compra;
+
 
 
     public Producto() {
@@ -38,7 +45,6 @@ public class Producto {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -46,7 +52,6 @@ public class Producto {
     public double getValor() {
         return valor;
     }
-
     public void setValor(double valor) {
         this.valor = valor;
     }
@@ -54,7 +59,6 @@ public class Producto {
     public int getStock() {
         return stock;
     }
-
     public void setStock(int stock) {
         this.stock = stock;
     }
@@ -62,8 +66,22 @@ public class Producto {
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+
+    public Negocio getNegocio() {
+        return negocio;
+    }
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
+    }
+
+    public Compra getCompra() {
+        return compra;
+    }
+    public void setCompra(Compra compra) {
+        this.compra = compra;
     }
 }

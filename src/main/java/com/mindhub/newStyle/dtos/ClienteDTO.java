@@ -2,6 +2,7 @@ package com.mindhub.newStyle.dtos;
 
 import ch.qos.logback.core.net.server.Client;
 import com.mindhub.newStyle.modelos.Cliente;
+import com.mindhub.newStyle.modelos.Negocio;
 
 public class ClienteDTO {
     private long id;
@@ -10,6 +11,7 @@ public class ClienteDTO {
     private String email;
     private String password;
     private String numeroTel = null;
+    private Negocio negocio;
 
     public ClienteDTO() {
     }
@@ -21,6 +23,7 @@ public class ClienteDTO {
         this.email = cliente.getEmail();
         this.password = cliente.getPassword();
         this.numeroTel = cliente.getNumeroTel();
+        this.negocio = cliente.getNegocio();
     }
 
     /*Este es un comentario 2*/
@@ -32,7 +35,6 @@ public class ClienteDTO {
     public String getPrimerNombre() {
         return primerNombre;
     }
-
     public void setPrimerNombre(String primerNombre) {
         this.primerNombre = primerNombre;
     }
@@ -40,7 +42,6 @@ public class ClienteDTO {
     public String getApellido() {
         return apellido;
     }
-
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
@@ -48,7 +49,6 @@ public class ClienteDTO {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -56,7 +56,6 @@ public class ClienteDTO {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -64,8 +63,14 @@ public class ClienteDTO {
     public String getNumeroTel() {
         return numeroTel;
     }
-
     public void setNumeroTel(String numeroTel) {
         this.numeroTel = numeroTel;
+    }
+
+    public Negocio getNegocio() {
+        return negocio;
+    }
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
     }
 }

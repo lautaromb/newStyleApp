@@ -2,10 +2,7 @@ package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -19,6 +16,10 @@ public class Cliente {
     private String email;
     private String password;
     private String numeroTel = null;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn (name = "negocio")
+    private Negocio negocio;
 
     public Cliente() {
     }
@@ -38,7 +39,6 @@ public class Cliente {
     public String getPrimerNombre() {
         return primerNombre;
     }
-
     public void setPrimerNombre(String primerNombre) {
         this.primerNombre = primerNombre;
     }
@@ -46,7 +46,6 @@ public class Cliente {
     public String getApellido() {
         return apellido;
     }
-
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
@@ -58,11 +57,9 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -70,8 +67,14 @@ public class Cliente {
     public String getNumeroTel() {
         return numeroTel;
     }
-
     public void setNumeroTel(String numeroTel) {
         this.numeroTel = numeroTel;
+    }
+
+    public Negocio getNegocio() {
+        return negocio;
+    }
+    public void setNegocio(Negocio negocio) {
+        this.negocio = negocio;
     }
 }

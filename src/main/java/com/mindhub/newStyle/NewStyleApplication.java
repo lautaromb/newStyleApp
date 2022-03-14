@@ -21,25 +21,24 @@ public class NewStyleApplication {
 
 	@Bean
 	public CommandLineRunner initData(RepositorioNegocio repositorioNegocio,
-									  RepositorioSucursal repositorioSucursal,
 									  RepositorioCliente repositorioCliente,
 									  RepositorioProducto repositorioProducto,
 									  RepositorioServicio repositorioServicio
 									 ){
 		return (args) ->{
 
-			Negocio newStyle = new Negocio("New Style", "newStyle@gmail.com");
+			Negocio newStyle = new Negocio("New Style", "newStyle@gmail.com", "Av. de Mayo 2859");
 
-			Sucursal sucursalCaba = new Sucursal("New Style Caballito", "newStyleCaballito@gmail.com", "Av. Cordoba 2350", "8:00", "21:00", newStyle);
-			Sucursal sucursalZO = new Sucursal("New Style Ramos Mejía", "newStyleRamosMejia@gmail.com", "Av. de Mayo 2042", "8:00", "21:00", newStyle);
-			Sucursal sucursalZS = new Sucursal("New Style Adrogue", "newStyleAdrogue@gmail.com", "Av. Espora 2042", "8:00", "21:00", newStyle);
+//			Sucursal sucursalCaba = new Sucursal("New Style Caballito", "newStyleCaballito@gmail.com", "Av. Cordoba 2350", "8:00", "21:00", newStyle);
+//			Sucursal sucursalZO = new Sucursal("New Style Ramos Mejía", "newStyleRamosMejia@gmail.com", "Av. de Mayo 2042", "8:00", "21:00", newStyle);
+//			Sucursal sucursalZS = new Sucursal("New Style Adrogue", "newStyleAdrogue@gmail.com", "Av. Espora 2042", "8:00", "21:00", newStyle);
 
-			Servicio servicioCorteDePelo = new Servicio("Peluquería", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui", "url aqui","Corte Lavado Enguaje", newStyle);
-			Servicio servicioTintura = new Servicio("Tintura", 700.0, "url aqui", "url aqui", "url aqui","Lavado, tintura, enjueague", newStyle);
-			Servicio servicioAlisado = new Servicio("Alisado", 1100.0, "url aqui", "url aqui", "url aqui","Tratamiento de alisado", newStyle);
-			Servicio servicioBarberia = new Servicio("Barbería", 200.0, "url aqui", "url aqui", "url aqui","Corte Aceitado", newStyle);
-			Servicio servicioManicura = new Servicio("Manicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza, esmaltado", newStyle);
-			Servicio servicioPedicura = new Servicio("Pedicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza y esmaltado", newStyle);
+			Servicio servicioCorteDePelo = new Servicio("Peluquería", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui", "url aqui","Corte Lavado Enguaje");
+			Servicio servicioTintura = new Servicio("Tintura", 700.0, "url aqui", "url aqui", "url aqui","Lavado, tintura, enjueague");
+			Servicio servicioAlisado = new Servicio("Alisado", 1100.0, "url aqui", "url aqui", "url aqui","Tratamiento de alisado");
+			Servicio servicioBarberia = new Servicio("Barbería", 200.0, "url aqui", "url aqui", "url aqui","Corte Aceitado");
+			Servicio servicioManicura = new Servicio("Manicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza, esmaltado");
+			Servicio servicioPedicura = new Servicio("Pedicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza y esmaltado");
 
 			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
 			Cliente cliente1 = new Cliente("User", "Resu", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
@@ -61,9 +60,9 @@ public class NewStyleApplication {
 //			System.out.println(servicios);
 
 			repositorioNegocio.save(newStyle);
-			repositorioSucursal.save(sucursalCaba);
-			repositorioSucursal.save(sucursalZO);
-			repositorioSucursal.save(sucursalZS);
+//			repositorioSucursal.save(sucursalCaba);
+//			repositorioSucursal.save(sucursalZO);
+//			repositorioSucursal.save(sucursalZS);
 
 
 
