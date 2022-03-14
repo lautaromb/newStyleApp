@@ -1,5 +1,6 @@
 package com.mindhub.newStyle.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Servicio {
     private String imagenDesc1;
     private String imagenDesc2;
     private String descripcion;
+    private Boolean activo = true;
 
 
 
@@ -49,7 +51,6 @@ public class Servicio {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -57,7 +58,6 @@ public class Servicio {
     public double getValor() {
         return valor;
     }
-
     public void setValor(double valor) {
         this.valor = valor;
     }
@@ -66,7 +66,6 @@ public class Servicio {
     public String getImagenPrincipal() {
         return imagenPrincipal;
     }
-
     public void setImagenPrincipal(String imagenPrincipal) {
         this.imagenPrincipal = imagenPrincipal;
     }
@@ -74,7 +73,6 @@ public class Servicio {
     public String getImagenDesc1() {
         return imagenDesc1;
     }
-
     public void setImagenDesc1(String imagenDesc1) {
         this.imagenDesc1 = imagenDesc1;
     }
@@ -82,7 +80,6 @@ public class Servicio {
     public String getImagenDesc2() {
         return imagenDesc2;
     }
-
     public void setImagenDesc2(String imagenDesc2) {
         this.imagenDesc2 = imagenDesc2;
     }
@@ -90,18 +87,20 @@ public class Servicio {
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
+    @JsonIgnore
     public Negocio getNegocio() {
         return negocio;
     }
-
     public void setNegocio(Negocio negocio) {
         this.negocio = negocio;
     }
+
+    public Boolean getActivo() {return activo;}
+    public void setActivo(Boolean activo) {this.activo = activo;}
 
     //    public Set<SucursalServicio> getSucursalServicios() {
 //        return sucursalServicios;

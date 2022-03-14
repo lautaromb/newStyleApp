@@ -1,5 +1,6 @@
 package com.mindhub.newStyle.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mindhub.newStyle.modelos.Negocio;
 import com.mindhub.newStyle.modelos.Servicio;
 
@@ -12,6 +13,7 @@ public class ServicioDTO {
     private String imagenDesc2;
     private String descripcion;
     private Negocio negocio;
+    private Boolean activo = true;
 
     public ServicioDTO() {
     }
@@ -25,6 +27,7 @@ public class ServicioDTO {
         this.imagenDesc2 = servicio.getImagenDesc2();
         this.descripcion = servicio.getDescripcion();
         this.negocio = servicio.getNegocio();
+        this.activo = servicio.getActivo();
     }
 
     public Long getId() {
@@ -34,7 +37,6 @@ public class ServicioDTO {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -42,7 +44,6 @@ public class ServicioDTO {
     public double getValor() {
         return valor;
     }
-
     public void setValor(double valor) {
         this.valor = valor;
     }
@@ -50,7 +51,6 @@ public class ServicioDTO {
     public String getImagenPrincipal() {
         return imagenPrincipal;
     }
-
     public void setImagenPrincipal(String imagenPrincipal) {
         this.imagenPrincipal = imagenPrincipal;
     }
@@ -58,7 +58,6 @@ public class ServicioDTO {
     public String getImagenDesc1() {
         return imagenDesc1;
     }
-
     public void setImagenDesc1(String imagenDesc1) {
         this.imagenDesc1 = imagenDesc1;
     }
@@ -66,7 +65,6 @@ public class ServicioDTO {
     public String getImagenDesc2() {
         return imagenDesc2;
     }
-
     public void setImagenDesc2(String imagenDesc2) {
         this.imagenDesc2 = imagenDesc2;
     }
@@ -74,16 +72,18 @@ public class ServicioDTO {
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
+    @JsonIgnore
     public Negocio getNegocio() {
         return negocio;
     }
-
     public void setNegocio(Negocio negocio) {
         this.negocio = negocio;
     }
+
+    public Boolean getActivo() {return activo;}
+    public void setActivo(Boolean activo) {this.activo = activo;}
 }
