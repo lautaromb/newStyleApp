@@ -206,13 +206,15 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
 /* LINK VOLVER AL INICIO */
 .link-inicio {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
   margin-top: 1rem;
 }
 

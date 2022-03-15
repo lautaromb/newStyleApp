@@ -26,26 +26,8 @@
                 </label>
                 <ul>
                     <li><a href="home.html">Inicio</a></li>
-                    <li class="dropdown">
-                    <li class="dropdown-toggle li-servicio" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false">Servicios</li>
-                    <ul class="dropdown-menu" style="height: fit-content; width: fit-content;">
-                        <li><a class="dropdown-item" href="#cortes">Cortes</a></li>
-                        <li><a class="dropdown-item" href="#maquillaje">Maquillaje</a></li>
-                        <li><a class="dropdown-item" href="#tintura">Tintura</a></li>
-                        <li><a class="dropdown-item" href="#manicura">Manicura</a></li>
-                    </ul>
-                    </li>
-                    <li class="dropdown">
-                    <li class="dropdown-toggle li-servicio" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false">Productos</li>
-                    <ul class="dropdown-menu" style="height: fit-content; width: fit-content;">
-                        <li><a class="dropdown-item" href="productos.html">Tintura</a></li>
-                        <li><a class="dropdown-item" href="productos.html">Maquillaje</a></li>
-                        <li><a class="dropdown-item" href="productos.html">Extension</a></li>
-                        <li><a class="dropdown-item" href="productos.html">Manicura</a></li>
-                    </ul>
-                    </li>
+                    <li><a href="#" class="active">Servicios</a></li>
+                    <li><a href="productos.html">Productos</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
                     <box-icon name='cart' color='#ffffff'></box-icon>
                 </ul>
@@ -64,11 +46,9 @@
                     </div>
     
                     <hr>
-                    <div>
-                        <h3 style="text-align: center;" id="cortes">Cortes</h3>
-                    </div>
+                
                     <div class="row">
-                        <div class="col-md-12 card-cortes" v-for="servicio in servicios">
+                        <div class="col-md-4 card-cortes" v-for="servicio in servicios">
                             <div class="card" style="width: 18rem;">
                                 <img v-bind:src="servicio.imagenPrincipal" class="card-img-top" alt="...">
                                 <div class="card-body">
@@ -77,99 +57,10 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">{{servicio.valor}}</li>
-                                    <li class="list-group-item">A second item</li>
-                                    <li class="list-group-item">A third item</li>
                                 </ul>
                                 <div class="card-body">
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <section style="margin-top: 1.5rem;">
-                <div class="container-fluid">
-                    <div>
-                        <h3 style="text-align: center;" id="maquillaje">Maquillaje</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 card-cortes" >
-                            <div class="card" style="width: 18rem;">
-                                <img src="../assets/imagen1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the
-                                        bulk of the card's content.</p>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">An item</li>
-                                    <li class="list-group-item">A second item</li>
-                                    <li class="list-group-item">A third item</li>
-                                </ul>
-                                <div class="card-body">
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <section style="margin-top: 1.5rem;">
-                <div class="container-fluid">
-                    <div>
-                        <h3 style="text-align: center;" id="tintura">Tintura</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 card-cortes">
-                            <div class="card" style="width: 18rem;">
-                                <img src="../assets/imagen1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the
-                                        bulk of the card's content.</p>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">An item</li>
-                                    <li class="list-group-item">A second item</li>
-                                    <li class="list-group-item">A third item</li>
-                                </ul>
-                                <div class="card-body">
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <section style="margin-top: 1.5rem;">
-                <div class="container-fluid">
-                    <div>
-                        <h3 style="text-align: center;" id="manicura">Manicura</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 card-cortes">
-                            <div class="card" style="width: 18rem;">
-                                <img src="../assets/imagen1.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the
-                                        bulk of the card's content.</p>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">An item</li>
-                                    <li class="list-group-item">A second item</li>
-                                    <li class="list-group-item">A third item</li>
-                                </ul>
-                                <div class="card-body">
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <a href="#" class="card-link">Agregar al carrito</a>
+                                    <a href="#" class="card-link">Comprar</a>
                                 </div>
                             </div>
                         </div>
