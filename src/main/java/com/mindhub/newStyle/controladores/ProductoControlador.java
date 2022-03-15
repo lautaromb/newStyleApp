@@ -30,6 +30,8 @@ public class ProductoControlador {
     return productoDTOS;
     }
 
+    //Fermin
+
     @PostMapping("/producto")
     public ResponseEntity<Object> createService(@RequestParam String nombre, @RequestParam double valor,
                                                 @RequestParam String imagenProducto, @RequestParam String imagenCard,
