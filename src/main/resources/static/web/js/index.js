@@ -11,9 +11,9 @@ var app = new Vue({
 
 
     methods: {
-        iniciarSesión() {
+        iniciarSesion() {
             axios.post('/api/login', "email=" + this.email + "&password=" + this.password, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
-                .then(response => { window.location.href = "/web/home.html" })
+                .then(response => { window.location.href = "/web/html/home.html" })
                 .catch(error => {
 
                     Swal.fire({
@@ -29,8 +29,8 @@ var app = new Vue({
         registrarse() {
             if (this.primerNombre != '' && this.apellido != '' && this.email != '' && this.password != '' && this.numeroTelefono != '') {
                 Swal.fire({
-                    title: 'REGISTERED!',
-                    text: `Welcome ${this.primerNombre.toUpperCase()} ${this.apellido.toUpperCase()}!`,
+                    title: 'Te registraste!',
+                    text: `Bienvenido/a ${this.primerNombre.toUpperCase()} ${this.apellido.toUpperCase()}!`,
                     icon: "success",
                     showConfirmButton: false,
                     timer: 2500,
@@ -56,7 +56,6 @@ var app = new Vue({
             }
 
 
-        },
-
-    }
+        }
+}
 })
