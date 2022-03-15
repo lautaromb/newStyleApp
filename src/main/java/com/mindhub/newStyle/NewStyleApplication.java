@@ -23,48 +23,46 @@ public class NewStyleApplication {
 	public CommandLineRunner initData(RepositorioNegocio repositorioNegocio,
 									  RepositorioCliente repositorioCliente,
 									  RepositorioProducto repositorioProducto,
-									  RepositorioServicio repositorioServicio
+									  RepositorioServicio repositorioServicio,
+									  RepositorioClienteProducto repositorioClienteProducto,
+									  RepositorioClienteServicio repositorioClienteServicio
 									 ){
 		return (args) ->{
 
 			Negocio newStyle = new Negocio("New Style", "newStyle@gmail.com", "Av. de Mayo 2859");
 
-//			Sucursal sucursalCaba = new Sucursal("New Style Caballito", "newStyleCaballito@gmail.com", "Av. Cordoba 2350", "8:00", "21:00", newStyle);
-//			Sucursal sucursalZO = new Sucursal("New Style Ramos Mejía", "newStyleRamosMejia@gmail.com", "Av. de Mayo 2042", "8:00", "21:00", newStyle);
-//			Sucursal sucursalZS = new Sucursal("New Style Adrogue", "newStyleAdrogue@gmail.com", "Av. Espora 2042", "8:00", "21:00", newStyle);
 
-			Servicio servicioCorteDePelo = new Servicio("Peluquería", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui", "url aqui","Corte Lavado Enguaje");
-			Servicio servicioTintura = new Servicio("Tintura", 700.0, "url aqui", "url aqui", "url aqui","Lavado, tintura, enjueague");
-			Servicio servicioAlisado = new Servicio("Alisado", 1100.0, "url aqui", "url aqui", "url aqui","Tratamiento de alisado");
-			Servicio servicioBarberia = new Servicio("Barbería", 200.0, "url aqui", "url aqui", "url aqui","Corte Aceitado");
-			Servicio servicioManicura = new Servicio("Manicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza, esmaltado");
-			Servicio servicioPedicura = new Servicio("Pedicura", 500.0, "url aqui", "url aqui", "url aqui","Limpieza y esmaltado");
+			Servicio servicioCorteDePelo = new Servicio("Peluquería", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui","Corte Lavado Enguaje", newStyle);
+			Servicio servicioTintura = new Servicio("Tintura", 700.0, "url", "url", "tintura", newStyle);
+			Servicio servicioAlisado = new Servicio("Alisado", 1100.0, "url aqui", "url aqui","Tratamiento de alisado", newStyle);
+			Servicio servicioBarberia = new Servicio("Barbería", 200.0,  "url aqui", "url aqui","Corte Aceitado", newStyle);
+			Servicio servicioManicura = new Servicio("Manicura", 500.0,  "url aqui", "url aqui","Limpieza, esmaltado", newStyle);
+			Servicio servicioPedicura = new Servicio("Pedicura", 500.0,  "url aqui", "url aqui","Limpieza y esmaltado", newStyle);
+
+
 
 			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
 			Cliente cliente1 = new Cliente("User", "Resu", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
-
-//
-//			ArrayList<Object> servicios = new ArrayList<>();
-//			servicios.add(servicioBarberia);
-//			servicios.add(servicioCorteDePelo);
+			Cliente cliente2 = new Cliente("Martha", "Stuart Little", "msl@gmail.com", passwordEncoder.encode("user123"),"0000");
+			Cliente cliente3 = new Cliente("Pedro", "Gomez", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
+			Cliente cliente4 = new Cliente("Mauro", "Perez", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
 
 
-//			SucursalServicio sucursalServicioCaba1 = new SucursalServicio(sucursalCaba, servicioBarberia);
-//			SucursalServicio sucursalServicioCaba2 = new SucursalServicio(sucursalCaba, servicioCorteDePelo);
+			Producto productoEnjuague = new Producto("Enjuague para el cabello", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
+			Producto productoTinturaRoja = new Producto("Tintura Roja para el cabello", 350.0, "url aqui", "url aqui", 15, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
+			Producto productoTinturaAzul = new Producto("Tintura Azul para el cabello", 350.0, "url aqui", "url aqui", 20, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
+			Producto productoKeratina = new Producto("Keratina", 500.0, "url aqui", "url aqui", 5, "Repara y nutre el cabello de raiz a las puntas", newStyle);
+			Producto productoBotoxCabello = new Producto("Botox Cabello", 600.0, "url aqui", "url aqui", 10, "Restaruracion y brillo del cabello", newStyle);
+			Producto productoAntiFrizz = new Producto("Anti Frizz", 800.0, "url aqui", "url aqui",4, "Controla el cabello con frizz con los productos de peinado en la ducha", newStyle);
 
+			ClienteServicio clienteServicio1 = new ClienteServicio(cliente1, servicioAlisado);
+			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello);
 
-			//SucursalServicio sucursalServicioCaba = new SucursalServicio(sucursalCaba, servicios);
-			//SucursalServicio sucursalServicioCaba2 = new SucursalServicio(sucursalCaba, servicioBarberia);
-
-
-//			System.out.println(servicios);
 
 			repositorioNegocio.save(newStyle);
-//			repositorioSucursal.save(sucursalCaba);
-//			repositorioSucursal.save(sucursalZO);
-//			repositorioSucursal.save(sucursalZS);
 
-
+			repositorioCliente.save(cliente1);
+			repositorioCliente.save(admin);
 
 			repositorioServicio.save(servicioCorteDePelo);
 			repositorioServicio.save(servicioBarberia);
@@ -73,8 +71,15 @@ public class NewStyleApplication {
 			repositorioServicio.save(servicioManicura);
 			repositorioServicio.save(servicioPedicura);
 
-			repositorioCliente.save(cliente1);
-			repositorioCliente.save(admin);
+			repositorioProducto.save(productoEnjuague);
+			repositorioProducto.save(productoTinturaRoja);
+			repositorioProducto.save(productoTinturaAzul);
+			repositorioProducto.save(productoKeratina);
+			repositorioProducto.save(productoBotoxCabello);
+			repositorioProducto.save(productoAntiFrizz);
+
+			repositorioClienteProducto.save(clienteProducto);
+			repositorioClienteServicio.save(clienteServicio1);
 
 
 

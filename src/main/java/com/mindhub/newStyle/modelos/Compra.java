@@ -2,10 +2,12 @@ package com.mindhub.newStyle.modelos;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
+
+@Entity
 public class Compra {
 
     @Id
@@ -16,6 +18,22 @@ public class Compra {
     private String nombreCliente;
     private String totalCompra;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_producto")
+    private ClienteProducto clienteProducto;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_servicio")
+    private ClienteServicio clienteServicio;
+
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "producto_id")
+//    private Producto producto;
 
     public Compra() {
     }
@@ -51,4 +69,12 @@ public class Compra {
     public void setTotalCompra(String totalCompra) {
         this.totalCompra = totalCompra;
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+    public void setCliente(Cliente cliente) {this.cliente = cliente;}
+
+    public ClienteServicio getClienteServicio() {return clienteServicio;}
+    public void setClienteServicio(ClienteServicio clienteServicio) {this.clienteServicio = clienteServicio;}
 }

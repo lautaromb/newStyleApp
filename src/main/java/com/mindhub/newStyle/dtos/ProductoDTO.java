@@ -7,6 +7,8 @@ public class ProductoDTO {
     private String nombre;
     private double precio;
     private int stock;
+    private String imagenProducto;
+    private String imagenCard;
     private String descripcion;
 
     public ProductoDTO() {
@@ -16,6 +18,8 @@ public class ProductoDTO {
         this.id = producto.getId();
         this.nombre = producto.getNombre();
         this.precio = producto.getValor();
+        this.imagenProducto = producto.getImagenProducto();
+        this.imagenCard = producto.getImagenCard();
         this.stock = producto.getStock();
         this.descripcion = producto.getDescripcion();
     }
@@ -55,5 +59,21 @@ public class ProductoDTO {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getImagenProducto() {
+        return imagenProducto;
+    }
+
+    public void setImagenProducto(String imagenProducto) {
+        this.imagenProducto = imagenProducto;
+    }
+
+    public String getImagenCard() {
+        return imagenCard;
+    }
+
+    public void setImagenCard(String imagenCard) {
+        this.imagenCard = imagenCard;
     }
 }

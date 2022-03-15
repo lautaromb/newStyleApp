@@ -7,9 +7,8 @@ public class ServicioDTO {
     private Long id;
     private String nombre;
     private double valor;
-    private String imagenPrincipal;
-    private String imagenDesc1;
-    private String imagenDesc2;
+    private String imagenServicio;
+    private String imagenCard;
     private String descripcion;
     private Negocio negocio;
 
@@ -20,9 +19,8 @@ public class ServicioDTO {
         this.id = servicio.getId();
         this.nombre = servicio.getNombre();
         this.valor = servicio.getValor();
-        this.imagenPrincipal = servicio.getImagenPrincipal();
-        this.imagenDesc1 = servicio.getImagenDesc1();
-        this.imagenDesc2 = servicio.getImagenDesc2();
+        this.imagenServicio = servicio.getImagenServicio();
+        this.imagenCard = servicio.getImagenCard();
         this.descripcion = servicio.getDescripcion();
     }
 
@@ -46,28 +44,18 @@ public class ServicioDTO {
         this.valor = valor;
     }
 
-    public String getImagenPrincipal() {
-        return imagenPrincipal;
+    public String getImagenServicio() {
+        return imagenServicio;
+    }
+    public void setImagenServicio(String imagenServicio) {
+        this.imagenServicio = imagenServicio;
     }
 
-    public void setImagenPrincipal(String imagenPrincipal) {
-        this.imagenPrincipal = imagenPrincipal;
+    public String getImagenCard() {
+        return imagenCard;
     }
-
-    public String getImagenDesc1() {
-        return imagenDesc1;
-    }
-
-    public void setImagenDesc1(String imagenDesc1) {
-        this.imagenDesc1 = imagenDesc1;
-    }
-
-    public String getImagenDesc2() {
-        return imagenDesc2;
-    }
-
-    public void setImagenDesc2(String imagenDesc2) {
-        this.imagenDesc2 = imagenDesc2;
+    public void setImagenCard(String imagenCard) {
+        this.imagenCard = imagenCard;
     }
 
     public String getDescripcion() {

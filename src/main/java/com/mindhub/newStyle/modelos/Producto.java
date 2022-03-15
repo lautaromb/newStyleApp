@@ -14,6 +14,8 @@ public class Producto {
     private Long id;
     private String nombre;
     private double valor;
+    private String imagenProducto;
+    private String imagenCard;
     private int stock;
     private String descripcion;
 
@@ -31,11 +33,14 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, double valor, int stock, String descripcion) {
+    public Producto(String nombre, double valor, String imagenProducto, String imagenCard, int stock, String descripcion, Negocio negocio) {
         this.nombre = nombre;
         this.valor = valor;
+        this.imagenProducto = imagenProducto;
+        this.imagenCard = imagenCard;
         this.stock = stock;
         this.descripcion = descripcion;
+        this.negocio = negocio;
     }
 
     public Long getId() {
@@ -63,6 +68,12 @@ public class Producto {
         this.stock = stock;
     }
 
+    public String getImagenProducto() {return imagenProducto;}
+    public void setImagenProducto(String imagenProducto) {this.imagenProducto = imagenProducto;}
+
+    public String getImagenCard() {return imagenCard;}
+    public void setImagenCard(String imagenCard) {this.imagenCard = imagenCard;}
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -71,17 +82,9 @@ public class Producto {
     }
 
 
-    public Negocio getNegocio() {
-        return negocio;
-    }
-    public void setNegocio(Negocio negocio) {
-        this.negocio = negocio;
-    }
+    public Negocio getNegocio() {return negocio;}
+    public void setNegocio(Negocio negocio) {this.negocio = negocio;}
 
-    public Compra getCompra() {
-        return compra;
-    }
-    public void setCompra(Compra compra) {
-        this.compra = compra;
-    }
+    public Compra getCompra() {return compra;}
+    public void setCompra(Compra compra) {this.compra = compra;}
 }

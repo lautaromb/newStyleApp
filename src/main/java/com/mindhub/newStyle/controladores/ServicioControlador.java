@@ -37,15 +37,17 @@ public class ServicioControlador {
 
     @PostMapping("/servicio")
     public ResponseEntity<Object> createService(@RequestParam String nombre, @RequestParam double valor,
-                                                @RequestParam String imagenPrincipal, @RequestParam String imagenDesc1, @RequestParam String imagenDesc2, @RequestParam String descripcion){
+                                                @RequestParam String imagenServicio, @RequestParam String imagenCard, @RequestParam String descripcion){
 
 
-        if (nombre.isEmpty() || valor <= 0 || imagenPrincipal.isEmpty() || imagenDesc1.isEmpty() || imagenDesc2.isEmpty() || descripcion.isEmpty()) {
+        Negocio negocio = repositorioNegocio.findByEmail("newStyle@gmail.com");
+
+        if (nombre.isEmpty() || valor <= 0 || imagenServicio.isEmpty() || imagenCard.isEmpty() || descripcion.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
 
-          Servicio servicio = new Servicio(nombre, valor, imagenPrincipal, imagenDesc1, imagenDesc2, descripcion);
+          Servicio servicio = new Servicio(nombre, valor, imagenServicio, imagenCard, descripcion, negocio);
 
 
         repositorioServicio.save(servicio);

@@ -5,6 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Servicio {
@@ -14,9 +16,8 @@ public class Servicio {
     private Long id;
     private String nombre;
     private double valor;
-    private String imagenPrincipal;
-    private String imagenDesc1;
-    private String imagenDesc2;
+    private String imagenServicio;
+    private String imagenCard;
     private String descripcion;
 
 
@@ -24,6 +25,10 @@ public class Servicio {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="negocio")
     private Negocio negocio;
+
+    @OneToMany(mappedBy = "servicio", fetch = FetchType.EAGER)
+    private Set <ClienteServicio> clienteServicio = new HashSet<>();
+
 
 
 //    @Autowired
@@ -40,13 +45,14 @@ public class Servicio {
     public Servicio() {
     }
 
-    public Servicio( String nombre, double precio, String imagen,String imagenDesc1,String imagenDesc2, String descripcion) {
+
+    public Servicio(String nombre, double valor, String imagenServicio, String imagenCard, String descripcion, Negocio negocio) {
         this.nombre = nombre;
-        this.valor = precio;
-        this.imagenPrincipal = imagen;
-        this.imagenDesc1 = imagenDesc1;
-        this.imagenDesc2 = imagenDesc2;
+        this.valor = valor;
+        this.imagenServicio = imagenServicio;
+        this.imagenCard = imagenCard;
         this.descripcion = descripcion;
+        this.negocio = negocio;
     }
 
     public Long getId() {
@@ -68,25 +74,14 @@ public class Servicio {
     }
 
 
-    public String getImagenPrincipal() {
-        return imagenPrincipal;
-    }
-    public void setImagenPrincipal(String imagenPrincipal) {
-        this.imagenPrincipal = imagenPrincipal;
-    }
+    public String getImagenServicio() {return imagenServicio;}
 
-    public String getImagenDesc1() {
-        return imagenDesc1;
-    }
-    public void setImagenDesc1(String imagenDesc1) {
-        this.imagenDesc1 = imagenDesc1;
-    }
+    public void setImagenServicio(String imagenServicio) {this.imagenServicio = imagenServicio;}
 
-    public String getImagenDesc2() {
-        return imagenDesc2;
-    }
-    public void setImagenDesc2(String imagenDesc2) {
-        this.imagenDesc2 = imagenDesc2;
+    public String getImagenCard() {return imagenCard;}
+
+    public void setImagenCard(String imagenCard) {
+        this.imagenCard = imagenCard;
     }
 
     public String getDescripcion() {
@@ -103,5 +98,10 @@ public class Servicio {
         this.negocio = negocio;
     }
 
-
+    public Set<ClienteServicio> getClienteServicio() {
+        return clienteServicio;
+    }
+    public void setClienteServicio(Set<ClienteServicio> clienteServicio) {
+        this.clienteServicio = clienteServicio;
+    }
 }
