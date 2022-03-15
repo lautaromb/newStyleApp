@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +10,7 @@
 body {
   background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
 }
+
 
 /* NAV HAMBURGUESA */
 
@@ -29,7 +31,7 @@ nav {
 }
 nav .logo {
   color: #fff;
-  font-size: 35px;
+  font-size: 40px;
   font-weight: 600;
 }
 nav ul {
@@ -90,6 +92,7 @@ input[type="checkbox"] {
     content: "\f00d";
   }
   nav ul {
+    padding-right: 2rem;
     z-index: 3;
     position: absolute;
     top: 80px;
@@ -125,7 +128,7 @@ input[type="checkbox"] {
   }
 }
 
-@media (max-width: 510px) {
+@media (max-width: 650px) {
   nav .menu-btn i {
     display: block;
   }
@@ -133,6 +136,7 @@ input[type="checkbox"] {
     content: "\f00d";
   }
   nav ul {
+    padding-right: 2rem;
     z-index: 3;
     position: absolute;
     top: 80px;
@@ -202,13 +206,16 @@ input[type="checkbox"] {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
 /* LINK VOLVER AL INICIO */
 .link-inicio {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
 }
 
 .div-link-inicio {
@@ -270,8 +277,7 @@ footer {
 }
 
 .metodos-redes {
-  font-size: 25px;
-  font-style: italic;
+  font-size: 24px;
   color: white;
 }
 
@@ -291,7 +297,7 @@ footer {
 }
 
 .parrafo-footer {
-  font-size: 19px;
+  font-size: 20px;
   color: white;
 }
 
@@ -313,4 +319,26 @@ footer.p {
   background: white;
   margin-bottom: 60px;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 767px) {
+  .metodos-redes{
+    font-size: 20px;
+  }
+
+  .a-footer{
+    font-size: 20px;
+  }
+
+  .parrafo-footer{
+    text-align: center;
+  }
+
+}
+
+@media (max-width: 490px) {
+  .horario{
+    justify-content: center;
+  }
+
 }
