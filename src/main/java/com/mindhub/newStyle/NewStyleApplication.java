@@ -9,6 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @SpringBootApplication
 public class NewStyleApplication {
 	@Autowired
@@ -25,7 +30,9 @@ public class NewStyleApplication {
 									  RepositorioProducto repositorioProducto,
 									  RepositorioServicio repositorioServicio,
 									  RepositorioClienteProducto repositorioClienteProducto,
-									  RepositorioClienteServicio repositorioClienteServicio
+									  RepositorioClienteServicio repositorioClienteServicio,
+									  RepositorioCompra repositorioCompra,
+									  RepositorioTicket repositorioTicket
 									 ){
 		return (args) ->{
 
@@ -59,6 +66,20 @@ public class NewStyleApplication {
 			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello);
 
 
+
+
+//			Compra compra = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
+//			Compra compra2 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
+//			Compra compra3 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
+//
+//			Set<Compra> compras = new HashSet<>();
+//			compras.add(compra);
+//			compras.add(compra2);
+//			compras.add(compra3);
+//
+//			Ticket ticket = new Ticket(compras);
+
+
 			repositorioNegocio.save(newStyle);
 
 			repositorioCliente.save(cliente1);
@@ -80,6 +101,13 @@ public class NewStyleApplication {
 
 			repositorioClienteProducto.save(clienteProducto);
 			repositorioClienteServicio.save(clienteServicio1);
+
+
+//			repositorioCompra.save(compra);
+//			repositorioCompra.save(compra2);
+//			repositorioCompra.save(compra3);
+//
+//			repositorioTicket.save(ticket);
 
 
 

@@ -9,15 +9,15 @@ import java.util.Set;
 
 @Entity
 public class Compra {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private TypeCompra typeCompra;
     private String nombreCliente;
-    private String totalCompra;
-
+    private String nombreProducto;
+    private double totalCompra;
+    private int stock;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -30,6 +30,10 @@ public class Compra {
     @JoinColumn(name = "cliente_servicio")
     private ClienteServicio clienteServicio;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ticket")
+    private Ticket ticket;
+
 
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "producto_id")
@@ -38,11 +42,22 @@ public class Compra {
     public Compra() {
     }
 
-    public Compra(TypeCompra typeCompra, String nombreCliente, String totalCompra) {
-        this.typeCompra = typeCompra;
+    public Compra(String nombreCliente, Cliente cliente, TypeCompra typeCompra, String nombreProducto, double totalCompra, int stock, ClienteProducto clienteProducto) {
+
         this.nombreCliente = nombreCliente;
+        this.cliente = cliente;
+        this.typeCompra = typeCompra;
+        this.nombreProducto = nombreProducto;
         this.totalCompra = totalCompra;
+        this.stock = stock;
+        this.clienteProducto = clienteProducto;
     }
+
+//    public Compra(TypeCompra typeCompra, double totalCompra, ClienteServicio clienteServicio) {
+//        this.typeCompra = typeCompra;
+//        this.totalCompra = totalCompra;
+//        this.clienteServicio = clienteServicio;
+//    }
 
     public Long getId() {
         return id;
@@ -63,10 +78,10 @@ public class Compra {
         this.nombreCliente = nombreCliente;
     }
 
-    public String getTotalCompra() {
+    public double getTotalCompra() {
         return totalCompra;
     }
-    public void setTotalCompra(String totalCompra) {
+    public void setTotalCompra(double totalCompra) {
         this.totalCompra = totalCompra;
     }
 
@@ -77,4 +92,26 @@ public class Compra {
 
     public ClienteServicio getClienteServicio() {return clienteServicio;}
     public void setClienteServicio(ClienteServicio clienteServicio) {this.clienteServicio = clienteServicio;}
+
+    public ClienteProducto getClienteProducto() {return clienteProducto;}
+    public void setClienteProducto(ClienteProducto clienteProducto) {this.clienteProducto = clienteProducto;}
+
+    public Ticket getTicket() {return ticket;}
+    public void setTicket(Ticket ticket) {this.ticket = ticket;}
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 }
