@@ -27,9 +27,9 @@
                     <li><a href="home.html">Inicio</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
                     <li><a href="#" class="active">Productos</a></li>
-                    <li><a href="formularioServicio.html">Crear Servicio</a>
+                    <li v-show="rolAdmin"><a href="formularioServicio.html">Crear Servicio</a>
                     </li>
-                    <li><a href="formularioProducto.html">Crear Producto</a></li>
+                    <li v-show="rolAdmin"><a href="formularioProducto.html">Crear Producto</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
                     <box-icon name='cart' data-bs-toggle="modal" data-bs-target="#cartModal" color='#ffffff'></box-icon>
                 </ul>
