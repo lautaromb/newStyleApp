@@ -11,6 +11,7 @@ public class ServicioDTO {
     private String imagenCard;
     private String descripcion;
     private Negocio negocio;
+    private boolean activo;
 
     public ServicioDTO() {
     }
@@ -22,6 +23,7 @@ public class ServicioDTO {
         this.imagenServicio = servicio.getImagenServicio();
         this.imagenCard = servicio.getImagenCard();
         this.descripcion = servicio.getDescripcion();
+        this.activo = servicio.isActivo();
     }
 
     public Long getId() {
@@ -72,5 +74,13 @@ public class ServicioDTO {
 
     public void setNegocio(Negocio negocio) {
         this.negocio = negocio;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

@@ -19,7 +19,7 @@ public class Servicio {
     private String imagenServicio;
     private String imagenCard;
     private String descripcion;
-
+    private boolean activo;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -103,5 +103,13 @@ public class Servicio {
     }
     public void setClienteServicio(Set<ClienteServicio> clienteServicio) {
         this.clienteServicio = clienteServicio;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

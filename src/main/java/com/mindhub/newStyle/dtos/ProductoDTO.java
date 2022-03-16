@@ -10,6 +10,7 @@ public class ProductoDTO {
     private String imagenProducto;
     private String imagenCard;
     private String descripcion;
+    private boolean activo;
 
     public ProductoDTO() {
     }
@@ -22,6 +23,7 @@ public class ProductoDTO {
         this.imagenCard = producto.getImagenCard();
         this.stock = producto.getStock();
         this.descripcion = producto.getDescripcion();
+        this.activo = producto.isActivo();
     }
 
     public Long getId() {
@@ -75,5 +77,13 @@ public class ProductoDTO {
 
     public void setImagenCard(String imagenCard) {
         this.imagenCard = imagenCard;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

@@ -18,7 +18,7 @@ public class Producto {
     private String imagenCard;
     private int stock;
     private String descripcion;
-
+    private boolean activo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "negocio")
@@ -87,4 +87,12 @@ public class Producto {
 
     public Compra getCompra() {return compra;}
     public void setCompra(Compra compra) {this.compra = compra;}
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 }

@@ -68,6 +68,11 @@ public class ClienteControlador {
             return new ResponseEntity<>("Email ya registrado", HttpStatus.FORBIDDEN);
         }
 
+        // verificacion de email correcta
+        if(!email.contains("@gmail.com") || !email.contains("@outloock.com") || !email.contains("@hotmail.com") || !email.contains("@mindhub.com")){
+            return new ResponseEntity<>("El email no es correcto, no es uno de los asociados", HttpStatus.FORBIDDEN);
+        }
+
 
 
         Cliente cliente = new Cliente(primerNombre, apellido, email, passwordEncoder.encode(password) , numeroTel);
