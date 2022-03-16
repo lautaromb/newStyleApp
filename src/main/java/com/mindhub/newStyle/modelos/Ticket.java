@@ -13,6 +13,8 @@ public class Ticket {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
+    private Long ordenDeCompra;
+
     @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER)
      Set<Compra> compras = new HashSet<>();
 
@@ -23,11 +25,18 @@ public class Ticket {
         this.compras = compras;
     }
 
-    
+
     public Long getId() {return id;}
 
     public Set<Compra> getCompras() {return compras;}
 
     public void setCompras(Set<Compra> compras) {this.compras = compras;}
 
+    public Long getOrdenDeCompra() {
+        return ordenDeCompra;
+    }
+
+    public void setOrdenDeCompra(Long ordenDeCompra) {
+        this.ordenDeCompra = ordenDeCompra;
+    }
 }
