@@ -3,6 +3,9 @@ package com.mindhub.newStyle.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mindhub.newStyle.modelos.*;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class CompraDTO {
     private Long id;
     private TypeCompra typeCompra;
@@ -11,8 +14,8 @@ public class CompraDTO {
     private String nombreProducto;
     private int stock;
     private Cliente cliente;
-    private ClienteProducto clienteProducto;
-    private ClienteServicio clienteServicio;
+    private Set<ClienteProductoDTO> clienteProductoDTOS;
+    //private ClienteServicio clienteServicio;
     private Ticket ticket;
 
 
@@ -23,10 +26,10 @@ public class CompraDTO {
         this.id = compra.getId();
         this.nombreCliente = compra.getCliente().getPrimerNombre();
         this.typeCompra = compra.getTypeCompra();
-        this.nombreProducto = compra.getClienteProducto().getProducto().getNombre();
+        this.nombreProducto = compra.getNombreProducto();
         this.stock = compra.getStock();
         this.totalCompra = compra.getTotalCompraProducto();
-        this.clienteProducto = compra.getClienteProducto();
+        this.clienteProductoDTOS = compra.getClienteProductoSet().stream().map(ClienteProductoDTO::new).collect(Collectors.toSet());
         this.ticket = compra.getTicket();
     }
 
@@ -43,19 +46,18 @@ public class CompraDTO {
         this.typeCompra = typeCompra;
     }
 
+    @JsonIgnore
     public String getNombreCliente() {
         return nombreCliente;
     }
-
-    @JsonIgnore
     public void setNombreCliente(String nombreCliente) {
         this.nombreCliente = nombreCliente;
     }
 
+
     public double getTotalCompra() {
         return totalCompra;
     }
-
     public void setTotalCompra(double totalCompra) {
         this.totalCompra = totalCompra;
     }
@@ -64,28 +66,32 @@ public class CompraDTO {
     public Cliente getCliente() {
         return cliente;
     }
-
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
 
+
     @JsonIgnore
-    public ClienteProducto getClienteProducto() {
-        return clienteProducto;
+    public Set<ClienteProductoDTO> getClienteProductoDTOS() {
+        return clienteProductoDTOS;
     }
 
-    public void setClienteProducto(ClienteProducto clienteProducto) {
-        this.clienteProducto = clienteProducto;
+    public void setClienteProductoDTOS(Set<ClienteProductoDTO> clienteProductoDTOS) {
+        this.clienteProductoDTOS = clienteProductoDTOS;
     }
 
-    public ClienteServicio getClienteServicio() {
-        return clienteServicio;
-    }
 
-    public void setClienteServicio(ClienteServicio clienteServicio) {
-        this.clienteServicio = clienteServicio;
-    }
+
+
+
+//    public ClienteServicio getClienteServicio() {
+//        return clienteServicio;
+//    }
+//
+//    public void setClienteServicio(ClienteServicio clienteServicio) {
+//        this.clienteServicio = clienteServicio;
+//    }
 
     public Ticket getTicket() {
         return ticket;

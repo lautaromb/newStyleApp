@@ -62,13 +62,18 @@ public class NewStyleApplication {
 			Producto productoBotoxCabello = new Producto("Botox Cabello", 600.0, "url aqui", "url aqui", 10, "Restaruracion y brillo del cabello", newStyle);
 			Producto productoAntiFrizz = new Producto("Anti Frizz", 800.0, "url aqui", "url aqui",4, "Controla el cabello con frizz con los productos de peinado en la ducha", newStyle);
 
-			ClienteServicio clienteServicio1 = new ClienteServicio(cliente1, servicioAlisado);
-			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello);
+
+			Ticket ticket = new Ticket();
+			Compra compra = new Compra(cliente1,  productoBotoxCabello.getNombre(),  600, 2, ticket );
+			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello, compra);
+			ticket.setTotalCompraValor(compra.getTotalCompraProducto() * compra.getStock());
+			ticket.getCompras();
 
 
 
+			//Compra compra = new Compra(TypeCompra.TARJETA,  600, cliente2 );
 
-//			Compra compra = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
+
 //			Compra compra2 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
 //			Compra compra3 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
 //
@@ -99,8 +104,14 @@ public class NewStyleApplication {
 			repositorioProducto.save(productoBotoxCabello);
 			repositorioProducto.save(productoAntiFrizz);
 
+
+			repositorioTicket.save(ticket);
+			repositorioCompra.save(compra);
 			repositorioClienteProducto.save(clienteProducto);
-			repositorioClienteServicio.save(clienteServicio1);
+
+
+			//repositorioClienteProducto.save(clienteProducto);
+			//repositorioClienteServicio.save(clienteServicio1);
 
 
 //			repositorioCompra.save(compra);

@@ -3,6 +3,8 @@ package com.mindhub.newStyle.modelos;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -16,20 +18,25 @@ public class Compra {
     private String nombreProducto;
     private double totalCompraProducto;
     private int stock;
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cliente_producto")
-    private ClienteProducto clienteProducto;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "cliente_producto")
+//    private ClienteProducto clienteProducto;
+
+    @OneToMany(mappedBy = "compra", fetch = FetchType.EAGER)
+    private Set<ClienteProducto> clienteProductoSet = new HashSet<>();
+
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "cliente_servicio")
+//    private ClienteServicio clienteServicio;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cliente_servicio")
-    private ClienteServicio clienteServicio;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ticket")
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
 
@@ -40,16 +47,14 @@ public class Compra {
     public Compra() {
     }
 
-    public Compra(String nombreCliente, Cliente cliente, TypeCompra typeCompra, String nombreProducto, double totalCompraProducto, int stock, ClienteProducto clienteProducto) {
-
-        this.nombreCliente = nombreCliente;
+    public Compra(Cliente cliente, String nombreProducto, double totalCompraProducto, int stock, Ticket ticket) {
         this.cliente = cliente;
-        this.typeCompra = typeCompra;
         this.nombreProducto = nombreProducto;
         this.totalCompraProducto = totalCompraProducto;
         this.stock = stock;
-        this.clienteProducto = clienteProducto;
+        this.ticket = ticket;
     }
+
 
 //    public Compra(TypeCompra typeCompra, double totalCompra, ClienteServicio clienteServicio) {
 //        this.typeCompra = typeCompra;
@@ -88,11 +93,11 @@ public class Compra {
     }
     public void setCliente(Cliente cliente) {this.cliente = cliente;}
 
-    public ClienteServicio getClienteServicio() {return clienteServicio;}
-    public void setClienteServicio(ClienteServicio clienteServicio) {this.clienteServicio = clienteServicio;}
+//    public ClienteServicio getClienteServicio() {return clienteServicio;}
+//    public void setClienteServicio(ClienteServicio clienteServicio) {this.clienteServicio = clienteServicio;}
 
-    public ClienteProducto getClienteProducto() {return clienteProducto;}
-    public void setClienteProducto(ClienteProducto clienteProducto) {this.clienteProducto = clienteProducto;}
+    public Set<ClienteProducto> getClienteProductoSet() {return clienteProductoSet;}
+    public void setClienteProductoSet(Set<ClienteProducto> clienteProductoSet) {this.clienteProductoSet = clienteProductoSet;}
 
     public Ticket getTicket() {return ticket;}
     public void setTicket(Ticket ticket) {this.ticket = ticket;}
