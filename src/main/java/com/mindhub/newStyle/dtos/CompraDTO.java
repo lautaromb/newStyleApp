@@ -3,10 +3,6 @@ package com.mindhub.newStyle.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mindhub.newStyle.modelos.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 public class CompraDTO {
     private Long id;
     private TypeCompra typeCompra;
@@ -29,7 +25,7 @@ public class CompraDTO {
         this.typeCompra = compra.getTypeCompra();
         this.nombreProducto = compra.getClienteProducto().getProducto().getNombre();
         this.stock = compra.getStock();
-        this.totalCompra = compra.getTotalCompra();
+        this.totalCompra = compra.getTotalCompraProducto();
         this.clienteProducto = compra.getClienteProducto();
         this.ticket = compra.getTicket();
     }

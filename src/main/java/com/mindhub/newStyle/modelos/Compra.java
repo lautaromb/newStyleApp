@@ -3,8 +3,6 @@ package com.mindhub.newStyle.modelos;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -16,7 +14,7 @@ public class Compra {
     private TypeCompra typeCompra;
     private String nombreCliente;
     private String nombreProducto;
-    private double totalCompra;
+    private double totalCompraProducto;
     private int stock;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cliente_id")
@@ -42,13 +40,13 @@ public class Compra {
     public Compra() {
     }
 
-    public Compra(String nombreCliente, Cliente cliente, TypeCompra typeCompra, String nombreProducto, double totalCompra, int stock, ClienteProducto clienteProducto) {
+    public Compra(String nombreCliente, Cliente cliente, TypeCompra typeCompra, String nombreProducto, double totalCompraProducto, int stock, ClienteProducto clienteProducto) {
 
         this.nombreCliente = nombreCliente;
         this.cliente = cliente;
         this.typeCompra = typeCompra;
         this.nombreProducto = nombreProducto;
-        this.totalCompra = totalCompra;
+        this.totalCompraProducto = totalCompraProducto;
         this.stock = stock;
         this.clienteProducto = clienteProducto;
     }
@@ -78,11 +76,11 @@ public class Compra {
         this.nombreCliente = nombreCliente;
     }
 
-    public double getTotalCompra() {
-        return totalCompra;
+    public double getTotalCompraProducto() {
+        return totalCompraProducto;
     }
-    public void setTotalCompra(double totalCompra) {
-        this.totalCompra = totalCompra;
+    public void setTotalCompraProducto(double totalCompraProducto) {
+        this.totalCompraProducto = totalCompraProducto;
     }
 
     public Cliente getCliente() {

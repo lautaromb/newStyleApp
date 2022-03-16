@@ -20,10 +20,11 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/web/html/home.html", "/web/html/formulario.html", "/web/html/cortes.html").hasAuthority("CLIENTE")
-                .antMatchers("/web/html/index.html").permitAll()
-                .antMatchers("/web/css/**").permitAll()
-                .antMatchers("/web/js/**").permitAll();
+                .antMatchers("/web/html/formularioProducto.html", "/web/html/formularioServicio.html").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "api/compras").hasAuthority("CLIENTE")
+                .antMatchers("/web/html/home.html","/web/html/index.html", "/web/html/productos.html", "/web/html/servicios.html").permitAll()
+                .antMatchers("/web/css/").permitAll()
+                .antMatchers("/web/js/").permitAll();
 
 //                .antMatchers("/web/manager.html").hasAuthority("ADMIN")
 //                .antMatchers("/web/accounts.html", "/web/account.html", "/web/cards.html", "/web/create-cards.html", "/web/transfers.html").hasAuthority("CLIENT")

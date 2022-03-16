@@ -51,8 +51,8 @@ public class NewStyleApplication {
 			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
 			Cliente cliente1 = new Cliente("User", "Resu", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
 			Cliente cliente2 = new Cliente("Martha", "Stuart Little", "msl@gmail.com", passwordEncoder.encode("user123"),"0000");
-			Cliente cliente3 = new Cliente("Pedro", "Gomez", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
-			Cliente cliente4 = new Cliente("Mauro", "Perez", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
+			Cliente cliente3 = new Cliente("Pedro", "Gomez", "pedro@gmail.com", passwordEncoder.encode("user123"),"0000");
+			Cliente cliente4 = new Cliente("Mauro", "Perez", "mauro@gmail.com", passwordEncoder.encode("user123"),"0000");
 
 
 			Producto productoEnjuague = new Producto("Enjuague para el cabello", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
