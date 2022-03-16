@@ -24,16 +24,10 @@
                 <ul>
                     <li><a class="active" href="#">Inicio</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
-                    <li class="dropdown">
-                    <li class="dropdown-toggle li-servicio" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false">Productos</li>
-                    <ul class="dropdown-menu" style="height: fit-content; width: fit-content;">
-                        <li><a class="dropdown-item" href="productos.html">Tintura</a></li>
-                        <li><a class="dropdown-item" href="productos.html">Maquillaje</a></li>
-                        <li><a class="dropdown-item" href="productos.html">Extension</a></li>
-                        <li><a class="dropdown-item" href="productos.html">Manicura</a></li>
-                    </ul>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li v-show="email == 'admin@admin.com'"><a href="formularioServicio.html">Crear Servicio</a>
                     </li>
+                    <li v-show="email == 'admin@admin.com'"><a href="formularioProducto.html">Crear Producto</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
                     <box-icon name='cart' color='#ffffff'></box-icon>
                 </ul>
@@ -41,7 +35,7 @@
         </header>
 
         <main>
-            <!-- CAROUSEL PRINCIPAL -->
+            <!-- GIF IMAGEN PRINCIPAL -->
             <div>
                 <img src="../assets/banner.gif" alt="" style="width: 100%;">
             </div>
@@ -55,7 +49,7 @@
                         <div class="p-2 w-100 bd-highlight">
                             <h3>Servicios</h3>
                         </div>
-                        <div class="p-2 flex-shrink-1 bd-highlight" style="text-align: center;"><a href=""
+                        <div class="p-2 flex-shrink-1 bd-highlight" style="text-align: center;"><a href="servicios.html"
                                 style="text-decoration: none;">Ver Servicios</a></div>
                     </div>
                     <hr>
@@ -76,37 +70,36 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="card">
-                                                    <img src="../assets/imagen1.jpg" class="card-img-top" alt="...">
+                                                    <img src="../assets/tintura.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
+                                                        <h5 class="card-title">Tintura</h5>
+                                                        <p class="card-text">Cambiar tu color natural tiene sentido
+                                                            lúdico. Sentite diferente y única. Te va a aportar un look
+                                                            más sexy.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="card rounded shadow">
-                                                    <img src="../assets/imagen2.jpg" class="card-img-top" alt="...">
+                                                <div class="card">
+                                                    <img src="../assets/barba.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
+                                                        <h5 class="card-title">Barba</h5>
                                                         <p class="card-text">This is a longer card with supporting text
                                                             below as a
                                                             natural
-                                                            lead-in to additional content.</p>
+                                                            lead-in to additional content.asdasdasd</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="card rounded shadow">
-                                                    <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
+                                                <div class="card">
+                                                    <img src="../assets/alisado.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
+                                                        <h5 class="card-title">Alisado</h5>
                                                         <p class="card-text">This is a longer card with supporting text
                                                             below as a
                                                             natural
-                                                            lead-in to additional content.</p>
+                                                            lead-in to additional content.asdasdasd</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,37 +109,37 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="card">
-                                                    <img src="../assets/imagen2.jpg" class="card-img-top" alt="...">
+                                                    <img src="../assets/peluqueria.jpeg" class="card-img-top" alt="...">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
+                                                        <h5 class="card-title">Manicura</h5>
                                                         <p class="card-text">This is a longer card with supporting text
                                                             below as a
                                                             natural
-                                                            lead-in to additional content.</p>
+                                                            lead-in to additional content.asdasdasdas</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="card">
-                                                    <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
+                                                    <img src="../assets/pedicura.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
+                                                        <h5 class="card-title">Pedicura</h5>
                                                         <p class="card-text">This is a longer card with supporting text
                                                             below as a
                                                             natural
-                                                            lead-in to additional content.</p>
+                                                            lead-in to additional content.asdasdasdasd</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="card">
-                                                    <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
+                                                    <img src="../assets/manicura.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">Card title</h5>
                                                         <p class="card-text">This is a longer card with supporting text
                                                             below as a
                                                             natural
-                                                            lead-in to additional content.</p>
+                                                            lead-in to additional content.asdasdasdas</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,102 +173,48 @@
                         <div class="p-2 w-100 bd-highlight">
                             <h3>Productos</h3>
                         </div>
-                        <div class="p-2 flex-shrink-1 bd-highlight" style="text-align: center;"><a href=""
+                        <div class="p-2 flex-shrink-1 bd-highlight" style="text-align: center;"><a href="productos.html"
                                 style="text-decoration: none;">Ver Productos</a></div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="carouselExampleIndicators2" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-indicators carousel-indicators2">
-                                    <button type="button" data-bs-target="#carouselExampleIndicators2"
-                                        data-bs-slide-to="0" class="active" aria-current="true"
-                                        aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#carouselExampleIndicators2"
-                                        data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="../assets/tintura-producto.jpg" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Tinturas de Colores</h5>
+                                            <p class="card-text">This is a longer card with supporting text
+                                                below as a
+                                                natural
+                                                lead-in to additional content.asdsadasda</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="../assets/imagen1.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="../assets/imagen2.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="../assets/botoxcapilar.jpg" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Botox Capilar</h5>
+                                            <p class="card-text">This is a longer card with supporting text
+                                                below as a
+                                                natural
+                                                lead-in to additional content.sadasdasda</p>
                                         </div>
                                     </div>
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="../assets/imagen2.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title</h5>
-                                                        <p class="card-text">This is a longer card with supporting text
-                                                            below as a
-                                                            natural
-                                                            lead-in to additional content.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img src="../assets/imagen3.jpg" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card title</h5>
+                                            <p class="card-text">This is a longer card with supporting text
+                                                below as a
+                                                natural
+                                                lead-in to additional content.sadasdasdasaa</p>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

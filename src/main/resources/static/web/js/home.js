@@ -33,7 +33,7 @@ var app = new Vue({
 
         .then((response) => {
           console.log("signed in!!!");
-          return (window.location.href = "/web/html/home.html");
+          return (window.location.href = "/web/html/index.html");
         })
 
         .catch((e) => {
