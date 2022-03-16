@@ -6,7 +6,6 @@ var app = new Vue({
         email: '',
         password: '',
         numeroTelefono: ''
-
     },
 
 
@@ -17,45 +16,48 @@ var app = new Vue({
                 .catch(error => {
 
                     Swal.fire({
-                        title: 'Invalid combination',
-                        text: 'Please re-enter your details',
+                        title: 'Error',
+                        text: 'Email o contraseña incorrecta. Vuelve a intentarlo.',
                         icon: "error",
                         showConfirmButton: false,
-                        timer: 2000,
+                        timer: 2200,
                     })
                 })
         },
-
         registrarse() {
-            if (this.primerNombre != '' && this.apellido != '' && this.email != '' && this.password != '' && this.numeroTelefono != '') {
-                Swal.fire({
-                    title: 'Te registraste!',
-                    text: `Bienvenido/a ${this.primerNombre.toUpperCase()} ${this.apellido.toUpperCase()}!`,
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 2500,
-
-                })
-                setTimeout(() => {
-                    axios.post('/api/clientes', "primerNombre=" + this.primerNombre + "&apellido=" + this.apellido + "&email=" + this.email + "&password=" + this.password + "&numeroTel=" + this.numeroTelefono, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
-                        .then(response => {
-
-                            this.iniciarSesión()
-                        })
-                        .catch(error => console.log(`Error en: ${error}`))
-                }, 2000);
+            if(this.primerNombre != '' && this.apellido != '' && this.email.includes("@") != '' && this.password != '' && this.numeroTelefono){
+              Swal.fire({
+                icon: 'success',
+                title: 'Te registraste correctamente!',
+                showConfirmButton: false,
+                timer: 2000
+              })
+              setTimeout(() => {
+                axios
+                .post(
+                  "/api/clientes",
+                  `primerNombre=${this.primerNombre}&apellido=${this.apellido}&email=${this.email}&password=${this.password}&numeroTel=${this.numeroTelefono}`
+                )
+                .then((response) => {
+                    console.log("registered");
+                    
+                  this.iniciarSesion()
+      
+                  })
+        
+                .catch((e) => {
+                  console.log(e);
+                });
+              }, 2100);
             } else {
-                Swal.fire({
-                    title: 'Please fill in all the spaces',
-                    // text: 'Please fill in all the spaces',
-                    icon: "error",
-                    showConfirmButton: false,
-                    timer: 3000,
-                })
-
-            }
-
-
-        }
+              Swal.fire({
+                text: 'Por favor completa los datos anteriores correctamente',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2500
+              })
+            }  
+            
+          }
 }
 })
