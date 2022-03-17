@@ -12,6 +12,8 @@ body {
 }
 
 
+
+
 /* NAV HAMBURGUESA */
 
 nav {
@@ -210,6 +212,30 @@ input[type="checkbox"] {
   margin-bottom: 2rem;
 }
 
+/*CARD BUTTON*/
+.card-body button{
+  border-radius: 15px;
+  color: white;
+  background: linear-gradient(
+    90deg,
+    rgba(235, 80, 146, 1) 0%,
+    rgba(236, 71, 105, 1) 60%,
+    rgba(238, 61, 67, 1) 90%
+  );
+  border: none;
+  padding: 5px 10px;
+
+}
+
+.card{
+  align-items: center;
+  border-radius: 15px;
+}
+
+.card-body button:hover {
+  transform: scale(1.1);
+}
+
 /* LINK VOLVER AL INICIO */
 .link-inicio {
   display: flex;
@@ -221,6 +247,8 @@ input[type="checkbox"] {
 .div-link-inicio {
   background: grey;
   padding: 0.5rem;
+  border-radius: 15px;
+  text-decoration: none;
 }
 
 .link-inicio a{
