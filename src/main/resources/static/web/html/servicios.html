@@ -32,10 +32,15 @@
                     <li><a href="home.html">Inicio</a></li>
                     <li><a href="#" class="active">Servicios</a></li>
                     <li><a href="productos.html">Productos</a></li>
-                    <li><a href="formularioServicio.html">Crear Servicio</a>
+                    <li v-show="rolAdmin"><a href="formularioServicio.html">Crear Servicio</a>
                     </li>
-                    <li><a href="formularioProducto.html">Crear Producto</a></li>
+                    <li v-show="rolAdmin"><a href="formularioProducto.html">Crear Producto</a></li>
+                    <li><a href="contactanos.html">Contactanos</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
+                    <box-icon name='cart' data-toggle="modal" data-target="#modal" @click="calcular()" color='#ffffff'>
+                        <li class="carrito-icono">{{carrito.length}}</li>
+                    </box-icon>
+                    <li>{{carrito.length}}</li>
                 </ul>
             </nav>
         </header>
@@ -46,7 +51,6 @@
 
             <!-- CARDS SERVICIOS -->
 
-            <section style="margin-top: 1.5rem;">
                 <div class="container-fluid">
                     <hr>
 
@@ -54,14 +58,17 @@
                         <h3>Servicios</h3>
                     </div>
 
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="text" placeholder="Buscador" aria-label="buscador" v-model="buscador">
+                    </form>
+
                     <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-4 card-cortes cartas" v-for="servicio in filtrarObjetos">
+                            <div class="card" style="width: 18rem;">
+                                <img v-bind:src="servicio.imagenProducto" class="card-img-top" alt="...">
 
-
-                    <div class="row align-items-start">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg col-xl-3"
-                            style="display: flex; justify-content: center;" v-for="servicio in servicios">
-                            <div class="card" style="width: 20rem; margin-bottom: 2rem;">
-                                <img src="https://i.imgur.com/FH8h7Un.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">{{servicio.nombre}}</h5>
                                     <p class="card-text">{{servicio.descripcion}}</p>
@@ -70,8 +77,8 @@
                                     <li class="list-group-item" style="color: green;">${{servicio.valor}}</li>
                                 </ul>
                                 <div class="card-body">
-                                    <button class="card-link" style="padding: 0.1rem;"
-                                        >Contratar Servicio</button>
+                                    <button class="card-link" style="padding: 0.1rem;" @click="agregarCarrito(index)"
+                                        >Agregar al carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +147,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="comprar()" data-dismiss="modal">Comprar</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
@@ -308,9 +316,7 @@
     <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js "></script>
-    <script src="//code.tidio.co/h1arvu7aj3rrvrgefhwl0bmzxle5htpc.js" async></script>
     <script src="../js/carritoServicio.js"></script>
-    <!-- <script src="../js/servicios.js"></script> -->
 </body>
 
 </html>

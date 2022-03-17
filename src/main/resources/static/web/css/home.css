@@ -56,7 +56,7 @@ nav ul li {
 }
 nav ul li a {
   color: #f2f2f2;
-  text-decoration: none !important;
+  text-decoration: none;
   font-size: 18px;
   font-weight: 500;
   padding: 8px 15px;
@@ -77,10 +77,6 @@ nav .menu-btn i {
 }
 input[type="checkbox"] {
   display: none;
-}
-
-.carrito{
-  color: #f2f2f2;
 }
 
 @media (max-width: 1400px) {
@@ -129,9 +125,6 @@ input[type="checkbox"] {
   nav ul li a:hover {
     background: none;
     color: #111;
-  }
-  .carrito{
-    display: none;
   }
 }
 
@@ -255,6 +248,7 @@ main a {
     justify-content: center;
 }
 
+/*
 form {
     margin: 10px;
     width: 50%;
@@ -265,6 +259,7 @@ form {
     flex-direction: column;
     align-items: center;
 }
+*/
 
 input {
     width: 30%;
@@ -406,3 +401,26 @@ footer.p {
   }
 }
 
+
+/* CARTAS ANIMACIONES */
+.cartas {
+  border            : none;
+  border-radius     : 5px;
+  animation-name    : cardAnimation;
+  animation-duration: .8s;
+}
+
+.cartas:hover {
+  transform : scale(1.05);
+  transition: ease-in .3s;
+}
+
+@keyframes cardAnimation {
+  0% {
+      transform: scale(1.5) translatey(300px);
+  }
+
+  100% {
+      transform: scale(1) translatey(0);
+  }
+}

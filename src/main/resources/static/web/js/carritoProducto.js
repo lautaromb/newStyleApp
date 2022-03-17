@@ -5,10 +5,29 @@ const app = new Vue({
 		total: null,
         productos:[],
 		carrito: [],
-		contador : 1
+		contador : 1,
+		
+		rolAdmin: false,
+		buscador: "",
 	},
+
+	computed: {
+		filtrarObjetos() {
+		  return this.productos.filter(elemento => {
+			if (elemento.nombre) {
+			  var nombre = elemento.nombre.toLowerCase();
+			  var buscado = this.buscador.toLowerCase();
+			  if (nombre.includes(buscado)) {
+				return elemento;
+			  }
+			}
+		  });
+		},
+	},
+
 	created: function(){
         this.loadData();
+		this.cargarDatos();
 		let datosDB = JSON.parse(localStorage.getItem('carrito-vue'));
         
 		let datosDB2 = JSON.parse(localStorage.getItem('contador-vue'));
@@ -24,13 +43,19 @@ const app = new Vue({
 		}
 	},
 	methods: {
+
+		cargarDatos(){
+			axios.get('/api/cliente/current')
+			.then(response =>{
+			  if(response.data.email.includes("@admin.com")){
+				this.rolAdmin = true;
+			  }
+			})
+		},
+
         loadData: function () {
             axios.get("/api/producto").then((response) => {
-              console.log(response.data);
               this.productos = response.data;
-              
-              console.log(this.productos);
-      
             });
           },
 		agregarCarrito: function(index){
@@ -76,7 +101,7 @@ const app = new Vue({
 			var total=0;
 			var iva=0;
 			for (var i = 0; i < this.carrito.length; i++) {
-				total = (this.carrito[i].cantidad * this.carrito[i].precio) + total;
+				total = (this.carrito[i].cantidad * this.carrito[i].valor) + total;
 			}
 			
 			this.total = total.toFixed(2);
@@ -101,7 +126,13 @@ const app = new Vue({
 				console.log(e);
 			  });
 		  },
-	}
-    
+	
+		  comprar(){
+			  axios.post("/api/compra", this.carrito)
+			  
+	
+		  }
+	},
+   
 });
 
