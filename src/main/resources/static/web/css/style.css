@@ -196,6 +196,15 @@ body{
 .container #flip{
   display: none;
 }
+
+
+/*Boton tarjetas*/
+
+/* .card-body button{
+  background-color: #333;
+} */
+
+
 @media (max-width: 730px) {
   .container .cover{
     display: none;
