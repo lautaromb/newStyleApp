@@ -248,6 +248,7 @@ main a {
     justify-content: center;
 }
 
+/*
 form {
     margin: 10px;
     width: 50%;
@@ -258,6 +259,7 @@ form {
     flex-direction: column;
     align-items: center;
 }
+*/
 
 input {
     width: 30%;
@@ -399,4 +401,4 @@ footer.p {
   }
 }
 
-/* CARRITO */
+

@@ -32,9 +32,10 @@
                     <li><a href="home.html">Inicio</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
                     <li><a href="#" class="active">Productos</a></li>
-                    <li><a href="formularioServicio.html">Crear Servicio</a>
+                    <li v-show="rolAdmin"><a href="formularioServicio.html">Crear Servicio</a>
                     </li>
-                    <li><a href="formularioProducto.html">Crear Producto</a></li>
+                    <li v-show="rolAdmin"><a href="formularioProducto.html">Crear Producto</a></li>
+                    <li><a href="contactanos.html">Contactanos</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
                     <box-icon name='cart' data-toggle="modal" data-target="#modal" @click="calcular()" color='#ffffff'>
                         <li class="carrito-icono">{{carrito.length}}</li>
@@ -56,14 +57,13 @@
                         <h3>Productos</h3>
                     </div>
 
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="text" placeholder="Buscador" aria-label="buscador" v-model="buscador">
+                    </form>
+
                     <hr>
 
 
-                    <div class="row align-items-start">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg col-xl-3" style="display: flex; justify-content: center;"
-                            v-for="(producto, index) of productos">
-                            <div class="card" style="width: 20rem; margin-bottom: 2rem;">
-                                <img src="https://i.imgur.com/FH8h7Un.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">{{producto.nombre}}</h5>
                                     <p class="card-text">{{producto.descripcion}}</p>

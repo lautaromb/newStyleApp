@@ -3,9 +3,25 @@ var app = new Vue({
   data: {
     email: "",
     password: "",
+
+    rolAdmin: false,
+  },
+
+  created(){
+    this.cargarDatos()
   },
 
   methods: {
+
+    cargarDatos(){
+      axios.get('/api/cliente/current')
+      .then(response =>{
+        if(response.data.email.includes("@admin.com")){
+          this.rolAdmin = true;
+        }
+      })
+    },
+
     signIn() {
       axios
         .post(
@@ -14,6 +30,7 @@ var app = new Vue({
           { headers: { "content-type": "application/x-www-form-urlencoded" } }
         )
         .then((response) => {
+          
           window.location.href = "/web/home.html";
         })
         .catch((error) => {
@@ -25,7 +42,7 @@ var app = new Vue({
             timer: 2000,
           });
         });
-    },
+    },  
     cerrarSesion() {
       axios
         .post("/api/logout")
