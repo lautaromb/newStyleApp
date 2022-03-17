@@ -1,6 +1,7 @@
 package com.mindhub.newStyle.controladores;
 
-import com.mindhub.newStyle.dtos.CarritoDTO;
+import com.mindhub.newStyle.dtos.CarritoProductoDTO;
+import com.mindhub.newStyle.dtos.CarritoServicioDTO;
 import com.mindhub.newStyle.dtos.CompraDTO;
 import com.mindhub.newStyle.modelos.*;
 import com.mindhub.newStyle.repositorios.*;
@@ -11,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,6 +24,9 @@ public class CompraControlador {
 
     @Autowired
     RepositorioProducto repositorioProducto;
+
+    @Autowired
+    RepositorioServicio repositorioServicio;
 
     @Autowired
     RepositorioCliente repositorioCliente;
@@ -41,91 +44,99 @@ public class CompraControlador {
         return comprasDTO;
     }
 
+    //comentario
 
-//
-//    @PostMapping("/compras")
-//    private ResponseEntity<Object> crearCompra(Authentication authentication, @RequestParam TypeCompra typeCompra,
-//                                               @RequestParam long productoID, @RequestParam int stock /*, @RequestBody() String[] paramArray */){
-//
-////    private ResponseEntity<Object> crearCompra(Authentication authentication, @RequestBody CarritoDTO carritoDTO){
-//
+    @PostMapping("/compra")
+    private ResponseEntity<Object> agregarCompraCarrito(Authentication authentication,
+                                                        @RequestBody Set<CarritoProductoDTO> carritoProductoDTOS,
+                                                        @RequestBody Set<CarritoServicioDTO> carritoServicioDTOS){
+
+        //
+
+        Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
+//        Producto producto = repositorioProducto.findById(carritoClienteDTO.getIdProducto()).orElse(null);
+
+
+        if(carritoProductoDTOS.size() == 0 || carritoServicioDTOS.size() == 0){
+            return new ResponseEntity<>("No ha comprado ningun prodcuto ó servicio", HttpStatus.FORBIDDEN);
+        }
+
+
+
+//        Set<Producto> productos = carritoProductoDTOS.stream().map()
+
+        Ticket ticketProducto = new Ticket();
+        carritoProductoDTOS.forEach(productoEnCarrito -> {
+            Producto productoIterado = repositorioProducto.findById(productoEnCarrito.getIdProducto()).orElse(null);
+            Compra compra = new Compra(cliente, productoEnCarrito.getNombre(), productoEnCarrito.getValor() * productoEnCarrito.getCantidad() , productoEnCarrito.getCantidad(), ticketProducto);
+            ClienteProducto clienteProducto = new ClienteProducto(cliente, productoIterado, compra);
+
+            ticketProducto.setTotalCompraValor(compra.getTotalCompraProducto() + ticketProducto.getTotalCompraValor());
+
+            repositorioTicket.save(ticketProducto);
+            repositorioCompra.save(compra);
+            repositorioClienteProducto.save(clienteProducto);
+        });
+
+
+
+//        Ticket ticketServicio = new Ticket();
+//        carritoServicioDTOS.forEach(servicioEnCarrito -> {
+//            Servicio servicioIterado = repositorioServicio.findById(servicioEnCarrito.getIdProducto()).orElse(null);
+//            Compra compra = new Compra(cliente, servicioEnCarrito.getNombre(), servicioEnCarrito.getValor() * servicioEnCarrito.getCantidad(), servicioEnCarrito.getCantidad(), ticketServicio);
+//            ClienteServicio =
+//        });
+
+
+
+
+
+
+       // Compra compra = new Compra(cliente.getPrimerNombre() , cliente ,producto.getNombre(), producto.getValor() + producto_cantidad, producto_cantidad, ticket);
+       // ClienteProducto clienteProducto = new ClienteProducto(cliente, producto, compra);
+
+//        repositorioCompra.save(compra);
+//        repositorioTicket.save(ticket);
+       // repositorioClienteProducto.save(clienteProducto);
+
+
+        /*Que se genere el ticket cuando le dan a comprar*/
+
+        return new ResponseEntity<>("Se compro con exito", HttpStatus.CREATED);
+
+    }
+
+
+
+
+//    @PostMapping("/compra")
+//    private ResponseEntity<Object> agregarCompraCarrito(Authentication authentication,
+//                                                @RequestParam long producto_id, @RequestParam int producto_cantidad, @RequestParam long ticketOrdenCompra ){
 //
 //
 //        Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
-//        Producto producto = repositorioProducto.findById(productoID).orElse(null);
-//        ClienteProducto clienteProducto = new ClienteProducto(cliente, producto);
+//        Producto producto = repositorioProducto.findById(producto_id).orElse(null);
+//        Ticket ticket = repositorioTicket.findById(ticketOrdenCompra).orElse(null);
 //
-//
-//        if(producto == null){
-//            return new ResponseEntity<>("Porducto no existe", HttpStatus.FORBIDDEN);
+//        if(ticket == null){
+//            ticket = new Ticket();
 //        }
 //
-//        if(producto.getStock() < stock){
-//            return new ResponseEntity<>("No hay stock", HttpStatus.FORBIDDEN);
-//        }
 //
-//        if(typeCompra.equals(TypeCompra.TARJETA)){
+//        Compra compra = new Compra(cliente.getPrimerNombre() , cliente ,producto.getNombre(), producto.getValor() + producto_cantidad, producto_cantidad, ticket);
+//        ClienteProducto clienteProducto = new ClienteProducto(cliente, producto, compra);
 //
-//            Compra compra = new Compra(cliente.getPrimerNombre(),cliente, typeCompra, producto.getNombre(), producto.getValor(), stock,clienteProducto);
-//            return new ResponseEntity<>("Se creo con exito", HttpStatus.CREATED);
-//        }
-//
-//        Compra compra = new Compra(cliente.getPrimerNombre(), cliente,typeCompra,  producto.getNombre(), producto.getValor(), stock,clienteProducto );
-//        repositorioClienteProducto.save(clienteProducto);
 //        repositorioCompra.save(compra);
+//        repositorioTicket.save(ticket);
+//        repositorioClienteProducto.save(clienteProducto);
 //
 //
-////        int i = 0;
-////        Set<Producto> productos = new HashSet<>();
-////        for(String paramArrayItem : paramArray) {
-////            long id = Long.parseLong(paramArrayItem);
-////            System.out.println(id);
-////            Producto producto1 = repositorioProducto.findById(id).orElse(null);
-////            productos.add(producto1);
-////            Compra compra = new Compra(cliente.getPrimerNombre(), cliente,typeCompra,  producto.getNombre(), producto.getValor(), stock,clienteProducto );
-////            repositorioClienteProducto.save(clienteProducto);
-////            repositorioCompra.save(compra);
-////            i++;
-////        }
+//        /*Que se genere el ticket cuando le dan a comprar*/
 //
 //        return new ResponseEntity<>("Se creo con exito", HttpStatus.CREATED);
 //
 //    }
 
-
-    @PostMapping("/compras")
-    private ResponseEntity<Object> crearCompra(Authentication authentication, @RequestParam TypeCompra typeCompra,
-                                               /*@RequestParam long productoID,*/ @RequestParam int stock , @RequestParam String[] paramArray ){
-
-        Ticket ticket = new Ticket();
-        Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
-
-
-        double totalCompra = 0.0;
-        int i = 0;
-        Set<Producto> productos = new HashSet<>();
-        for(String paramArrayItem : paramArray) {
-
-            long id = Long.parseLong(paramArrayItem);
-            System.out.println(id);
-            Producto producto1 = repositorioProducto.findById(id).orElse(null);
-            productos.add(producto1);
-            ClienteProducto clienteProducto = new ClienteProducto(cliente, producto1);
-            Compra compra = new Compra(cliente.getPrimerNombre(), cliente,typeCompra,  producto1.getNombre(), producto1.getValor() * stock, stock,clienteProducto );
-            compra.setTicket(ticket);
-            repositorioClienteProducto.save(clienteProducto);
-            repositorioCompra.save(compra);
-
-            totalCompra += compra.getTotalCompraProducto();
-            i++;
-        }
-
-        ticket.setTotalCompraValor(totalCompra);
-        System.out.println(totalCompra);
-
-        return new ResponseEntity<>("Se creo con exito", HttpStatus.CREATED);
-
-    }
 
 
 }

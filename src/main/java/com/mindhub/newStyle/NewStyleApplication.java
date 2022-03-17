@@ -39,13 +39,13 @@ public class NewStyleApplication {
 			Negocio newStyle = new Negocio("New Style", "newStyle@gmail.com", "Av. de Mayo 2859");
 
 
-			Servicio servicioCorteDePelo = new Servicio("Peluquería", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui","Corte Lavado Enguaje", newStyle);
+			Servicio servicioCorteDePelo = new Servicio("Corte de pelo", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui","Corte a elección del cliente", newStyle);
 			Servicio servicioTintura = new Servicio("Tintura", 700.0, "url", "url", "tintura", newStyle);
 			Servicio servicioAlisado = new Servicio("Alisado", 1100.0, "url aqui", "url aqui","Tratamiento de alisado", newStyle);
-			Servicio servicioBarberia = new Servicio("Barbería", 200.0,  "url aqui", "url aqui","Corte Aceitado", newStyle);
+			Servicio servicioBarberia = new Servicio("Barba", 200.0,  "url aqui", "url aqui","Corte Aceitado", newStyle);
 			Servicio servicioManicura = new Servicio("Manicura", 500.0,  "url aqui", "url aqui","Limpieza, esmaltado", newStyle);
 			Servicio servicioPedicura = new Servicio("Pedicura", 500.0,  "url aqui", "url aqui","Limpieza y esmaltado", newStyle);
-
+			Servicio servicioPestaña = new Servicio("Extension Pestaña", 800.0,  "url aqui", "url aqui","Extenciones de pestañas", newStyle);
 
 
 			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
@@ -55,20 +55,25 @@ public class NewStyleApplication {
 			Cliente cliente4 = new Cliente("Mauro", "Perez", "mauro@gmail.com", passwordEncoder.encode("user123"),"0000");
 
 
-			Producto productoEnjuague = new Producto("Enjuague para el cabello", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
-			Producto productoTinturaRoja = new Producto("Tintura Roja para el cabello", 350.0, "url aqui", "url aqui", 15, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
-			Producto productoTinturaAzul = new Producto("Tintura Azul para el cabello", 350.0, "url aqui", "url aqui", 20, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
+			Producto productoEnjuague = new Producto("Crema De Enjuague ", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
+			Producto productoTinturaRoja = new Producto("Tintura Roja ", 350.0, "url aqui", "url aqui", 15, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
+			Producto productoTinturaAzul = new Producto("Tintura Azul ", 350.0, "url aqui", "url aqui", 20, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
 			Producto productoKeratina = new Producto("Keratina", 500.0, "url aqui", "url aqui", 5, "Repara y nutre el cabello de raiz a las puntas", newStyle);
 			Producto productoBotoxCabello = new Producto("Botox Cabello", 600.0, "url aqui", "url aqui", 10, "Restaruracion y brillo del cabello", newStyle);
-			Producto productoAntiFrizz = new Producto("Anti Frizz", 800.0, "url aqui", "url aqui",4, "Controla el cabello con frizz con los productos de peinado en la ducha", newStyle);
-
-			ClienteServicio clienteServicio1 = new ClienteServicio(cliente1, servicioAlisado);
-			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello);
+			Producto productoAntiFrizz = new Producto("Keratina Anti Frizz", 800.0, "url aqui", "url aqui",4, "Controla el cabello con frizz con los productos de peinado en la ducha", newStyle);
 
 
+			Ticket ticket = new Ticket();
+			Compra compra = new Compra(cliente1,  productoBotoxCabello.getNombre(),  600, 2, ticket );
+			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello, compra);
+			ticket.setTotalCompraValor(compra.getTotalCompraProducto() * compra.getStock());
+			ticket.getCompras();
 
 
-//			Compra compra = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
+
+			//Compra compra = new Compra(TypeCompra.TARJETA,  600, cliente2 );
+
+
 //			Compra compra2 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
 //			Compra compra3 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
 //
@@ -91,6 +96,7 @@ public class NewStyleApplication {
 			repositorioServicio.save(servicioTintura);
 			repositorioServicio.save(servicioManicura);
 			repositorioServicio.save(servicioPedicura);
+			repositorioServicio.save(servicioPestaña);
 
 			repositorioProducto.save(productoEnjuague);
 			repositorioProducto.save(productoTinturaRoja);
@@ -99,8 +105,14 @@ public class NewStyleApplication {
 			repositorioProducto.save(productoBotoxCabello);
 			repositorioProducto.save(productoAntiFrizz);
 
+
+			repositorioTicket.save(ticket);
+			repositorioCompra.save(compra);
 			repositorioClienteProducto.save(clienteProducto);
-			repositorioClienteServicio.save(clienteServicio1);
+
+
+			//repositorioClienteProducto.save(clienteProducto);
+			//repositorioClienteServicio.save(clienteServicio1);
 
 
 //			repositorioCompra.save(compra);
