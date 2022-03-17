@@ -47,7 +47,9 @@ public class Compra {
     public Compra() {
     }
 
-    public Compra(Cliente cliente, String nombreProducto, double totalCompraProducto, int stock, Ticket ticket) {
+    public Compra(String nombreCliente, TypeCompra typeCompra,Cliente cliente, String nombreProducto, double totalCompraProducto, int stock, Ticket ticket) {
+        this.nombreCliente = nombreCliente;
+        this.typeCompra = typeCompra;
         this.cliente = cliente;
         this.nombreProducto = nombreProducto;
         this.totalCompraProducto = totalCompraProducto;
