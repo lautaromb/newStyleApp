@@ -1,7 +1,6 @@
 package com.mindhub.newStyle.controladores;
 
 import com.mindhub.newStyle.dtos.CarritoProductoDTO;
-import com.mindhub.newStyle.dtos.CarritoServicioDTO;
 import com.mindhub.newStyle.dtos.CompraDTO;
 import com.mindhub.newStyle.modelos.*;
 import com.mindhub.newStyle.repositorios.*;
@@ -48,8 +47,7 @@ public class CompraControlador {
 
     @PostMapping("/compra")
     private ResponseEntity<Object> agregarCompraCarrito(Authentication authentication,
-                                                        @RequestBody Set<CarritoProductoDTO> carritoProductoDTOS,
-                                                        @RequestBody Set<CarritoServicioDTO> carritoServicioDTOS){
+                                                        @RequestBody Set<CarritoProductoDTO> carritoProductoDTOS ){
 
         //
 
@@ -57,7 +55,7 @@ public class CompraControlador {
 //        Producto producto = repositorioProducto.findById(carritoClienteDTO.getIdProducto()).orElse(null);
 
 
-        if(carritoProductoDTOS.size() == 0 || carritoServicioDTOS.size() == 0){
+        if(carritoProductoDTOS.size() == 0 ){
             return new ResponseEntity<>("No ha comprado ningun prodcuto ó servicio", HttpStatus.FORBIDDEN);
         }
 
@@ -67,8 +65,8 @@ public class CompraControlador {
 
         Ticket ticketProducto = new Ticket();
         carritoProductoDTOS.forEach(productoEnCarrito -> {
-            Producto productoIterado = repositorioProducto.findById(productoEnCarrito.getIdProducto()).orElse(null);
-            Compra compra = new Compra(cliente, productoEnCarrito.getNombre(), productoEnCarrito.getValor() * productoEnCarrito.getCantidad() , productoEnCarrito.getCantidad(), ticketProducto);
+            Producto productoIterado = repositorioProducto.findById(productoEnCarrito.getId()).orElse(null);
+            Compra compra = new Compra(cliente.getPrimerNombre() , TypeCompra.EFECTIVO , cliente , productoEnCarrito.getNombre(), productoEnCarrito.getPrecio() * productoEnCarrito.getStock() , productoEnCarrito.getStock(), ticketProducto);
             ClienteProducto clienteProducto = new ClienteProducto(cliente, productoIterado, compra);
 
             ticketProducto.setTotalCompraValor(compra.getTotalCompraProducto() + ticketProducto.getTotalCompraValor());

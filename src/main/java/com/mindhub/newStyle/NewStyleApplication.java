@@ -54,7 +54,7 @@ public class NewStyleApplication {
 			Cliente cliente3 = new Cliente("Pedro", "Gomez", "pedro@gmail.com", passwordEncoder.encode("user123"),"0000");
 			Cliente cliente4 = new Cliente("Mauro", "Perez", "mauro@gmail.com", passwordEncoder.encode("user123"),"0000");
 
-
+//c
 			Producto productoEnjuague = new Producto("Crema De Enjuague ", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
 			Producto productoTinturaRoja = new Producto("Tintura Roja ", 350.0, "url aqui", "url aqui", 15, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
 			Producto productoTinturaAzul = new Producto("Tintura Azul ", 350.0, "url aqui", "url aqui", 20, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
@@ -62,12 +62,12 @@ public class NewStyleApplication {
 			Producto productoBotoxCabello = new Producto("Botox Cabello", 600.0, "url aqui", "url aqui", 10, "Restaruracion y brillo del cabello", newStyle);
 			Producto productoAntiFrizz = new Producto("Keratina Anti Frizz", 800.0, "url aqui", "url aqui",4, "Controla el cabello con frizz con los productos de peinado en la ducha", newStyle);
 
-
-			Ticket ticket = new Ticket();
-			Compra compra = new Compra(cliente1,  productoBotoxCabello.getNombre(),  600, 2, ticket );
-			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello, compra);
-			ticket.setTotalCompraValor(compra.getTotalCompraProducto() * compra.getStock());
-			ticket.getCompras();
+//
+//			Ticket ticket = new Ticket();
+//			Compra compra = new Compra(cliente1,  productoBotoxCabello.getNombre(),  600, 2, ticket );
+//			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello, compra);
+//			ticket.setTotalCompraValor(compra.getTotalCompraProducto() * compra.getStock());
+//			ticket.getCompras();
 
 
 
@@ -105,10 +105,10 @@ public class NewStyleApplication {
 			repositorioProducto.save(productoBotoxCabello);
 			repositorioProducto.save(productoAntiFrizz);
 
-
-			repositorioTicket.save(ticket);
-			repositorioCompra.save(compra);
-			repositorioClienteProducto.save(clienteProducto);
+//
+//			repositorioTicket.save(ticket);
+//			repositorioCompra.save(compra);
+//			repositorioClienteProducto.save(clienteProducto);
 
 
 			//repositorioClienteProducto.save(clienteProducto);

@@ -5,7 +5,9 @@ const app = new Vue({
 		total: null,
         productos:[],
 		carrito: [],
-		contador : 1
+		contador : 1,
+		
+
 	},
 	created: function(){
         this.loadData();
@@ -86,21 +88,28 @@ const app = new Vue({
 			//Se guardan las variables en memoria local.
 			localStorage.setItem('carrito-vue', JSON.stringify(this.carrito));
 			localStorage.setItem('contador-vue', JSON.stringify(contcarrito));
-		}
+		},
+		cerrarSesion() {
+			axios
+			  .post("/api/logout")
+			  .then((response) => console.log("sesion cerrada!!!"))
+	  
+			  .then((response) => {
+				console.log("signed in!!!");
+				return (window.location.href = "/web/html/index.html");
+			  })
+	  
+			  .catch((e) => {
+				console.log(e);
+			  });
+		  },
+	
+		  comprar(){
+			  axios.post("/api/compra", this.carrito)
+			  
+	
+		  }
 	},
-    cerrarSesion() {
-        axios
-          .post("/api/logout")
-          .then((response) => console.log("sesion cerrada!!!"))
-  
-          .then((response) => {
-            console.log("signed in!!!");
-            return (window.location.href = "/web/html/index.html");
-          })
-  
-          .catch((e) => {
-            console.log(e);
-          });
-      },
+   
 });
 
