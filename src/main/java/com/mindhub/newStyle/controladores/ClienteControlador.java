@@ -69,9 +69,9 @@ public class ClienteControlador {
         }
 
         // verificacion de email correcta
-        if(!email.contains("@gmail.com") || !email.contains("@outloock.com") || !email.contains("@hotmail.com") || !email.contains("@mindhub.com")){
-            return new ResponseEntity<>("El email no es correcto, no es uno de los asociados", HttpStatus.FORBIDDEN);
-        }
+//        if(!email.contains("@gmail.com") || !email.contains("@outloock.com") || !email.contains("@hotmail.com") || !email.contains("@mindhub.com")){
+//            return new ResponseEntity<>("El email no es correcto, no es uno de los asociados", HttpStatus.FORBIDDEN);
+//        }
 
 
 
