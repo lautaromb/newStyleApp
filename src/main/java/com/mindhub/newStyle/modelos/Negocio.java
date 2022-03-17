@@ -23,6 +23,9 @@ public class Negocio {
     @OneToMany(mappedBy = "negocio", fetch = FetchType.EAGER)
     private Set<Servicio> servicio = new HashSet<>();
 
+    @OneToMany(mappedBy = "negocio",fetch = FetchType.EAGER)
+    private Set<Turno> turnos = new HashSet<>();
+
     /*Relacion con Sucursal*/
 
 

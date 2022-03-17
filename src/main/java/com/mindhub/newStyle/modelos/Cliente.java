@@ -30,6 +30,9 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
     private Set<ClienteProducto> clienteProducto = new HashSet<>();
 
+    @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
+    private Set<Turno> turnos = new HashSet<>();
+
     public Cliente() {
     }
 
