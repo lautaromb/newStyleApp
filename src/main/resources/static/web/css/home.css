@@ -56,7 +56,7 @@ nav ul li {
 }
 nav ul li a {
   color: #f2f2f2;
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 18px;
   font-weight: 500;
   padding: 8px 15px;
@@ -77,6 +77,10 @@ nav .menu-btn i {
 }
 input[type="checkbox"] {
   display: none;
+}
+
+.carrito{
+  color: #f2f2f2;
 }
 
 @media (max-width: 1400px) {
@@ -125,6 +129,9 @@ input[type="checkbox"] {
   nav ul li a:hover {
     background: none;
     color: #111;
+  }
+  .carrito{
+    display: none;
   }
 }
 
@@ -248,7 +255,6 @@ main a {
     justify-content: center;
 }
 
-/*
 form {
     margin: 10px;
     width: 50%;
@@ -259,7 +265,6 @@ form {
     flex-direction: column;
     align-items: center;
 }
-*/
 
 input {
     width: 30%;
@@ -400,5 +405,4 @@ footer.p {
     font-size: 35px;
   }
 }
-
 

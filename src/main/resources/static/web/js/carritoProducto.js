@@ -5,9 +5,7 @@ const app = new Vue({
 		total: null,
         productos:[],
 		carrito: [],
-		contador : 1,
-		
-
+		contador : 1
 	},
 	created: function(){
         this.loadData();
@@ -78,7 +76,7 @@ const app = new Vue({
 			var total=0;
 			var iva=0;
 			for (var i = 0; i < this.carrito.length; i++) {
-				total = (this.carrito[i].cantidad * this.carrito[i].valor) + total;
+				total = (this.carrito[i].cantidad * this.carrito[i].precio) + total;
 			}
 			
 			this.total = total.toFixed(2);
@@ -103,13 +101,7 @@ const app = new Vue({
 				console.log(e);
 			  });
 		  },
-	
-		  comprar(){
-			  axios.post("/api/compra", this.carrito)
-			  
-	
-		  }
-	},
-   
+	}
+    
 });
 

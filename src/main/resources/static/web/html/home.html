@@ -25,10 +25,9 @@
                     <li><a class="active" href="#">Inicio</a></li>
                     <li><a href="servicios.html">Servicios</a></li>
                     <li><a href="productos.html">Productos</a></li>
-                    <li v-show="rolAdmin"><a href="formularioServicio.html">Crear Servicio</a>
+                    <li v-show="email == 'admin@admin.com'"><a href="formularioServicio.html">Crear Servicio</a>
                     </li>
-                    <li v-show="rolAdmin"><a href="formularioProducto.html">Crear Producto</a></li>
-                    <li><a href="contactanos.html">Contactanos</a></li>
+                    <li v-show="email == 'admin@admin.com'"><a href="formularioProducto.html">Crear Producto</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
                     <box-icon name='cart' color='#ffffff'></box-icon>
                 </ul>
@@ -381,6 +380,7 @@
     <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js "></script>
+    <script src="//code.tidio.co/h1arvu7aj3rrvrgefhwl0bmzxle5htpc.js" async></script>
     <script src="../js/home.js"></script>
 </body>
 
