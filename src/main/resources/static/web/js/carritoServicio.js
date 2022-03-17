@@ -74,7 +74,7 @@ const app = new Vue({
 		},
 		calcular: function(){
 			var total=0;
-			var iva=0;
+			
 			for (var i = 0; i < this.carrito.length; i++) {
 				total = (this.carrito[i].cantidad * this.carrito[i].valor) + total;
 			}
@@ -86,20 +86,20 @@ const app = new Vue({
 			//Se guardan las variables en memoria local.
 			localStorage.setItem('carrito-vue', JSON.stringify(this.carrito));
 			localStorage.setItem('contador-vue', JSON.stringify(contcarrito));
-		}
+		},cerrarSesion() {
+			axios
+			  .post("/api/logout")
+			  .then((response) => console.log("sesion cerrada!!!"))
+	  
+			  .then((response) => {
+				console.log("signed in!!!");
+				return (window.location.href = "/web/html/index.html");
+			  })
+	  
+			  .catch((e) => {
+				console.log(e);
+			  });
+		  }
 	},
-    cerrarSesion() {
-        axios
-          .post("/api/logout")
-          .then((response) => console.log("sesion cerrada!!!"))
-  
-          .then((response) => {
-            console.log("signed in!!!");
-            return (window.location.href = "/web/html/index.html");
-          })
-  
-          .catch((e) => {
-            console.log(e);
-          });
-      },
+    
 });
