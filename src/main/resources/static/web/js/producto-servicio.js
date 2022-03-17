@@ -9,11 +9,23 @@ var app = new Vue({
         descripcion: "",
         feedback: "",
         
-       
+        rolAdmin: false,
+    },
 
+    created() {
+        this.cargarDatos();
     },
 
     methods: {
+        cargarDatos(){
+            axios.get('/api/cliente/current')
+            .then(response =>{
+              if(response.data.email.includes("@admin.com")){
+                this.rolAdmin = true;
+              }
+            })
+        },
+
         crearProducto() {
             axios.post('/api/producto', `nombre=${this.nombre}&valor=${this.valor}&imagenProducto=${this.imagen}&imagenCard=${this.imagenCard}&stock=${this.stockProducto}&descripcion=${this.descripcion}`)
                 .then((response) => {
