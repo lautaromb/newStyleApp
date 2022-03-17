@@ -54,7 +54,7 @@ public class NewStyleApplication {
 			Cliente cliente3 = new Cliente("Pedro", "Gomez", "pedro@gmail.com", passwordEncoder.encode("user123"),"0000");
 			Cliente cliente4 = new Cliente("Mauro", "Perez", "mauro@gmail.com", passwordEncoder.encode("user123"),"0000");
 
-
+//c
 			Producto productoEnjuague = new Producto("Crema De Enjuague ", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
 			Producto productoTinturaRoja = new Producto("Tintura Roja ", 350.0, "url aqui", "url aqui", 15, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
 			Producto productoTinturaAzul = new Producto("Tintura Azul ", 350.0, "url aqui", "url aqui", 20, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
