@@ -93,10 +93,14 @@
                         <h3>Productos</h3>
                     </div>
 
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="text" placeholder="Buscador" aria-label="buscador" v-model="buscador">
+                    </form>
+
                     <hr>
 
                     <div class="row">
-                        <div class="col-md-4 card-cortes" v-for="producto in productos">
+                        <div class="col-md-4 card-cortes cartas" v-for="producto in filtrarObjetos">
                             <div class="card" style="width: 18rem;">
                                 <img v-bind:src="producto.imagenProducto" class="card-img-top" alt="...">
                                 <div class="card-body">

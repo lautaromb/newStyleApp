@@ -400,3 +400,28 @@ footer.p {
     font-size: 35px;
   }
 }
+
+
+
+/* CARTAS ANIMACIONES */
+.cartas {
+  border            : none;
+  border-radius     : 5px;
+  animation-name    : cardAnimation;
+  animation-duration: .8s;
+}
+
+.cartas:hover {
+  transform : scale(1.05);
+  transition: ease-in .3s;
+}
+
+@keyframes cardAnimation {
+  0% {
+      transform: scale(1.5) translatey(300px);
+  }
+
+  100% {
+      transform: scale(1) translatey(0);
+  }
+}

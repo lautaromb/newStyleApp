@@ -10,6 +10,8 @@ var app = new Vue({
 
 
     methods: {
+
+      /*
       iniciarSesion() {
         axios.post('/api/login', "email=" + this.email + "&password=" + this.password, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
             .then(response => { window.location.href = "/web/html/home.html" })
@@ -24,7 +26,7 @@ var app = new Vue({
                 })
             })
     },
-      /*
+      */
         iniciarSesion() {
             axios.post('/api/login', "email=" + this.email + "&password=" + this.password, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
                 
@@ -52,7 +54,7 @@ var app = new Vue({
                     })
                 })
         },
-        */
+        
         registrarse() {
           if(this.primerNombre != '' && this.apellido != '' && this.email.includes("@") != '' && this.password != '' && this.numeroTelefono){
             Swal.fire({

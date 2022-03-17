@@ -3,12 +3,25 @@ var app = new Vue({
   data: {
     productos: [],
     rolAdmin: false,
+    buscador: "",
   },
   created() {
       this.cargarDatos();
       this.loadData();
-  }
-,
+  },
+  computed: {
+    filtrarObjetos() {
+      return this.productos.filter(elemento => {
+        if (elemento.nombre) {
+          var nombre = elemento.nombre.toLowerCase();
+          var buscado = this.buscador.toLowerCase();
+          if (nombre.includes(buscado)) {
+            return elemento;
+          }
+        }
+      });
+    },
+  },
   methods: {
     cargarDatos(){
       axios.get('/api/cliente/current')

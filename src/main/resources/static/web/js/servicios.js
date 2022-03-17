@@ -3,12 +3,27 @@ var app = new Vue({
     data: {
       servicios: [],
       rolAdmin: false,
+      buscador: "",
+      
+
     },
     created() {
         this.cargarDatos();
         this.loadData();
-    }
-  ,
+    },
+    computed: {
+      filtrarObjetos() {
+        return this.servicios.filter(elemento => {
+          if (elemento.nombre) {
+            var nombre = elemento.nombre.toLowerCase();
+            var buscado = this.buscador.toLowerCase();
+            if (nombre.includes(buscado)) {
+              return elemento;
+            }
+          }
+        });
+      },
+    },
     methods: {
       cargarDatos(){
         axios.get('/api/cliente/current')
@@ -23,9 +38,6 @@ var app = new Vue({
             axios.get("/api/servicio").then((response) => {
               console.log(response.data);
               this.servicios = response.data;
-              
-              console.log(this.servicios);
-      
             });
           },
       cerrarSesion() {

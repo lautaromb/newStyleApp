@@ -41,18 +41,22 @@
         <main>
             <!-- CARDS SERVICIOS -->
     
-            <section style="margin-top: 1.5rem;">
+            <section class="" style="margin-top: 1.5rem;">
                 <div class="container-fluid">
                     <hr>
     
                     <div class="p-2" style="text-align: center;">
                         <h3>Servicios</h3>
                     </div>
+
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="text" placeholder="Buscador" aria-label="buscador" v-model="buscador">
+                    </form>
     
                     <hr>
                 
                     <div class="row">
-                        <div class="col-md-4 card-cortes" v-for="servicio in servicios">
+                        <div class="col-md-4 card-cortes cartas" v-for="servicio in filtrarObjetos">
                             <div class="card" style="width: 18rem;">
                                 <img v-bind:src="servicio.imagenServicio" class="card-img-top" alt="...">
                                 <div class="card-body">
