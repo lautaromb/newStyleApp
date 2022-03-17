@@ -2,10 +2,11 @@ package com.mindhub.newStyle.dtos;
 
 import com.mindhub.newStyle.modelos.Negocio;
 import com.mindhub.newStyle.modelos.Servicio;
+import com.mindhub.newStyle.modelos.TipoServicio;
 
 public class ServicioDTO {
     private Long id;
-    private String nombre;
+    private TipoServicio tipoServicio;
     private double valor;
     private String imagenServicio;
     private String imagenCard;
@@ -18,7 +19,7 @@ public class ServicioDTO {
 
     public ServicioDTO(Servicio servicio) {
         this.id = servicio.getId();
-        this.nombre = servicio.getNombre();
+        this.tipoServicio = servicio.getTipoServicio();
         this.valor = servicio.getValor();
         this.imagenServicio = servicio.getImagenServicio();
         this.imagenCard = servicio.getImagenCard();
@@ -30,12 +31,12 @@ public class ServicioDTO {
         return id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public TipoServicio getTipoServicio() {
+        return tipoServicio;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTipoServicio(TipoServicio tipoServicio) {
+        this.tipoServicio = tipoServicio;
     }
 
     public double getValor() {
@@ -83,4 +84,6 @@ public class ServicioDTO {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+
+
 }

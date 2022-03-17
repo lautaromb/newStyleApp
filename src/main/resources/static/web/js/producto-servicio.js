@@ -39,7 +39,7 @@ var app = new Vue({
                 })
         },
         crearServicio() {
-            axios.post('/api/servicio', `nombre=${this.nombre}&valor=${this.valor}&imagenServicio=${this.imagen}&imagenCard=${this.imagenCard}&descripcion=${this.descripcion}`)
+            axios.post('/api/servicio', `tipoServicio=${this.nombre}&valor=${this.valor}&imagenServicio=${this.imagen}&imagenCard=${this.imagenCard}&descripcion=${this.descripcion}`)
                 .then((response) => {
                     Swal.fire({
                         title: `Servicio creado`,

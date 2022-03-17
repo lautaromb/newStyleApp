@@ -14,12 +14,12 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
-    private String nombre;
+    private TipoServicio tipoServicio;
     private double valor;
     private String imagenServicio;
     private String imagenCard;
     private String descripcion;
-    private boolean activo;
+    private boolean activo = true;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -46,8 +46,8 @@ public class Servicio {
     }
 
 
-    public Servicio(String nombre, double valor, String imagenServicio, String imagenCard, String descripcion, Negocio negocio) {
-        this.nombre = nombre;
+    public Servicio(TipoServicio tipoServicio, double valor, String imagenServicio, String imagenCard, String descripcion, Negocio negocio) {
+        this.tipoServicio = tipoServicio;
         this.valor = valor;
         this.imagenServicio = imagenServicio;
         this.imagenCard = imagenCard;
@@ -59,11 +59,12 @@ public class Servicio {
         return id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public TipoServicio getTipoServicio() {
+        return tipoServicio;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public void setTipoServicio(TipoServicio tipoServicio) {
+        this.tipoServicio = tipoServicio;
     }
 
     public double getValor() {
@@ -112,4 +113,6 @@ public class Servicio {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+
+
 }

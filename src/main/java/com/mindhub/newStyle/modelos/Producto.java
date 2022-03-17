@@ -18,7 +18,7 @@ public class Producto {
     private String imagenCard;
     private int stock;
     private String descripcion;
-    private boolean activo;
+    private boolean activo = true;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "negocio")

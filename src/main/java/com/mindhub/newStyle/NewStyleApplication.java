@@ -39,13 +39,23 @@ public class NewStyleApplication {
 			Negocio newStyle = new Negocio("New Style", "newStyle@gmail.com", "Av. de Mayo 2859");
 
 
-			Servicio servicioCorteDePelo = new Servicio("Corte de pelo", 400.0, "https://i.imgur.com/P3HUPFc.jpeg", "url aqui","Corte a elección del cliente", newStyle);
-			Servicio servicioTintura = new Servicio("Tintura", 700.0, "url", "url", "tintura", newStyle);
-			Servicio servicioAlisado = new Servicio("Alisado", 1100.0, "url aqui", "url aqui","Tratamiento de alisado", newStyle);
-			Servicio servicioBarberia = new Servicio("Barba", 200.0,  "url aqui", "url aqui","Corte Aceitado", newStyle);
-			Servicio servicioManicura = new Servicio("Manicura", 500.0,  "url aqui", "url aqui","Limpieza, esmaltado", newStyle);
-			Servicio servicioPedicura = new Servicio("Pedicura", 500.0,  "url aqui", "url aqui","Limpieza y esmaltado", newStyle);
-			Servicio servicioPestaña = new Servicio("Extension Pestaña", 800.0,  "url aqui", "url aqui","Extenciones de pestañas", newStyle);
+			Servicio servicioCorteDePelo = new Servicio(TipoServicio.CORTE, 400.0, "https://i.imgur.com/gSPyRXh.jpg", "url aqui","Corte de cabello unisex a elección del cliente", newStyle);
+			Servicio servicioTintura = new Servicio(TipoServicio.TINTURA, 1500.0, "https://i.imgur.com/b41Oddh.jpg", "url", "Ballayage, colores fantasia, cubrimiento de canas", newStyle);
+			Servicio servicioAlisado = new Servicio(TipoServicio.ALISADO, 1100.0, "https://i.imgur.com/FhdJ2mJ.jpg", "url aqui","Tratamiento capilares,alisado chocolate y alisado forte", newStyle);
+			Servicio servicioBarberia = new Servicio(TipoServicio.BARBA, 200.0,  "https://i.imgur.com/aW2KwyG.jpg", "url aqui","Emparejamiento, perfilamiento a eleccion del cliente", newStyle);
+			Servicio servicioManicura = new Servicio(TipoServicio.MANICURA, 500.0,  "https://i.imgur.com/FXvwcNQ.jpg", "url aqui","Uñas acrilicas, uñas de gel, esmaltado semipermanente", newStyle);
+			Servicio servicioPedicura = new Servicio(TipoServicio.PEDICURA, 500.0,  "https://i.imgur.com/0b39TL5.jpg", "url aqui","Belleza de pies, esmaltado semipermanente,capping gel", newStyle);
+			Servicio servicioPestaña = new Servicio(TipoServicio.PESTAÑAS, 800.0,  "https://i.imgur.com/yXrm71e.jpg", "url aqui","Extenciones pelo a pelo sobre la pestaña natural", newStyle);
+			Servicio servicioPerfiladoCejas = new Servicio(TipoServicio.CEJAS, 300.0,  "https://i.imgur.com/RYY9j0R.jpg", "url aqui","Modelado de cejas de acuerdo con tu rosto, ojos y nariz", newStyle);
+
+			Producto productoEnjuague = new Producto("Shampoo de coco ", 650.0, "https://i.imgur.com/JgSoduV.jpg", "url aqui", 8, "Lavado a profundidad con un aroma particular a coco", newStyle);
+			Producto productoKitMaquillajeFacial = new Producto("Kit maquillaje ojos y cejas ", 350.0, "https://i.imgur.com/bsE9jo3.png", "url aqui", 15, "Ideal para rostros sensibles, pinceles de calidad", newStyle);
+			Producto productoEsmalte = new Producto("Esmalte elite varios colores ", 350.0, "https://i.imgur.com/YQO9z2A.jpg", "url aqui", 20, "Diversos esmalte de varios colores para elegir a gusto", newStyle);
+			Producto productoExfoliante= new Producto("Filorga exfoliante", 900.0, "https://i.imgur.com/0JEtpx7.jpg", "url aqui", 5, "Exfoliante facial para quitar células muertas, prevee acné", newStyle);
+			Producto productoKitMaquillaje = new Producto("Kit maquillaje facial", 5000.0, "https://i.imgur.com/paxQA4x.jpg", "url aqui", 2, "Combo maquillaje de 32 piezas con pinceles gruesos", newStyle);
+			Producto productoKitBarberia = new Producto("Kit barberia principiante", 3800.0, "https://i.imgur.com/qVheV7y.jpg", "url aqui",4, "Kit esencial para dar tus primeros pasos como barbero", newStyle);
+			Producto productoNavaja = new Producto("Navaja dorada", 1000.0, "https://i.imgur.com/8WDeUnX.jpg", "url aqui",4, "Navaja para realizar degrade, como para afeitar al raz", newStyle);
+			Producto productoMaquinaPelo = new Producto("Cortadora de pelo azul", 5800.0, "https://i.imgur.com/mKfPv7w.jpg", "url aqui",4, "Maquina para cortar pelo babyliss 3000 rpm", newStyle);
 
 
 			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
@@ -55,34 +65,9 @@ public class NewStyleApplication {
 			Cliente cliente4 = new Cliente("Mauro", "Perez", "mauro@gmail.com", passwordEncoder.encode("user123"),"0000");
 
 //c
-			Producto productoEnjuague = new Producto("Crema De Enjuague ", 350.0, "url aqui", "url aqui", 8, "Recuperacion milagrosa para el cabello", newStyle);
-			Producto productoTinturaRoja = new Producto("Tintura Roja ", 350.0, "url aqui", "url aqui", 15, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
-			Producto productoTinturaAzul = new Producto("Tintura Azul ", 350.0, "url aqui", "url aqui", 20, "Duracion extendida de 20 a 30 dias con lavado moderado agua tibia", newStyle);
-			Producto productoKeratina = new Producto("Keratina", 500.0, "url aqui", "url aqui", 5, "Repara y nutre el cabello de raiz a las puntas", newStyle);
-			Producto productoBotoxCabello = new Producto("Botox Cabello", 600.0, "url aqui", "url aqui", 10, "Restaruracion y brillo del cabello", newStyle);
-			Producto productoAntiFrizz = new Producto("Keratina Anti Frizz", 800.0, "url aqui", "url aqui",4, "Controla el cabello con frizz con los productos de peinado en la ducha", newStyle);
-
-//
-//			Ticket ticket = new Ticket();
-//			Compra compra = new Compra(cliente1,  productoBotoxCabello.getNombre(),  600, 2, ticket );
-//			ClienteProducto clienteProducto = new ClienteProducto(cliente1, productoBotoxCabello, compra);
-//			ticket.setTotalCompraValor(compra.getTotalCompraProducto() * compra.getStock());
-//			ticket.getCompras();
 
 
 
-			//Compra compra = new Compra(TypeCompra.TARJETA,  600, cliente2 );
-
-
-//			Compra compra2 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
-//			Compra compra3 = new Compra(TypeCompra.TARJETA,  600, cliente2, clienteProducto );
-//
-//			Set<Compra> compras = new HashSet<>();
-//			compras.add(compra);
-//			compras.add(compra2);
-//			compras.add(compra3);
-//
-//			Ticket ticket = new Ticket(compras);
 
 
 			repositorioNegocio.save(newStyle);
@@ -99,11 +84,13 @@ public class NewStyleApplication {
 			repositorioServicio.save(servicioPestaña);
 
 			repositorioProducto.save(productoEnjuague);
-			repositorioProducto.save(productoTinturaRoja);
-			repositorioProducto.save(productoTinturaAzul);
-			repositorioProducto.save(productoKeratina);
-			repositorioProducto.save(productoBotoxCabello);
-			repositorioProducto.save(productoAntiFrizz);
+			repositorioProducto.save(productoKitMaquillajeFacial);
+			repositorioProducto.save(productoEsmalte);
+			repositorioProducto.save(productoExfoliante);
+			repositorioProducto.save(productoKitMaquillaje);
+			repositorioProducto.save(productoKitBarberia);
+			repositorioProducto.save(productoNavaja);
+			repositorioProducto.save(productoMaquinaPelo);
 
 //
 //			repositorioTicket.save(ticket);

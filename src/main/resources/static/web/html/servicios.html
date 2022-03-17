@@ -67,10 +67,10 @@
                     <div class="row">
                         <div class="col-md-4 card-cortes cartas" v-for="servicio in filtrarObjetos">
                             <div class="card" style="width: 18rem;">
-                                <img v-bind:src="servicio.imagenProducto" class="card-img-top" alt="...">
+                                <img v-bind:src="servicio.imagenServicio" class="card-img-top" alt="...">
 
                                 <div class="card-body">
-                                    <h5 class="card-title">{{servicio.nombre}}</h5>
+                                    <h5 class="card-title">{{servicio.tipoServicio}}</h5>
                                     <p class="card-text">{{servicio.descripcion}}</p>
                                 </div>
                                 <ul class="list-group list-group-flush">
@@ -319,6 +319,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js "></script>
     <script src="../js/carritoServicio.js"></script>
+    <!-- <script src="../js/servicios.js"></script> -->
 </body>
 
 </html>

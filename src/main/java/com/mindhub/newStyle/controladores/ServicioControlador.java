@@ -4,6 +4,7 @@ package com.mindhub.newStyle.controladores;
 import com.mindhub.newStyle.dtos.ServicioDTO;
 import com.mindhub.newStyle.modelos.Negocio;
 import com.mindhub.newStyle.modelos.Servicio;
+import com.mindhub.newStyle.modelos.TipoServicio;
 import com.mindhub.newStyle.repositorios.RepositorioNegocio;
 import com.mindhub.newStyle.repositorios.RepositorioServicio;
 import com.mindhub.newStyle.servicios.implementaciones.ClienteServicio;
@@ -36,18 +37,18 @@ public class ServicioControlador {
     }
 
     @PostMapping("/servicio")
-    public ResponseEntity<Object> createService(@RequestParam String nombre, @RequestParam double valor,
+    public ResponseEntity<Object> createService(@RequestParam TipoServicio tipoServicio, @RequestParam double valor,
                                                 @RequestParam String imagenServicio, @RequestParam String imagenCard, @RequestParam String descripcion){
 
 
         Negocio negocio = repositorioNegocio.findByEmail("newStyle@gmail.com");
 
-        if (nombre.isEmpty() || valor <= 0 || imagenServicio.isEmpty() || imagenCard.isEmpty() || descripcion.isEmpty()) {
+        if (tipoServicio == null   || valor <= 0 || imagenServicio.isEmpty() || imagenCard.isEmpty() || descripcion.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
 
-          Servicio servicio = new Servicio(nombre, valor, imagenServicio, imagenCard, descripcion, negocio);
+          Servicio servicio = new Servicio(tipoServicio, valor, imagenServicio, imagenCard, descripcion, negocio);
 
 
         repositorioServicio.save(servicio);
