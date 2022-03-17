@@ -42,14 +42,14 @@
                         <label for="exampleInputEmail1" class="form-label ">Seleccione el
                             servicio que desea programar</label>
                         <select @change="loadData()" class=" form-select rounded shadow p-2 fw-light m-1 " v-model="tipoServicio">
-                            <option class="text-dark" v-for="tipo in servicios">{{tipo.typeServicio}}</option>
+                            <option class="text-dark" v-for="tipo in servicios">{{tipo.tipoServicio}}</option>
                         </select>
                     </div>
 
-                    <!-- <div class="item rounded shadow p-2 fw-light fs-6 " v-show="tipoServicio">
+                    <div class="item rounded shadow p-2 fw-light fs-6 " v-show="tipoServicio">
                         <h4 class="fs-6  fw-light">Valor del servicio</h4>
                         <h4 class="fs-6  fw-light " @change="loadData()"><b>${{valor}}</b></h4>
-                    </div> -->
+                    </div>
 
                     <div class="item mb-md-2 m-2  rounded shadow p-2 fw-light fs-6 ">
                         <label for="exampleInputEmail1" class="form-label ">Seleccione entre las fechas disponibles</label>

@@ -6,15 +6,42 @@ var app = new Vue({
         tipoServicio: "",
         valor: 0,
         fechaServicio: "",
-        horaServicio: ""
+        horaServicio: "",
 
+        rolAdmin: false,
+		buscador: "",
     },
     created() {
         this.loadData();
     },
+
+    computed: {
+		filtrarObjetos() {
+		  return this.servicios.filter(elemento => {
+			if (elemento.tipoServicio) {
+			  var nombre = elemento.tipoServicio.toLowerCase();
+			  var buscado = this.buscador.toLowerCase();
+			  if (nombre.includes(buscado)) {
+				return elemento;
+			  }
+			}
+		  });
+		},
+	},
+
     methods: {
+        cargarDatos(){
+			axios.get('/api/cliente/current')
+			.then(response =>{
+			  if(response.data.email.includes("@admin.com")){
+				this.rolAdmin = true;
+			  }
+			})
+		  },
+          
         loadData: function() {
             axios.get("/api/servicio").then((response) => {
+
                 console.log(response.data);
                 this.servicios = response.data;
 

@@ -49,7 +49,7 @@ public class NewStyleApplication {
 			Servicio servicioPerfiladoCejas = new Servicio(TipoServicio.CEJAS, 300.0,  "https://i.imgur.com/RYY9j0R.jpg", "url aqui","Modelado de cejas de acuerdo con tu rosto, ojos y nariz", newStyle);
 
 			Producto productoEnjuague = new Producto("Shampoo de coco ", 650.0, "https://i.imgur.com/JgSoduV.jpg", "url aqui", 8, "Lavado a profundidad con un aroma particular a coco", newStyle);
-			Producto productoKitMaquillajeFacial = new Producto("Kit maquillaje ojos y cejas ", 350.0, "https://i.imgur.com/bsE9jo3.png", "url aqui", 15, "Ideal para rostros sensibles, pinceles de calidad", newStyle);
+			Producto productoKitMaquillajeFacial = new Producto("Kit maquillaje ojos y cejas ", 350.0, "https://i.imgur.com/w8ZANSo.jpg ", "url aqui", 15, "Ideal para rostros sensibles, pinceles de calidad", newStyle);
 			Producto productoEsmalte = new Producto("Esmalte elite varios colores ", 350.0, "https://i.imgur.com/YQO9z2A.jpg", "url aqui", 20, "Diversos esmalte de varios colores para elegir a gusto", newStyle);
 			Producto productoExfoliante= new Producto("Filorga exfoliante", 900.0, "https://i.imgur.com/0JEtpx7.jpg", "url aqui", 5, "Exfoliante facial para quitar células muertas, prevee acné", newStyle);
 			Producto productoKitMaquillaje = new Producto("Kit maquillaje facial", 5000.0, "https://i.imgur.com/paxQA4x.jpg", "url aqui", 2, "Combo maquillaje de 32 piezas con pinceles gruesos", newStyle);
@@ -58,7 +58,7 @@ public class NewStyleApplication {
 			Producto productoMaquinaPelo = new Producto("Cortadora de pelo azul", 5800.0, "https://i.imgur.com/mKfPv7w.jpg", "url aqui",4, "Maquina para cortar pelo babyliss 3000 rpm", newStyle);
 
 
-			Cliente admin = new Cliente("Admin", "New Style", "admind@admin.com", passwordEncoder.encode("admin789"),"0000");
+			Cliente admin = new Cliente("Admin", "New Style", "admin@admin.com", passwordEncoder.encode("admin"),"0000");
 			Cliente cliente1 = new Cliente("User", "Resu", "user@gmail.com", passwordEncoder.encode("user123"),"0000");
 			Cliente cliente2 = new Cliente("Martha", "Stuart Little", "msl@gmail.com", passwordEncoder.encode("user123"),"0000");
 			Cliente cliente3 = new Cliente("Pedro", "Gomez", "pedro@gmail.com", passwordEncoder.encode("user123"),"0000");
@@ -82,6 +82,7 @@ public class NewStyleApplication {
 			repositorioServicio.save(servicioManicura);
 			repositorioServicio.save(servicioPedicura);
 			repositorioServicio.save(servicioPestaña);
+			repositorioServicio.save(servicioPerfiladoCejas);
 
 			repositorioProducto.save(productoEnjuague);
 			repositorioProducto.save(productoKitMaquillajeFacial);

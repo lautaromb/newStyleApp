@@ -101,7 +101,7 @@ const app = new Vue({
 			var total=0;
 			var iva=0;
 			for (var i = 0; i < this.carrito.length; i++) {
-				total = (this.carrito[i].cantidad * this.carrito[i].valor) + total;
+				total = (this.carrito[i].cantidad * this.carrito[i].precio) + total;
 			}
 			
 			this.total = total.toFixed(2);

@@ -5,6 +5,8 @@ var app = new Vue({
     password: "",
 
     rolAdmin: false,
+    servicios:[],
+    productos:[]
   },
 
   created(){
@@ -58,5 +60,25 @@ var app = new Vue({
           console.log(e);
         });
     },
+
+
+
+    /*Nuevo*/
+    
+  //   loadFunciones: function() {
+  //     axios.get("/api/servicio").then((response) => {
+  //         console.log(response.data);
+  //         this.servicios = response.data;
+  //     });
+  // },
+  //   loadData: function() {
+  //   axios.get("/api/servicio").then((response) => {
+  //       console.log(response.data);
+  //       this.servicios = response.data;
+  //   });
+  // }
+
+
+
   },
 });

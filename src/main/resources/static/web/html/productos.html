@@ -38,10 +38,8 @@
                     <li v-show="rolAdmin"><a href="formularioProducto.html">Crear Producto</a></li>
                     <li><a href="contactanos.html">Contactanos</a></li>
                     <li><a href="#" @click="cerrarSesion()">Salir</a></li>
-                    <box-icon name='cart' data-toggle="modal" data-target="#modal" @click="calcular()" color='#ffffff'>
-                        <li class="carrito-icono">{{carrito.length}}</li>
-                    </box-icon>
-                    <li>{{carrito.length}}</li>
+                    <box-icon name='cart' data-toggle="modal" data-target="#modal" @click="calcular()" color='#ffffff'> </box-icon>
+                    <li class="carrito">{{carrito.length}}</li>
                 </ul>
             </nav>
         </header>
@@ -65,7 +63,7 @@
                     <hr>
                     <!-- asdasds -->
                     <div class="row">
-                        <div class="col-md-4 card-cortes cartas" v-for="producto in filtrarObjetos">
+                        <div class="col-md-4 card-cortes cartas" v-for="(producto, index ) of filtrarObjetos">
                             <div class="card" style="width: 18rem;">
                                 <img v-bind:src="producto.imagenProducto" class="card-img-top" alt="...">
                                 <div class="card-body">
@@ -148,8 +146,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="comprar()" data-dismiss="modal">Comprar</button>
+                            <!-- <button type="button" class="btn btn-secondary"  data-dismiss="modal">Comprar</button> -->
+                            
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" @click="comprar()">Comprar</button>
                         </div>
                     </div>
                 </div>

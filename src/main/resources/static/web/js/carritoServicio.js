@@ -14,8 +14,8 @@ const app = new Vue({
 	computed: {
 		filtrarObjetos() {
 		  return this.servicios.filter(elemento => {
-			if (elemento.nombre) {
-			  var nombre = elemento.nombre.toLowerCase();
+			if (elemento.tipoServicio) {
+			  var nombre = elemento.tipoServicio.toLowerCase();
 			  var buscado = this.buscador.toLowerCase();
 			  if (nombre.includes(buscado)) {
 				return elemento;

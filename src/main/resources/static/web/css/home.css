@@ -81,6 +81,12 @@ input[type="checkbox"] {
   display: none;
 }
 
+.carrito{
+  color: white;
+
+}
+
+
 @media (max-width: 1400px) {
   nav {
     padding: 0 40px 0 50px;
@@ -127,6 +133,10 @@ input[type="checkbox"] {
   nav ul li a:hover {
     background: none;
     color: #111;
+  }
+  .carrito{
+   display: none;
+    
   }
 }
 
@@ -450,5 +460,93 @@ footer.p {
 
   100% {
       transform: scale(1) translatey(0);
+  }
+}
+
+
+
+
+/*Fermin mediaQuery*/
+
+header {
+  margin-top: -1.6rem;
+  margin-bottom: 6%;
+}
+
+@media (max-width: 900px) {
+  header {
+      margin-bottom: 9%;
+  }
+}
+
+@media (max-width: 771px) {
+  header {
+      margin-bottom: 10%;
+  }
+}
+
+@media (max-width: 675px) {
+  header {
+      margin-bottom: 12%;
+  }
+}
+
+@media (max-width: 567px) {
+  header {
+      margin-bottom: 14%;
+  }
+}
+
+@media (max-width: 567px) {
+  header {
+      margin-bottom: 15%;
+  }
+}
+
+@media (max-width: 486px) {
+  header {
+      margin-bottom: 16%;
+  }
+}
+
+@media (max-width: 474px) {
+  header {
+      margin-bottom: 17%;
+  }
+}
+
+@media (max-width: 448px) {
+  header {
+      margin-bottom: 18%;
+  }
+}
+
+@media (max-width: 414px) {
+  header {
+      margin-bottom: 19%;
+  }
+}
+
+@media (max-width: 400px) {
+  header {
+      margin-bottom: 20%;
+  }
+}
+
+@media (max-width: 390px) {
+  header {
+      margin-bottom: 21%;
+  }
+}
+
+@media (max-width: 372px) {
+  header {
+      margin-bottom: 22%;
+  }
+}
+
+@media (max-width: 356px) {
+  header {
+      margin-bottom: 23%;
   }
 }
