@@ -37,7 +37,7 @@ public class CompraDTO {
         return id;
     }
 
-
+    @JsonIgnore
     public TypeCompra getTypeCompra() {
         return typeCompra;
     }
@@ -54,7 +54,7 @@ public class CompraDTO {
         this.nombreCliente = nombreCliente;
     }
 
-
+    @JsonIgnore
     public double getTotalCompra() {
         return totalCompra;
     }

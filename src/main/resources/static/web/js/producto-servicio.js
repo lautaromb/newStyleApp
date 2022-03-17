@@ -65,5 +65,11 @@ var app = new Vue({
                 console.log(e);
             });
         },
+
+        comprar(){
+            axios.post("/api/compra", this.carrito)
+            
+  
+        }
     },
 });

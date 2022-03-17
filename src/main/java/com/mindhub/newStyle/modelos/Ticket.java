@@ -17,13 +17,17 @@ public class Ticket {
     @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER)
      Set<Compra> compras = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
     public Ticket() {
     }
 
-    public Ticket( double totalCompraValor) {
+    public Ticket(double totalCompraValor, Cliente cliente) {
         this.totalCompraValor = totalCompraValor;
+        this.cliente = cliente;
     }
-
 
     public Long getId() {return id;}
 
@@ -34,5 +38,11 @@ public class Ticket {
     public double getTotalCompraValor() {return totalCompraValor;}
     public void setTotalCompraValor(double totalCompraValor) {this.totalCompraValor = totalCompraValor;}
 
+    public Cliente getCliente() {
+        return cliente;
+    }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 }

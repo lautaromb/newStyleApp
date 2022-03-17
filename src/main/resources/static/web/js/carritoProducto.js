@@ -9,6 +9,7 @@ const app = new Vue({
 		
 		rolAdmin: false,
 		buscador: "",
+		cliente: ""
 	},
 
 	computed: {
@@ -47,6 +48,7 @@ const app = new Vue({
 		cargarDatos(){
 			axios.get('/api/cliente/current')
 			.then(response =>{
+				this.cliente = response.data
 			  if(response.data.email.includes("@admin.com")){
 				this.rolAdmin = true;
 			  }
@@ -82,7 +84,9 @@ const app = new Vue({
 						this.guardarLocal();
 						break;
 					}
+					
 				}
+				
 			}
 			//Se vuelve a cargar en pantalla los productos del carrito.
 			this.$forceUpdate();
@@ -128,9 +132,12 @@ const app = new Vue({
 		  },
 	
 		  comprar(){
-			  axios.post("/api/compra", this.carrito)
+			  for(let i = 0; i < this.carrito.length; i++){
+				this.carrito[i].stock = this.carrito[i].cantidad;
+			  }
 			  
-	
+			  axios.post("/api/compra", this.carrito)
+			  .then(response => console.log(response))
 		  }
 	},
    

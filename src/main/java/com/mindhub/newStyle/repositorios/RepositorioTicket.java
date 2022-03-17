@@ -6,4 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface RepositorioTicket extends JpaRepository<Ticket, Long> {
+    Ticket findByClienteId(long id);
 }

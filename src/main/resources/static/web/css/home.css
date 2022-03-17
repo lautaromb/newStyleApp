@@ -58,7 +58,7 @@ nav ul li {
 }
 nav ul li a {
   color: #f2f2f2;
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 18px;
   font-weight: 500;
   padding: 8px 15px;
@@ -70,6 +70,7 @@ nav ul li a.active,
 nav ul li a:hover {
   color: #111;
   background: #fff;
+  
 }
 nav .menu-btn i {
   color: #fff;
@@ -468,85 +469,3 @@ footer.p {
 
 /*Fermin mediaQuery*/
 
-header {
-  margin-top: -1.6rem;
-  margin-bottom: 6%;
-}
-
-@media (max-width: 900px) {
-  header {
-      margin-bottom: 9%;
-  }
-}
-
-@media (max-width: 771px) {
-  header {
-      margin-bottom: 10%;
-  }
-}
-
-@media (max-width: 675px) {
-  header {
-      margin-bottom: 12%;
-  }
-}
-
-@media (max-width: 567px) {
-  header {
-      margin-bottom: 14%;
-  }
-}
-
-@media (max-width: 567px) {
-  header {
-      margin-bottom: 15%;
-  }
-}
-
-@media (max-width: 486px) {
-  header {
-      margin-bottom: 16%;
-  }
-}
-
-@media (max-width: 474px) {
-  header {
-      margin-bottom: 17%;
-  }
-}
-
-@media (max-width: 448px) {
-  header {
-      margin-bottom: 18%;
-  }
-}
-
-@media (max-width: 414px) {
-  header {
-      margin-bottom: 19%;
-  }
-}
-
-@media (max-width: 400px) {
-  header {
-      margin-bottom: 20%;
-  }
-}
-
-@media (max-width: 390px) {
-  header {
-      margin-bottom: 21%;
-  }
-}
-
-@media (max-width: 372px) {
-  header {
-      margin-bottom: 22%;
-  }
-}
-
-@media (max-width: 356px) {
-  header {
-      margin-bottom: 23%;
-  }
-}

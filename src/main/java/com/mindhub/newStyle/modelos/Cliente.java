@@ -33,6 +33,9 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
     private Set<Turno> turnos = new HashSet<>();
 
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
+    private Set<Ticket> tickets = new HashSet<>();
+
     public Cliente() {
     }
 
@@ -95,4 +98,20 @@ public class Cliente {
 
     public Set<ClienteProducto> getClienteProducto() {return clienteProducto;}
     public void setClienteProducto(Set<ClienteProducto> clienteProducto) {this.clienteProducto = clienteProducto;}
+
+    public Set<Turno> getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(Set<Turno> turnos) {
+        this.turnos = turnos;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 }
