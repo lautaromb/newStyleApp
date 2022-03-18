@@ -14,7 +14,17 @@ const app = new Vue({
 		rolAdmin: false,
 
 		buscador: "",
-		cliente: ""
+		cliente: "",
+
+
+      payment:{
+		number: "",
+		cvv: 0,
+		amount: 0,
+		thruDate: "",
+		name: ""
+      }
+
 	},
 
 	created(){
@@ -33,6 +43,10 @@ const app = new Vue({
 			}
 		  });
 		},
+		paymentSetAmoun(){
+			this.payment.amount = this.total;
+		}
+
 	},
 
 	created: function(){
@@ -158,8 +172,22 @@ const app = new Vue({
 			  }
 			  
 			  axios.post("/api/compra", this.carrito)
-			  .then(response => console.log(response))
+			  .then(response => console.log(response),
+			  this.carrito = [])
+		  },
+
+		  comprarHomebanking(){
+
+			//this.payment.amount = this.total;
+
+			
+
+			axios.
+			post("https://mindhubhomebanking.herokuapp.com/api/payment", this.payment)
+			.then(response => console.log(response))
+			  
 		  }
+
 	},
    
 });
