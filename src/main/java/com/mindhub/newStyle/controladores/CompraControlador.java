@@ -43,6 +43,15 @@ public class CompraControlador {
         return comprasDTO;
     }
 
+    @GetMapping("/compras/{id}")
+    private Set<CompraDTO> comprasByClient(@PathVariable Long id, Authentication authentication){
+        Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
+        Set<CompraDTO> comprasDTO = new HashSet<>(repositorioCompra.findAll()).stream().map(CompraDTO::new).collect(Collectors.toSet());
+
+        return comprasDTO;
+    }
+
+
     @GetMapping("/ticket/{id}")
     private Ticket getTicketByClienteId(@PathVariable Long id, Authentication authentication){
         Cliente cliente = repositorioCliente.findByEmail(authentication.getName());

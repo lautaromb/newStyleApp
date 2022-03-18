@@ -137,7 +137,8 @@ const app = new Vue({
 			  }
 			  
 			  axios.post("/api/compra", this.carrito)
-			  .then(response => console.log(response))
+			  .then(response => console.log(response),
+			  this.carrito = [])
 		  }
 	},
    
