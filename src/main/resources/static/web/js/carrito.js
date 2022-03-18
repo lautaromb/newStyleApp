@@ -7,6 +7,7 @@ const app = new Vue({
     servicios: [],
     carrito: [],
     contador: 1,
+    rolCliente: false,
   },
   created: function () {
     this.loadDataProducto();
@@ -131,7 +132,7 @@ const app = new Vue({
 
         .then((response) => {
           console.log("signed in!!!");
-          return (window.location.href = "/web/html/index.html");
+          return (window.location.href = "/web/html/home.html");
         })
 
         .catch((e) => {

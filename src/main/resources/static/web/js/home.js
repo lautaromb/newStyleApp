@@ -4,7 +4,12 @@ var app = new Vue({
     email: "",
     password: "",
 
+    nombre: "",
+    apellido: "",
+
+    rolCliente: false,
     rolAdmin: false,
+    
     servicios:[],
     productos:[]
   },
@@ -18,9 +23,14 @@ var app = new Vue({
     cargarDatos(){
       axios.get('/api/cliente/current')
       .then(response =>{
+        this.nombre = response.data.primerNombre;
+        this.apellido = response.data.apellido;
         if(response.data.email.includes("@admin.com")){
           this.rolAdmin = true;
+        }
+        if(response.data.email.includes("@")){
           console.log(response.data.email)
+          this.rolCliente = true;
         }
       })
     },
@@ -53,7 +63,7 @@ var app = new Vue({
 
         .then((response) => {
           console.log("signed in!!!");
-          return (window.location.href = "/web/html/index.html");
+          return (window.location.href = "/web/html/home.html");
         })
 
         .catch((e) => {
