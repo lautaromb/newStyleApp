@@ -11,7 +11,16 @@ body {
   background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
 }
 
+.banner{
+  background-image: url(../assets/banner.gif);
+  height: 90vh;
+  background-repeat: no-repeat;
+  background-size: cover ;
+}
 
+[v-cloak]{
+  display: none;
+}
 
 
 /* NAV HAMBURGUESA */
@@ -248,7 +257,7 @@ input[type="checkbox"] {
 }
 
 /* LINK VOLVER AL INICIO */
-.link-inicio {
+.link-inicio, .div-link-servicio  {
   display: flex;
   justify-content: center;
   margin-bottom: 3rem;
@@ -261,6 +270,45 @@ input[type="checkbox"] {
   border-radius: 15px;
   text-decoration: none;
 }
+
+.textoBanner{
+  background-color: rgba(236, 176, 213, 0.514);
+  position: absolute;
+  bottom: 50%;
+  left: 58%;
+  border-radius: 30px;
+  width: 38%;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.div-link-servicio{
+  background: rgba(128, 128, 128, 0.377);
+  padding: 0.5rem;
+  border-radius: 15px;
+  text-decoration: none;
+  margin: 0 auto;
+  width: 65px;
+  z-index: 99;
+  position: absolute;
+  left: 50%;
+  bottom: 3%;  
+  padding: 1px !important;
+}
+
+.div-link-servicio:hover{
+  background: rgb(117, 117, 117);
+}
+.div-link-servicio a:hover{
+  color: white;
+  }
+
+/* .div-link-servicio{
+    background: grey;
+  padding: 0.5rem;
+  border-radius: 15px;
+  text-decoration: none;
+}  */
 
 .link-inicio a{
   color: white;
@@ -414,6 +462,13 @@ footer.p {
   background: white;
   margin-bottom: 60px;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 970px) {
+  .textoBanner{
+    display: none;
+  }
+
 }
 
 @media (max-width: 767px) {

@@ -23,7 +23,7 @@
     <div id="app">
 
         <header>
-            <nav>
+            <nav v-cloak>
                 <div class="logo">New Style</div>
                 <input type="checkbox" id="click">
                 <label for="click" class="menu-btn">
@@ -61,22 +61,23 @@
                     </form>
 
                     <hr>
-                    <!-- asdasds -->
-                    <div class="row">
-                        <div class="col-md-4 card-cortes cartas" v-for="(producto, index ) of filtrarObjetos">
-                            <div class="card" style="width: 18rem;">
-                                <img v-bind:src="producto.imagenProducto" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{producto.nombre}}</h5>
-                                    <p class="card-text">{{producto.descripcion}}</p>
+                    
+
+                    <div class="row" v-cloak>
+                        <div class="col-md-4 card-cortes cartas" v-for="(producto, index ) of filtrarObjetos" v-cloak>
+                            <div class="card" style="width: 18rem;" v-cloak>
+                                <img v-cloak v-bind:src="producto.imagenProducto" class="card-img-top" alt="...">
+                                <div class="card-body" v-cloak>
+                                    <h5 class="card-title" v-cloak>{{producto.nombre}}</h5>
+                                    <p class="card-text" v-cloak>{{producto.descripcion}}</p>
                                 </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item" style="color: green;">${{producto.precio}}</li>
+                                <ul class="list-group list-group-flush" v-cloak>
+                                    <li class="list-group-item" style="color: green;" v-cloak>${{producto.precio}}</li>
                                 </ul>
                                 <div class="card-body">
 
                                     <button class="card-link"
-                                        @click="agregarCarrito(index)">Agregar al carrito</button>
+                                        @click="agregarCarrito(index)" v-cloak>Agregar al carrito</button>
 
                                 </div>
                             </div>
@@ -155,7 +156,7 @@
                         </div>
 
                         <!-- Compra tarjeta -->
-                        <div style="background-color: rgba(220, 253, 253, 0.404);">
+                        <!-- <div style="background-color: rgba(220, 253, 253, 0.404);">
                             <form style="display: flex; flex-direction: column; align-items: center;">
                                 <div class="mb-3">
                                   <label for="titularTarjeta" class="form-label">Nombre titular tarjeta</label>
@@ -176,7 +177,7 @@
                                   </div>
                                 <button type="submit" class="btn btn-primary" @click="comprarHomebanking()">Submit</button>
                               </form>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>

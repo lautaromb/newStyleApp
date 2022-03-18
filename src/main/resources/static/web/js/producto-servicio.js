@@ -37,6 +37,10 @@ var app = new Vue({
                     })
 
                 })
+                setTimeout(() => {
+                    window.location.href = '/web/html/productos.html'
+                }, 2000);
+                
         },
         crearServicio() {
             axios.post('/api/servicio', `tipoServicio=${this.nombre}&valor=${this.valor}&imagenServicio=${this.imagen}&imagenCard=${this.imagenCard}&descripcion=${this.descripcion}`)
