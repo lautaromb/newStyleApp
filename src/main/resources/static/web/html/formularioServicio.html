@@ -18,6 +18,7 @@
         <header>
             <nav>
                 <div class="logo">New Style</div>
+                <div v-if="rolCliente" v-if="rolAdmin" class="logo">{{nombre}} {{apellido}}</div>
                 <input type="checkbox" id="click">
                 <label for="click" class="menu-btn">
                     <i class="fas fa-bars"></i>
@@ -30,7 +31,8 @@
                     </li>
                     <li v-show="rolAdmin"><a href="formularioProducto.html">Crear Producto</a></li>
                     <li><a href="contactanos.html">Contactanos</a></li>
-                    <li><a href="#" @click="cerrarSesion()">Salir</a></li>
+                    <li v-show="!rolCliente" v-show="!rolAdmin" ><a href="index.html">Iniciar Sesion</a></li>
+                    <li v-if="rolCliente" v-if="rolAdmin"><a href="home.html" @click="cerrarSesion()">Salir</a></li>
                     <box-icon name='cart' color='#ffffff'></box-icon>
                 </ul>
             </nav>

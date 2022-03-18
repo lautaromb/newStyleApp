@@ -8,11 +8,17 @@ var app = new Vue({
         fechaServicio: "",
         horaServicio: "",
 
+        nombre: "",
+        apellido: "",  
+
+        rolCliente: false,
         rolAdmin: false,
-		buscador: "",
+
+		    buscador: "",
     },
     created() {
         this.loadData();
+        this.cargarDatos();
     },
 
     computed: {
@@ -31,13 +37,19 @@ var app = new Vue({
 
     methods: {
         cargarDatos(){
-			axios.get('/api/cliente/current')
-			.then(response =>{
-			  if(response.data.email.includes("@admin.com")){
-				this.rolAdmin = true;
-			  }
-			})
-		  },
+			    axios.get('/api/cliente/current')
+			    .then(response =>{
+            this.nombre = response.data.primerNombre;
+        		this.apellido = response.data.apellido;
+			    if(response.data.email.includes("@admin.com")){
+				    this.rolAdmin = true;
+			    }
+          if(response.data.email.includes("@")){
+            console.log(response.data.email)
+            this.rolCliente = true;
+          }
+			    })
+		    },
           
         loadData: function() {
             axios.get("/api/servicio").then((response) => {
@@ -56,7 +68,7 @@ var app = new Vue({
 
             .then((response) => {
                 console.log("signed in!!!");
-                return (window.location.href = "/web/html/index.html");
+                return (window.location.href = "/web/html/home.html");
             })
 
             .catch((e) => {

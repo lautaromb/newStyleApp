@@ -6,10 +6,19 @@ const app = new Vue({
         productos:[],
 		carrito: [],
 		contador : 1,
+
+		nombre: "",
+    	apellido: "",
 		
+		rolCliente: false,
 		rolAdmin: false,
+
 		buscador: "",
 		cliente: ""
+	},
+
+	created(){
+		this.cargarDatos()
 	},
 
 	computed: {
@@ -48,9 +57,15 @@ const app = new Vue({
 		cargarDatos(){
 			axios.get('/api/cliente/current')
 			.then(response =>{
+				this.nombre = response.data.primerNombre;
+        		this.apellido = response.data.apellido;
 				this.cliente = response.data
 			  if(response.data.email.includes("@admin.com")){
 				this.rolAdmin = true;
+			  }
+			  if(response.data.email.includes("@")){
+				console.log(response.data.email)
+				this.rolCliente = true;
 			  }
 			})
 		},
@@ -123,7 +138,13 @@ const app = new Vue({
 	  
 			  .then((response) => {
 				console.log("signed in!!!");
-				return (window.location.href = "/web/html/index.html");
+				Swal.fire({
+					icon: 'success',
+					title: 'Correcto',
+					text: 'Se ha cerrado la sesion correctamente!!',
+					showConfirmButton: false,
+				})
+				return (window.location.href = "/web/html/home.html");
 			  })
 	  
 			  .catch((e) => {
