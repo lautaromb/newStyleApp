@@ -140,7 +140,7 @@
                                         <h4 class="m-0">Total</h4>
                                     </div>
                                     <div class="col-6 col-md-3 d-flex align-items-center">
-                                        <p class="m-0">${{total}}</p>
+                                        <p class="m-0" >${{total}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -153,8 +153,35 @@
                             <!-- <button type="button" class="btn btn-primary" @click="comprar()">Comprar</button> -->
                             <!-- <a type="button" class="btn btn-primary" href="formularioCompra.html">Comprar</a> -->
                         </div>
+
+                        <!-- Compra tarjeta -->
+                        <div style="background-color: rgba(220, 253, 253, 0.404);">
+                            <form style="display: flex; flex-direction: column; align-items: center;">
+                                <div class="mb-3">
+                                  <label for="titularTarjeta" class="form-label">Nombre titular tarjeta</label>
+                                  <input type="text" class="form-control" id="titularTarjeta" v-model="payment.name" aria-describedby="titularTarjeta">
+                                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numeroTarjeta" class="form-label">número tarjeta</label>
+                                    <input type="text" class="form-control" v-model="payment.number" id="numeroTarjeta">
+                                  </div>
+                                <div class="mb-3">
+                                  <label for="cvv" class="form-label">cvv</label>
+                                  <input type="number" class="form-control" v-model="payment.cvv" id="cvv">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fechaVencimiento" class="form-label">fecha vencimiento</label>
+                                    <input type="text" class="form-control" v-model="payment.thruDate" id="fechaVencimiento">
+                                  </div>
+                                <button type="submit" class="btn btn-primary" @click="comprarHomebanking()">Submit</button>
+                              </form>
+                        </div>
+
                     </div>
                 </div>
+
+                
             </div>
 
 
