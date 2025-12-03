@@ -47,63 +47,59 @@ public class CompraControlador {
     //comentario
 
     @PostMapping("/compra")
-    private ResponseEntity<Object> agregarCompraCarrito(Authentication authentication,
-                                                        @RequestBody Set<CarritoProductoDTO> carritoProductoDTOS,
-                                                        @RequestBody Set<CarritoServicioDTO> carritoServicioDTOS){
-
-        //
+    private ResponseEntity<Object> agregarCompraCarrito(
+            Authentication authentication,
+            @RequestBody Set<CarritoProductoDTO> carritoProductoDTOS) {
 
         Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
-//        Producto producto = repositorioProducto.findById(carritoClienteDTO.getIdProducto()).orElse(null);
 
-
-        if(carritoProductoDTOS.size() == 0 || carritoServicioDTOS.size() == 0){
-            return new ResponseEntity<>("No ha comprado ningun prodcuto ó servicio", HttpStatus.FORBIDDEN);
+        if(carritoProductoDTOS.isEmpty()){
+            return new ResponseEntity<>("No ha comprado ningún producto", HttpStatus.FORBIDDEN);
         }
 
+        // Validar que hay stock suficiente ANTES de comprar
+        for(CarritoProductoDTO item : carritoProductoDTOS){
+            Producto producto = repositorioProducto.findById(item.getIdProducto()).orElse(null);
+            if(producto == null){
+                return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
+            }
+            if(producto.getStock() < item.getCantidad()){
+                return new ResponseEntity<>("Stock insuficiente para: " + producto.getNombre(), HttpStatus.FORBIDDEN);
+            }
+        }
 
+        // Crear el ticket
+        Ticket ticket = new Ticket();
+        double totalTicket = 0;
 
-//        Set<Producto> productos = carritoProductoDTOS.stream().map()
+        // Procesar cada producto
+        for(CarritoProductoDTO item : carritoProductoDTOS){
+            Producto producto = repositorioProducto.findById(item.getIdProducto()).orElse(null);
 
-        Ticket ticketProducto = new Ticket();
-        carritoProductoDTOS.forEach(productoEnCarrito -> {
-            Producto productoIterado = repositorioProducto.findById(productoEnCarrito.getIdProducto()).orElse(null);
-            Compra compra = new Compra(cliente, productoEnCarrito.getNombre(), productoEnCarrito.getValor() * productoEnCarrito.getCantidad() , productoEnCarrito.getCantidad(), ticketProducto);
-            ClienteProducto clienteProducto = new ClienteProducto(cliente, productoIterado, compra);
+            // Crear la compra
+            Compra compra = new Compra(cliente, producto.getNombre(),
+                    producto.getValor() * item.getCantidad(),
+                    item.getCantidad(), ticket);
 
-            ticketProducto.setTotalCompraValor(compra.getTotalCompraProducto() + ticketProducto.getTotalCompraValor());
+            // Crear la relación cliente-producto
+            ClienteProducto clienteProducto = new ClienteProducto(cliente, producto, compra);
 
-            repositorioTicket.save(ticketProducto);
+            // DESCONTAR EL STOCK
+            producto.setStock(producto.getStock() - item.getCantidad());
+
+            // Sumar al total
+            totalTicket += compra.getTotalCompraProducto();
+
+            // Guardar todo
+            repositorioProducto.save(producto);
             repositorioCompra.save(compra);
             repositorioClienteProducto.save(clienteProducto);
-        });
+        }
 
+        ticket.setTotalCompraValor(totalTicket);
+        repositorioTicket.save(ticket);
 
-
-//        Ticket ticketServicio = new Ticket();
-//        carritoServicioDTOS.forEach(servicioEnCarrito -> {
-//            Servicio servicioIterado = repositorioServicio.findById(servicioEnCarrito.getIdProducto()).orElse(null);
-//            Compra compra = new Compra(cliente, servicioEnCarrito.getNombre(), servicioEnCarrito.getValor() * servicioEnCarrito.getCantidad(), servicioEnCarrito.getCantidad(), ticketServicio);
-//            ClienteServicio =
-//        });
-
-
-
-
-
-
-       // Compra compra = new Compra(cliente.getPrimerNombre() , cliente ,producto.getNombre(), producto.getValor() + producto_cantidad, producto_cantidad, ticket);
-       // ClienteProducto clienteProducto = new ClienteProducto(cliente, producto, compra);
-
-//        repositorioCompra.save(compra);
-//        repositorioTicket.save(ticket);
-       // repositorioClienteProducto.save(clienteProducto);
-
-
-        /*Que se genere el ticket cuando le dan a comprar*/
-
-        return new ResponseEntity<>("Se compro con exito", HttpStatus.CREATED);
-
+        return new ResponseEntity<>("Compra realizada con éxito", HttpStatus.CREATED);
     }
 
 
