@@ -70,15 +70,11 @@
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-envelope"></i>
-                                <!-- Formatea automáticamente a 11-1111-1111; valida solo al salir del campo o al enviar -->
-                                <input type="tel" placeholder="11-1111-1111" v-model="numeroTelefono" required
-                                       pattern="^\d{2}-\d{4}-\d{4}$" title="Formato requerido: 11-1111-1111"
-                                       inputmode="numeric" maxlength="12"
-                                       @input="formatPhone" @paste="handlePastePhone" @blur="validatePhoneOnBlur" />
+                                <!-- SIMPLE: solo 11 dígitos, sin guiones -->
+                                <input type="tel" placeholder="Ej: 11515151515" v-model="numeroTelefono" required
+                                       pattern="^\d{11}$" title="Ingresa 11 dígitos (ej. 11515151515)"
+                                       inputmode="numeric" maxlength="11" />
                                 <small class="muted"></small>
-                                <small class="error" v-if="!telefonoFormatoValido" style="color:#d33; display:block; margin-top:6px;">
-                                  Formato de teléfono incorrecto
-                                </small>
                             </div>
                             <div class="boton input-box">
                                 <input type="submit" value="Registrarte" @click.prevent="registrarse()">

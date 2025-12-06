@@ -66,6 +66,21 @@ public class CompraControlador {
                 return new ResponseEntity<>("Stock insuficiente para: " + producto.getNombre(), HttpStatus.FORBIDDEN);
             }
         }
+        // Calcular el total de la compra primero
+        double totalCompra = 0;
+        for(CarritoProductoDTO item : carritoProductoDTOS){
+            Producto producto = repositorioProducto.findById(item.getIdProducto()).orElse(null);
+            if(producto == null){
+                return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
+            }
+            totalCompra += producto.getValor() * item.getCantidad();
+        }
+
+        // Verificar si tiene saldo suficiente
+        if(cliente.getSaldo() < totalCompra){
+            return new ResponseEntity<>("Saldo insuficiente. Tu saldo: $" + cliente.getSaldo() +
+                    " - Total compra: $" + totalCompra, HttpStatus.FORBIDDEN);
+        }
 
         // Crear el ticket
         Ticket ticket = new Ticket();
@@ -98,6 +113,9 @@ public class CompraControlador {
 
         ticket.setTotalCompraValor(totalTicket);
         repositorioTicket.save(ticket);
+        // Descontar el saldo
+        cliente.setSaldo(cliente.getSaldo() - totalTicket);
+        repositorioCliente.save(cliente);
 
         return new ResponseEntity<>("Compra realizada con éxito", HttpStatus.CREATED);
     }
@@ -114,5 +132,7 @@ public class CompraControlador {
 
         return new ResponseEntity<>(comprasDTO, HttpStatus.OK);
     }
+
+
 
 }

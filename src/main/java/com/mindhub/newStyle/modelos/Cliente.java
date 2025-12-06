@@ -18,6 +18,7 @@ public class Cliente {
     private String email;
     private String password;
     private String numeroTel = null;
+    private double saldo = 0.0;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "negocio")
@@ -92,4 +93,8 @@ public class Cliente {
 
     public Set<ClienteProducto> getClienteProducto() {return clienteProducto;}
     public void setClienteProducto(Set<ClienteProducto> clienteProducto) {this.clienteProducto = clienteProducto;}
+
+    public double getSaldo() { return saldo;  }
+
+    public void setSaldo(double saldo) { this.saldo = saldo;  }
 }

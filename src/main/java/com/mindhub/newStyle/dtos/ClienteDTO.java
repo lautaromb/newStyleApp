@@ -12,6 +12,7 @@ public class ClienteDTO {
     private String password;
     private String numeroTel = null;
     private Negocio negocio;
+    private double saldo = 0.0;
 
     public ClienteDTO() {
     }
@@ -24,9 +25,8 @@ public class ClienteDTO {
         this.password = cliente.getPassword();
         this.numeroTel = cliente.getNumeroTel();
         this.negocio = cliente.getNegocio();
+        this.saldo = cliente.getSaldo();
     }
-
-    /*Este es un comentario 2*/
 
     public long getId() {
         return id;
@@ -73,4 +73,8 @@ public class ClienteDTO {
     public void setNegocio(Negocio negocio) {
         this.negocio = negocio;
     }
+
+    public double getSaldo() { return saldo; }
+
+    public void setSaldo(double saldo) { this.saldo = saldo; }
 }
