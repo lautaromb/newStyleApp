@@ -49,26 +49,39 @@
                         <div class="input-boxes">
                             <div class="input-box">
                                 <i class="fas fa-user"></i>
-                                <input type="text" placeholder="Nombre" v-model="primerNombre" required>
+                                <input type="text" placeholder="Nombre" v-model="primerNombre" required
+                                       pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]{2,}" title="Mínimo 2 letras, solo letras y espacios" maxlength="50">
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-user"></i>
-                                <input type="text" placeholder="Apellido" v-model="apellido" required>
+                                <input type="text" placeholder="Apellido" v-model="apellido" required
+                                       pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]{2,}" title="Mínimo 2 letras, solo letras y espacios" maxlength="50">
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-envelope"></i>
-                                <input type="text" placeholder="Correo Electrónico" v-model="email" required>
+                                <input type="email" placeholder="Correo Electrónico" v-model="email" required
+                                       title="Introduce un correo válido (ej. usuario@dominio.com)">
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" placeholder="Contraseña" v-model="password" required>
+                                <input type="password" placeholder="Contraseña" v-model="password" required
+                                       minlength="8" pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" 
+                                       title="Mínimo 8 caracteres, debe incluir letras y números">
                             </div>
                             <div class="input-box">
                                 <i class="fas fa-envelope"></i>
-                                <input type="password" placeholder="Número de teléfono" v-model="numeroTelefono" required>
+                                <!-- Formatea automáticamente a 11-1111-1111; valida solo al salir del campo o al enviar -->
+                                <input type="tel" placeholder="11-1111-1111" v-model="numeroTelefono" required
+                                       pattern="^\d{2}-\d{4}-\d{4}$" title="Formato requerido: 11-1111-1111"
+                                       inputmode="numeric" maxlength="12"
+                                       @input="formatPhone" @paste="handlePastePhone" @blur="validatePhoneOnBlur" />
+                                <small class="muted"></small>
+                                <small class="error" v-if="!telefonoFormatoValido" style="color:#d33; display:block; margin-top:6px;">
+                                  Formato de teléfono incorrecto
+                                </small>
                             </div>
                             <div class="boton input-box">
-                                <input type="submit" value="Registrarte" @click="registrarse()">
+                                <input type="submit" value="Registrarte" @click.prevent="registrarse()">
                             </div>
                             <div class="text texto-registrarse">¿Tienes una cuenta? <label for="flip">Entrar</label></div>
                         </div>

@@ -4,13 +4,16 @@ import com.mindhub.newStyle.modelos.Cliente;
 import com.mindhub.newStyle.modelos.ClienteProducto;
 import com.mindhub.newStyle.modelos.Compra;
 import com.mindhub.newStyle.modelos.Producto;
-
+import net.minidev.json.annotate.JsonIgnore;
 
 
 public class ClienteProductoDTO {
 
+    @JsonIgnore
     private Cliente cliente;
+    @JsonIgnore
     private Producto producto;
+    @JsonIgnore
     private Compra compra;
 
     public ClienteProductoDTO() {

@@ -30,30 +30,61 @@ public class ProductoControlador {
     return productoDTOS;
     }
 
-    //Fermin
-
     @PostMapping("/producto")
-    public ResponseEntity<Object> createService(@RequestParam String nombre, @RequestParam double valor,
-                                                @RequestParam String imagenProducto, @RequestParam String imagenCard,
-                                                @RequestParam int stock ,@RequestParam String descripcion){
-
+    public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productoDTO){
 
         Negocio negocio = repositorioNegocio.findByEmail("newStyle@gmail.com");
 
-        if (nombre.isEmpty() || valor <= 0 || imagenProducto.isEmpty() || imagenCard.isEmpty() || descripcion.isEmpty()) {
+        if (productoDTO.getNombre().isEmpty() || productoDTO.getPrecio() <= 0 ||
+                productoDTO.getImagenProducto().isEmpty() || productoDTO.getImagenCard().isEmpty() ||
+                productoDTO.getDescripcion().isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-
-        Producto producto = new Producto(nombre, valor, imagenProducto, imagenCard, stock,descripcion, negocio);
-
+        Producto producto = new Producto(productoDTO.getNombre(), productoDTO.getPrecio(),
+                productoDTO.getImagenProducto(), productoDTO.getImagenCard(),
+                productoDTO.getStock(), productoDTO.getDescripcion(), negocio);
 
         repositorioProducto.save(producto);
 
+        return new ResponseEntity<>("Producto creado", HttpStatus.CREATED);
+    }
 
+    @PutMapping("/producto/{id}")
+    public ResponseEntity<Object> editarProducto(@PathVariable Long id, @RequestBody ProductoDTO productoDTO){
 
-        return new ResponseEntity<>("Se creo con exito",HttpStatus.CREATED);
-    };
+        Producto producto = repositorioProducto.findById(id).orElse(null);
 
+        if(producto == null){
+            return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        producto.setNombre(productoDTO.getNombre());
+        producto.setValor(productoDTO.getPrecio());
+        producto.setImagenProducto(productoDTO.getImagenProducto());
+        producto.setImagenCard(productoDTO.getImagenCard());
+        producto.setStock(productoDTO.getStock());
+        producto.setDescripcion(productoDTO.getDescripcion());
+
+        repositorioProducto.save(producto);
+
+        return new ResponseEntity<>("Producto actualizado", HttpStatus.OK);
+    }
+
+    // Eliminar producto
+    @DeleteMapping("/producto/{id}")
+    public ResponseEntity<Object> eliminarProducto(@PathVariable Long id){
+
+        Producto producto = repositorioProducto.findById(id).orElse(null);
+
+        if(producto == null){
+            return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        producto.setActivo(false);
+        repositorioProducto.save(producto);
+
+        return new ResponseEntity<>("Producto eliminado", HttpStatus.OK);
+    }
 
 }

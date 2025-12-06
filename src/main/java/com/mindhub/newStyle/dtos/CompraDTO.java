@@ -13,9 +13,11 @@ public class CompraDTO {
     private double totalCompra;
     private String nombreProducto;
     private int stock;
+    @JsonIgnore
     private Cliente cliente;
+    @JsonIgnore
     private Set<ClienteProductoDTO> clienteProductoDTOS;
-    //private ClienteServicio clienteServicio;
+    @JsonIgnore
     private Ticket ticket;
 
 

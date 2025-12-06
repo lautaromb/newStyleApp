@@ -1,7 +1,6 @@
 package com.mindhub.newStyle.controladores;
 
 import com.mindhub.newStyle.dtos.CarritoProductoDTO;
-import com.mindhub.newStyle.dtos.CarritoServicioDTO;
 import com.mindhub.newStyle.dtos.CompraDTO;
 import com.mindhub.newStyle.modelos.*;
 import com.mindhub.newStyle.repositorios.*;
@@ -70,6 +69,7 @@ public class CompraControlador {
 
         // Crear el ticket
         Ticket ticket = new Ticket();
+        repositorioTicket.save(ticket);
         double totalTicket = 0;
 
         // Procesar cada producto
@@ -102,37 +102,17 @@ public class CompraControlador {
         return new ResponseEntity<>("Compra realizada con éxito", HttpStatus.CREATED);
     }
 
+    @GetMapping("/compras/historial")
+    public ResponseEntity<Object> verHistorial(Authentication authentication){
+        Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
 
+        Set<Compra> compras = repositorioCompra.findByCliente(cliente);
 
+        Set<CompraDTO> comprasDTO = compras.stream()
+                .map(CompraDTO::new)
+                .collect(Collectors.toSet());
 
-//    @PostMapping("/compra")
-//    private ResponseEntity<Object> agregarCompraCarrito(Authentication authentication,
-//                                                @RequestParam long producto_id, @RequestParam int producto_cantidad, @RequestParam long ticketOrdenCompra ){
-//
-//
-//        Cliente cliente = repositorioCliente.findByEmail(authentication.getName());
-//        Producto producto = repositorioProducto.findById(producto_id).orElse(null);
-//        Ticket ticket = repositorioTicket.findById(ticketOrdenCompra).orElse(null);
-//
-//        if(ticket == null){
-//            ticket = new Ticket();
-//        }
-//
-//
-//        Compra compra = new Compra(cliente.getPrimerNombre() , cliente ,producto.getNombre(), producto.getValor() + producto_cantidad, producto_cantidad, ticket);
-//        ClienteProducto clienteProducto = new ClienteProducto(cliente, producto, compra);
-//
-//        repositorioCompra.save(compra);
-//        repositorioTicket.save(ticket);
-//        repositorioClienteProducto.save(clienteProducto);
-//
-//
-//        /*Que se genere el ticket cuando le dan a comprar*/
-//
-//        return new ResponseEntity<>("Se creo con exito", HttpStatus.CREATED);
-//
-//    }
-
-
+        return new ResponseEntity<>(comprasDTO, HttpStatus.OK);
+    }
 
 }
