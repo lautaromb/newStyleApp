@@ -13,6 +13,16 @@ public class Ticket {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private double totalCompraValor;
+    private boolean entregado = false;
+
+
+    public boolean isEntregado() {
+        return entregado;
+    }
+
+    public void setEntregado(boolean entregado) {
+        this.entregado = entregado;
+    }
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.EAGER)
      Set<Compra> compras = new HashSet<>();
