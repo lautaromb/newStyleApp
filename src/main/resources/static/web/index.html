@@ -53,44 +53,28 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Axios -->
+    <!-- Dependencias -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    
-    <!-- SweetAlert2 -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    
-    <!-- Vue Router 3 (compatible con Vue 2) -->
-    <script src="https://unpkg.com/vue-router@3/dist/vue-router.js"></script>
-    
-    <!-- Imgur Upload (si lo usas) -->
-    <script src="js/imgur.js"></script>
-    <script src="js/upload.js"></script>
-    
-    <!-- COMPONENTES (cargar en orden) -->
-    <script src="js/components/Navbar.js"></script>
-    <script src="js/components/Footer.js"></script>
-    <script src="js/components/ProductCard.js"></script>
-    <script src="js/components/ServiceCard.js"></script>
-    
-    <!-- VISTAS (cargar en orden) -->
-    <script src="js/views/Login.js"></script>
-    <script src="js/views/Home.js"></script>
-    <script src="js/views/Productos.js"></script>
-    <script src="js/views/Servicios.js"></script>
-    <script src="js/views/Saldo.js"></script>
-    <script src="js/views/Informes.js"></script>
-    <script src="js/views/Despacho.js"></script>
-    <script src="js/views/FormularioProducto.js"></script>
-    <script src="js/views/FormularioServicio.js"></script>
-    
-    <!-- STORE Y ROUTER -->
-    <script src="js/store.js"></script>
-    <script src="js/router.js"></script>
-    
-    <!-- APP PRINCIPAL (debe ser el último) -->
-    <script src="js/app.js"></script>
+
+    <!-- Vue Router (IMPORTANTE: cargar antes de router.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3/dist/vue-router.min.js"></script>
+
+    <!-- Componentes -->
+    <script src="/web/js/components/navbar.js"></script>
+    <script src="/web/js/components/footer.js"></script>
+    <script src="/web/js/components/productcard.js"></script>
+
+    <!-- Vistas -->
+    <script src="/web/js/views/home.js"></script>
+    <script src="/web/js/views/login.js"></script>
+    <script src="/web/js/views/productos.js"></script>
+    <script src="/web/js/views/servicios.js"></script>
+    <script src="/web/js/views/saldo.js"></script>
+
+    <!-- store/router/app (router.js usa VueRouter, por eso va después de la librería) -->
+    <script src="/web/js/store.js"></script>
+    <script src="/web/js/router.js"></script>
+    <script src="/web/js/app.js"></script>
 </body>
 </html>

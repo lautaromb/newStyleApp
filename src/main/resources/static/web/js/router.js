@@ -1,64 +1,24 @@
 // router.js - Configuración de rutas
+const routes = [
+  { path: '/', component: window.HomeView || { template: '<div>Home</div>' } },
+  { path: '/login', component: window.LoginView || { template: '<div>Login</div>' }, meta: { guestOnly: true } },
+  { path: '/productos', component: window.ProductosView || { template: '<div>Productos</div>' } },
+  { path: '/servicios', component: window.ServiciosView || { template: '<div>Servicios</div>' } },
+  { path: '/saldo', component: window.SaldoView || { template: '<div>Saldo</div>' }, meta: { requiresAuth: true } },
+  { path: '/informes', component: window.InformesView || { template: '<div>Informes</div>' }, meta: { requiresAuth: true, requiresAdmin: true } },
+  { path: '/despacho', component: window.DespachoView || { template: '<div>Despacho</div>' }, meta: { requiresAuth: true, requiresAdmin: true } },
+  { path: '/formulario-producto', component: window.FormularioProductoView || { template: '<div>Formulario Producto</div>' }, meta: { requiresAuth: true, requiresAdmin: true } },
+  { path: '/formulario-servicio', component: window.FormularioServicioView || { template: '<div>Formulario Servicio</div>' }, meta: { requiresAuth: true, requiresAdmin: true } },
+  { path: '*', redirect: '/' } // Redirigir rutas no encontradas al home
+];
+
 const router = new VueRouter({
-    mode: 'hash', // Usa # en las URLs (más simple con Spring Boot)
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: HomeView
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: LoginView,
-            meta: { guestOnly: true } // Solo para no autenticados
-        },
-        {
-            path: '/productos',
-            name: 'productos',
-            component: ProductosView
-        },
-        {
-            path: '/servicios',
-            name: 'servicios',
-            component: ServiciosView
-        },
-        {
-            path: '/saldo',
-            name: 'saldo',
-            component: SaldoView,
-            meta: { requiresAuth: true }
-        },
-        {
-            path: '/informes',
-            name: 'informes',
-            component: InformesView,
-            meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-            path: '/despacho',
-            name: 'despacho',
-            component: DespachoView,
-            meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-            path: '/formulario-producto',
-            name: 'formulario-producto',
-            component: FormularioProductoView,
-            meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-            path: '/formulario-servicio',
-            name: 'formulario-servicio',
-            component: FormularioServicioView,
-            meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-            path: '*',
-            redirect: '/' // Redirigir rutas no encontradas al home
-        }
-    ]
+  mode: 'history',
+  routes
 });
+
+// Exponer globalmente para que app.js lo encuentre de forma fiable
+window.router = router;
 
 // Guard de navegación global
 router.beforeEach((to, from, next) => {
