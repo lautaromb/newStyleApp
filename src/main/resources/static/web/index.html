@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Style - Beauty Salon</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Tu CSS -->
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/formulario.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navbar Component -->
+        <navbar-component 
+            :usuario="usuario" 
+            :carrito-count="carrito.length"
+            @logout="cerrarSesion">
+        </navbar-component>
+        
+        <!-- Router View (aquí cambian las vistas) -->
+        <router-view 
+            :usuario="usuario"
+            :carrito="carrito"
+            @agregar-carrito="agregarAlCarrito"
+            @actualizar-carrito="actualizarCarrito">
+        </router-view>
+        
+        <!-- Footer Component -->
+        <footer-component></footer-component>
+        
+        <!-- Loading Spinner Global -->
+        <div v-if="loading" class="loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (necesario para Bootstrap modals) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Vue 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+    <!-- Vue Router 3 (compatible con Vue 2) -->
+    <script src="https://unpkg.com/vue-router@3/dist/vue-router.js"></script>
+    
+    <!-- Imgur Upload (si lo usas) -->
+    <script src="js/imgur.js"></script>
+    <script src="js/upload.js"></script>
+    
+    <!-- COMPONENTES (cargar en orden) -->
+    <script src="js/components/Navbar.js"></script>
+    <script src="js/components/Footer.js"></script>
+    <script src="js/components/ProductCard.js"></script>
+    <script src="js/components/ServiceCard.js"></script>
+    
+    <!-- VISTAS (cargar en orden) -->
+    <script src="js/views/Login.js"></script>
+    <script src="js/views/Home.js"></script>
+    <script src="js/views/Productos.js"></script>
+    <script src="js/views/Servicios.js"></script>
+    <script src="js/views/Saldo.js"></script>
+    <script src="js/views/Informes.js"></script>
+    <script src="js/views/Despacho.js"></script>
+    <script src="js/views/FormularioProducto.js"></script>
+    <script src="js/views/FormularioServicio.js"></script>
+    
+    <!-- STORE Y ROUTER -->
+    <script src="js/store.js"></script>
+    <script src="js/router.js"></script>
+    
+    <!-- APP PRINCIPAL (debe ser el último) -->
+    <script src="js/app.js"></script>
+</body>
+</html>

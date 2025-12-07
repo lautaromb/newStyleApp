@@ -20,57 +20,86 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/web/html/formularioProducto.html", "/web/html/formularioServicio.html").hasAuthority("ADMIN")
-                .antMatchers("/api/informes/**").hasAuthority("ADMIN")
-                .antMatchers("/api/despacho/**").hasAuthority("ADMIN")
-                .antMatchers("/api/informes/**").hasAuthority("ADMIN")
-                .antMatchers("/web/html/home.html","/web/html/index.html", "/web/html/productos.html", "/web/html/servicios.html").permitAll()
-                .antMatchers("/web/css/").permitAll()
-                .antMatchers("/web/js/").permitAll()
-                .antMatchers("/api/cliente/saldo/**").authenticated();
+                // ============ RECURSOS PÚBLICOS (CSS, JS, IMÁGENES) ============
+                .antMatchers("/web/css/**", "/web/js/**", "/web/assets/**").permitAll()
 
+                // ============ PÁGINAS PÚBLICAS ============
+                .antMatchers("/web/html/index.html",
+                        "/web/html/productos.html",
+                        "/web/html/servicios.html",
+                        "/web/html/home.html").permitAll()
 
-        //.antMatchers(HttpMethod.POST, "api/compras").hasAuthority("CLIENTE")
-//                .antMatchers("/web/manager.html").hasAuthority("ADMIN")
-//                .antMatchers("/web/accounts.html", "/web/account.html", "/web/cards.html", "/web/create-cards.html", "/web/transfers.html").hasAuthority("CLIENT")
-//                .antMatchers(HttpMethod.GET, "/api/clients").hasAuthority("ADMIN")
-//                .antMatchers("/web/js/**", "/web/styles/**").permitAll();
+                // ============ PÁGINAS SOLO PARA ADMIN ============
+                .antMatchers("/web/html/formularioProducto.html",
+                        "/web/html/formularioServicio.html",
+                        "/web/html/informes.html",
+                        "/web/html/despacho.html").hasAuthority("ADMIN")
 
+                // ============ PÁGINAS PARA USUARIOS AUTENTICADOS ============
+                .antMatchers("/web/html/saldo.html",
+                        "/web/html/contactanos.html").authenticated()
+
+                // ============ APIs SOLO PARA ADMIN ============
+                .antMatchers("/api/informes/**", "/api/despacho/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/producto", "/api/servicio").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/producto/**", "/api/servicio/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/producto/**", "/api/servicio/**").hasAuthority("ADMIN")
+
+                // ============ APIs PARA USUARIOS AUTENTICADOS ============
+                .antMatchers("/api/cliente/current").authenticated()
+                .antMatchers("/api/cliente/saldo/**").authenticated()
+                .antMatchers("/api/compra", "/api/compras/**").authenticated()
+
+                // ============ APIs PÚBLICAS ============
+                .antMatchers(HttpMethod.POST, "/api/clientes").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/producto", "/api/servicio").permitAll()
+
+                // ============ CUALQUIER OTRA PETICIÓN REQUIERE AUTENTICACIÓN ============
+                .anyRequest().authenticated();
+
+        // ============ CONFIGURACIÓN DE LOGIN ============
         http.formLogin()
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .loginPage("/api/login");
+                .loginPage("/api/login")
+                .permitAll();
 
-        http.logout().logoutUrl("/api/logout");
+        // ============ CONFIGURACIÓN DE LOGOUT ============
+        http.logout()
+                .logoutUrl("/api/logout")
+                .permitAll();
 
-
-        //desactiva el checkeo de CSRF tokens
+        // ============ DESACTIVAR CSRF (para desarrollo) ============
         http.csrf().disable();
 
-        // Desabilita frameOptions para que h2-console pueda ser accedida
+        // ============ DESACTIVAR FRAME OPTIONS (para h2-console) ============
         http.headers().frameOptions().disable();
 
-        //Si el usuario no esta autenticado, solo envia una respuesta de fallo
-        http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+        // ============ MANEJO DE ERRORES DE AUTENTICACIÓN ============
+        http.exceptionHandling()
+                .authenticationEntryPoint((req, res, exc) -> {
+                    String requestURI = req.getRequestURI();
 
-        //Si el login es exitoso, limpia las flags que piden autorización
+                    // Si está intentando acceder a una página HTML protegida, redirigir
+                    if (requestURI.contains("/web/html/") && !requestURI.contains("index.html")) {
+                        res.sendRedirect("/web/html/index.html");
+                    } else {
+                        // Para APIs, devolver 401
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    }
+                });
+
+        // ============ LIMPIEZA DESPUÉS DE LOGIN EXITOSO ============
         http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
 
-        //Si el login falla, solo envía la respuesta exitosa
+        // ============ RESPUESTA DESPUÉS DE LOGOUT ============
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-
-
     }
 
     private void clearAuthenticationAttributes(HttpServletRequest request) {
-
         HttpSession session = request.getSession(false);
-
         if (session != null) {
-
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-
         }
-
     }
 }
