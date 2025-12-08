@@ -7,26 +7,42 @@ var app = new Vue({
         password: '',
         numeroTelefono: '',
         isSubmitting: false,
-        // teléfono ahora simple: solo un string con hasta 11 dígitos
-        // no validaciones/flags extras en vivo
     },
 
+    created() {
+        // Si ya está logeado, redirigir a home
+        this.verificarSiYaEstaLogeado();
+    },
 
     methods: {
-      iniciarSesion() {
-        axios.post('/api/login', "email=" + this.email + "&password=" + this.password, { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
-            .then(response => { window.location.href = "/web/html/home.html" })
-            .catch(error => {
-
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Email o contraseña incorrecta. Vuelve a intentarlo.',
-                    icon: "error",
-                    showConfirmButton: false,
-                    timer: 2200,
+        verificarSiYaEstaLogeado() {
+            axios.get('/api/cliente/current')
+                .then(response => {
+                    // Ya está logeado, redirigir
+                    window.location.href = '/web/html/home.html';
                 })
-            })
-      },
+                .catch(error => {
+                    // No está logeado, quedarse en index
+                    console.log('Usuario no logeado, mostrando formulario');
+                });
+        },
+
+        iniciarSesion() {
+            axios.post('/api/login', "email=" + this.email + "&password=" + this.password, 
+                { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
+                .then(response => { 
+                    window.location.href = "/web/html/home.html" 
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Email o contraseña incorrecta. Vuelve a intentarlo.',
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 2200,
+                    })
+                })
+        },
 
       // Normaliza teléfono para envío: devuelve solo los dígitos (máx 11)
       normalizePhoneForSubmit() {
