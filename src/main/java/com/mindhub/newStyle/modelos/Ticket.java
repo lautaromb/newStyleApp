@@ -3,6 +3,7 @@ package com.mindhub.newStyle.modelos;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,10 @@ public class Ticket {
     private Long id;
     private double totalCompraValor;
     private boolean entregado = false;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+    private LocalDateTime fecha;
 
 
     public boolean isEntregado() {
@@ -34,6 +39,10 @@ public class Ticket {
         this.totalCompraValor = totalCompraValor;
     }
 
+    public Ticket(Cliente cliente) {
+        this.cliente = cliente;
+        this.fecha = LocalDateTime.now();
+    }
 
     public Long getId() {return id;}
 

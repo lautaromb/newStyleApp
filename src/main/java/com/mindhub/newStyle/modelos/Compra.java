@@ -3,6 +3,7 @@ package com.mindhub.newStyle.modelos;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,108 +14,73 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
-    private TypeCompra typeCompra;
-    private String nombreCliente;
-    private String nombreProducto;
-    private double totalCompraProducto;
-    private int stock;
 
+    private LocalDateTime fecha;
+
+    private double total;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "cliente_producto")
-//    private ClienteProducto clienteProducto;
-
-    @OneToMany(mappedBy = "compra", fetch = FetchType.EAGER)
-    private Set<ClienteProducto> clienteProductoSet = new HashSet<>();
-
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "cliente_servicio")
-//    private ClienteServicio clienteServicio;
+    @OneToMany(mappedBy = "compra", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<ClienteProducto> clienteProductos = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
-
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "producto_id")
-//    private Producto producto;
-
     public Compra() {
+        this.fecha = LocalDateTime.now();
     }
 
-    public Compra(Cliente cliente, String nombreProducto, double totalCompraProducto, int stock, Ticket ticket) {
+    public Compra(Cliente cliente) {
         this.cliente = cliente;
-        this.nombreProducto = nombreProducto;
-        this.totalCompraProducto = totalCompraProducto;
-        this.stock = stock;
-        this.ticket = ticket;
+        this.fecha = LocalDateTime.now();
     }
-
-
-//    public Compra(TypeCompra typeCompra, double totalCompra, ClienteServicio clienteServicio) {
-//        this.typeCompra = typeCompra;
-//        this.totalCompra = totalCompra;
-//        this.clienteServicio = clienteServicio;
-//    }
 
     public Long getId() {
         return id;
     }
 
 
-    public TypeCompra getTypeCompra() {
-        return typeCompra;
-    }
-    public void setTypeCompra(TypeCompra typeCompra) {
-        this.typeCompra = typeCompra;
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
-    public double getTotalCompraProducto() {
-        return totalCompraProducto;
+    public double getTotal() {
+        return total;
     }
-    public void setTotalCompraProducto(double totalCompraProducto) {
-        this.totalCompraProducto = totalCompraProducto;
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
-    public void setCliente(Cliente cliente) {this.cliente = cliente;}
 
-//    public ClienteServicio getClienteServicio() {return clienteServicio;}
-//    public void setClienteServicio(ClienteServicio clienteServicio) {this.clienteServicio = clienteServicio;}
-
-    public Set<ClienteProducto> getClienteProductoSet() {return clienteProductoSet;}
-    public void setClienteProductoSet(Set<ClienteProducto> clienteProductoSet) {this.clienteProductoSet = clienteProductoSet;}
-
-    public Ticket getTicket() {return ticket;}
-    public void setTicket(Ticket ticket) {this.ticket = ticket;}
-
-    public String getNombreProducto() {
-        return nombreProducto;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
+    public Set<ClienteProducto> getClienteProductos() {
+        return clienteProductos;
     }
 
-    public int getStock() {
-        return stock;
+    public void setClienteProductos(Set<ClienteProducto> clienteProductos) {
+        this.clienteProductos = clienteProductos;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }

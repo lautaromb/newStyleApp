@@ -3,119 +3,66 @@ package com.mindhub.newStyle.dtos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mindhub.newStyle.modelos.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CompraDTO {
+
     private Long id;
-    private TypeCompra typeCompra;
-    private String nombreCliente;
-    private double totalCompra;
-    private String nombreProducto;
-    private int stock;
-    @JsonIgnore
-    private Cliente cliente;
-    @JsonIgnore
-    private Set<ClienteProductoDTO> clienteProductoDTOS;
-    @JsonIgnore
-    private Ticket ticket;
-
-
-    public CompraDTO() {
-    }
+    private LocalDateTime fecha;
+    private double total;
+    private Set<ClienteProductoDTO> productos;
+    private TicketDTO ticket;
 
     public CompraDTO(Compra compra) {
         this.id = compra.getId();
-        this.nombreCliente = compra.getCliente().getPrimerNombre();
-        this.typeCompra = compra.getTypeCompra();
-        this.nombreProducto = compra.getNombreProducto();
-        this.stock = compra.getStock();
-        this.totalCompra = compra.getTotalCompraProducto();
-        this.clienteProductoDTOS = compra.getClienteProductoSet().stream().map(ClienteProductoDTO::new).collect(Collectors.toSet());
-        this.ticket = compra.getTicket();
+        this.fecha = compra.getFecha();
+        this.total = compra.getTotal();
+
+        this.productos = compra.getClienteProductos()
+                .stream()
+                .map(ClienteProductoDTO::new)
+                .collect(Collectors.toSet());
+
+        if (compra.getTicket() != null) {
+            this.ticket = new TicketDTO(compra.getTicket());
+        }
     }
 
     public Long getId() {
         return id;
     }
 
-
-    public TypeCompra getTypeCompra() {
-        return typeCompra;
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 
-    public void setTypeCompra(TypeCompra typeCompra) {
-        this.typeCompra = typeCompra;
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
-    @JsonIgnore
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public double getTotal() {
+        return total;
     }
 
-
-    public double getTotalCompra() {
-        return totalCompra;
-    }
-    public void setTotalCompra(double totalCompra) {
-        this.totalCompra = totalCompra;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
-    @JsonIgnore
-    public Cliente getCliente() {
-        return cliente;
-    }
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public Set<ClienteProductoDTO> getProductos() {
+        return productos;
     }
 
-
-
-    @JsonIgnore
-    public Set<ClienteProductoDTO> getClienteProductoDTOS() {
-        return clienteProductoDTOS;
+    public void setProductos(Set<ClienteProductoDTO> productos) {
+        this.productos = productos;
     }
 
-    public void setClienteProductoDTOS(Set<ClienteProductoDTO> clienteProductoDTOS) {
-        this.clienteProductoDTOS = clienteProductoDTOS;
-    }
-
-
-
-
-
-//    public ClienteServicio getClienteServicio() {
-//        return clienteServicio;
-//    }
-//
-//    public void setClienteServicio(ClienteServicio clienteServicio) {
-//        this.clienteServicio = clienteServicio;
-//    }
-
-    public Ticket getTicket() {
+    public TicketDTO getTicket() {
         return ticket;
     }
 
-    public void setTicket(Ticket ticket) {
+    public void setTicket(TicketDTO ticket) {
         this.ticket = ticket;
-    }
-
-    public String getNombreProducto() {
-        return nombreProducto;
-    }
-
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 }

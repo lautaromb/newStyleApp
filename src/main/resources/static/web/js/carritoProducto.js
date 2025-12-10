@@ -3,67 +3,70 @@ const app = new Vue({
     el: '#app',
     data: {
         total: null,
-        servicios: [],
+        productos: [],
         carrito: [],
         contador: 1
     },
     created: function () {
         this.loadData();
-        // Cargar carrito desde localStorage (KEY DIFERENTE para servicios)
-        let datosDB = JSON.parse(localStorage.getItem('carrito-servicios-vue'));
-        let datosDB2 = JSON.parse(localStorage.getItem('contador-servicios-vue'));
+        // Cargar carrito desde localStorage
+        let datosDB = JSON.parse(localStorage.getItem('carrito-productos-vue'));
+        let datosDB2 = JSON.parse(localStorage.getItem('contador-productos-vue'));
         if (datosDB === null) {
             this.carrito = [];
         } else {
             this.carrito = datosDB;
             contcarrito = datosDB2 || 0;
+            updateCartCount(this.carrito.length);
             this.calcular();
         }
     },
     methods: {
-        // Cargar servicios desde el backend
+        // Cargar productos desde el backend
         loadData: function () {
-            axios.get("/api/servicio")
+            axios.get("/api/producto")
                 .then((response) => {
-                    this.servicios = response.data || [];
+                    this.productos = response.data || [];
                 })
                 .catch((error) => {
-                    console.error("Error cargando servicios:", error);
-                    this.servicios = [];
+                    console.error("Error cargando productos:", error);
+                    this.productos = [];
                 });
         },
 
-        // Agregar servicio al carrito
+        // Agregar producto al carrito
         agregarCarrito: function (index) {
-            const servicio = this.servicios[index];
-            
+            const producto = this.productos[index];
+
             // Verificar si ya existe en el carrito
-            const indexEnCarrito = this.carrito.findIndex(item => item.id === servicio.id);
-            
+            const indexEnCarrito = this.carrito.findIndex(item => item.id === producto.id);
+
             if (indexEnCarrito !== -1) {
                 // Ya existe, incrementar cantidad
                 this.carrito[indexEnCarrito].cantidad++;
             } else {
                 // No existe, agregarlo con cantidad 1
                 const nuevoItem = {
-                    id: servicio.id,
-                    nombre: servicio.nombre,
-                    valor: servicio.valor,
-                    cantidad: 1
+                    id: producto.id,
+                    nombre: producto.nombre,
+                    precio: producto.precio,
+                    cantidad: 1,
+                    stock: producto.stock
                 };
                 this.carrito.push(nuevoItem);
                 contcarrito++;
+                updateCartCount(this.carrito.length);
             }
-            
+
             this.guardarLocal();
             this.calcular();
             this.$forceUpdate();
-            
+
             // 🎉 Feedback visual
             Swal.fire({
                 icon: 'success',
-                title: 'Servicio agregado',
-                text: servicio.nombre,
+                title: 'Producto agregado',
+                text: producto.nombre,
                 showConfirmButton: false,
                 timer: 1500,
                 toast: true,
@@ -71,11 +74,12 @@ const app = new Vue({
             });
         },
 
-        // Quitar servicio del carrito
+        // Quitar producto del carrito
         quitarProducto: function (index) {
             this.carrito.splice(index, 1);
             contcarrito = Math.max(0, contcarrito - 1);
             this.calcular();
+            updateCartCount(this.carrito.length);
             this.$forceUpdate();
             this.guardarLocal();
         },
@@ -85,17 +89,25 @@ const app = new Vue({
             var total = 0;
             for (var i = 0; i < this.carrito.length; i++) {
                 const cantidad = Number(this.carrito[i].cantidad) || 0;
-                const valor = Number(this.carrito[i].valor) || 0;
-                total += cantidad * valor;
+                const precio = Number(this.carrito[i].precio) || 0;
+                total += cantidad * precio;
             }
             this.total = total.toFixed(2);
             return this.total;
         },
+        actualizarCantidad(servicio) {
+            if (servicio.cantidad < 1) servicio.cantidad = 1;
+            if (servicio.cantidad > servicio.stock) servicio.cantidad = servicio.stock;
 
-        // Guardar carrito en localStorage (KEY DIFERENTE)
+            this.calcular();
+            updateCartCount(this.carrito.length);
+            localStorage.setItem('carrito-productos-vue', JSON.stringify(this.carrito));
+        },
+
+        // Guardar carrito en localStorage
         guardarLocal: function () {
-            localStorage.setItem('carrito-servicios-vue', JSON.stringify(this.carrito));
-            localStorage.setItem('contador-servicios-vue', JSON.stringify(contcarrito));
+            localStorage.setItem('carrito-productos-vue', JSON.stringify(this.carrito));
+            localStorage.setItem('contador-productos-vue', JSON.stringify(contcarrito));
         },
 
         // 🔐 GUEST CHECKOUT: Verificar autenticación antes de comprar
@@ -104,7 +116,7 @@ const app = new Vue({
                 Swal.fire({
                     icon: 'warning',
                     title: 'Carrito vacío',
-                    text: 'Agrega servicios antes de comprar.',
+                    text: 'Agrega productos antes de comprar.',
                     showConfirmButton: false,
                     timer: 1800
                 });
@@ -140,11 +152,25 @@ const app = new Vue({
 
         // 💳 Procesar la compra (solo si está autenticado)
         procesarCompra() {
+            // Validar stock antes de enviar
+            for (let item of this.carrito) {
+                const producto = this.productos.find(p => p.id === item.id);
+                if (producto && producto.stock < item.cantidad) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Stock insuficiente',
+                        text: `No hay suficiente stock de "${item.nombre}". Disponible: ${producto.stock}`,
+                        timer: 3000
+                    });
+                    return;
+                }
+            }
+
             // Formato esperado por el backend
             const carritoDTO = this.carrito.map(item => ({
                 idProducto: item.id,
                 nombre: item.nombre,
-                valor: item.valor,
+                valor: item.precio,
                 cantidad: item.cantidad
             }));
 
@@ -163,14 +189,21 @@ const app = new Vue({
                     // Limpiar carrito
                     this.carrito = [];
                     this.calcular();
-                    localStorage.removeItem('carrito-servicios-vue');
-                    localStorage.removeItem('contador-servicios-vue');
+                    localStorage.removeItem('carrito-productos-vue');
+                    localStorage.removeItem('contador-productos-vue');
                     contcarrito = 0;
-                    
-                    // Cerrar modal si está abierto
-                    $('#modal').modal('hide');
+                    updateCartCount(0);
 
-                    // Recargar servicios
+                    // $('#modal').modal('hide');
+
+                    const modalEl = document.getElementById('modal');
+                    const modalInstance =
+                        bootstrap.Modal.getInstance(modalEl) ||
+                        new bootstrap.Modal(modalEl);
+
+                    modalInstance.hide();
+
+                    // Recargar productos para actualizar stock
                     this.loadData();
                 })
                 .catch(err => {
@@ -185,5 +218,9 @@ const app = new Vue({
                     });
                 });
         }
-    }
+
+    },
+
 });
+
+window.vueApp = app;

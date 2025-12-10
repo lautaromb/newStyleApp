@@ -9,44 +9,53 @@ import net.minidev.json.annotate.JsonIgnore;
 
 public class ClienteProductoDTO {
 
-    @JsonIgnore
-    private Cliente cliente;
-    @JsonIgnore
-    private Producto producto;
-    @JsonIgnore
-    private Compra compra;
+    private Long id;
+    private String nombreProducto;
+    private int cantidad;
+    private double precioUnitario;
+    private double subtotal;
 
-    public ClienteProductoDTO() {
+    public ClienteProductoDTO(ClienteProducto cp) {
+        this.id = cp.getId();
+        this.nombreProducto = cp.getProducto().getNombre();
+        this.cantidad = cp.getCantidad();
+        this.precioUnitario = cp.getPrecioUnitario();
+        this.subtotal = cp.getSubtotal();
     }
 
-    public ClienteProductoDTO(ClienteProducto clienteProducto) {
-        this.cliente = clienteProducto.getCliente();
-        this.producto = clienteProducto.getProducto();
-        this.compra = clienteProducto.getCompra();
+    public double getSubtotal() {
+        return subtotal;
     }
 
-
-    public Cliente getCliente() {
-        return cliente;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public Compra getCompra() {
-        return compra;
+    public String getNombreProducto() {
+        return nombreProducto;
     }
 
-    public void setCompra(Compra compra) {
-        this.compra = compra;
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -21,13 +21,15 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 // ============ RECURSOS PÚBLICOS (CSS, JS, IMÁGENES) ============
-                .antMatchers("/web/css/**", "/web/js/**", "/web/assets/**").permitAll()
+                .antMatchers("/web/css/**", "/web/js/**", "/web/assets/**",
+                        "/web/components/**").permitAll()
 
-                // ============ PÁGINAS PÚBLICAS ============
+                // ============ PÁGINAS PÚBLICAS (GUEST CHECKOUT) ============
                 .antMatchers("/web/html/index.html",
+                        "/web/html/home.html",
                         "/web/html/productos.html",
                         "/web/html/servicios.html",
-                        "/web/html/home.html").permitAll()
+                        "/web/html/contacto.html").permitAll()
 
                 // ============ PÁGINAS SOLO PARA ADMIN ============
                 .antMatchers("/web/html/formularioProducto.html",
@@ -36,8 +38,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                         "/web/html/despacho.html").hasAuthority("ADMIN")
 
                 // ============ PÁGINAS PARA USUARIOS AUTENTICADOS ============
-                .antMatchers("/web/html/saldo.html",
-                        "/web/html/contactanos.html").authenticated()
+                .antMatchers("/web/html/saldo.html").authenticated()
 
                 // ============ APIs SOLO PARA ADMIN ============
                 .antMatchers("/api/informes/**", "/api/despacho/**").hasAuthority("ADMIN")
@@ -48,7 +49,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                 // ============ APIs PARA USUARIOS AUTENTICADOS ============
                 .antMatchers("/api/cliente/current").authenticated()
                 .antMatchers("/api/cliente/saldo/**").authenticated()
-                .antMatchers("/api/compra", "/api/compras/**").authenticated()
+                .antMatchers("/api/compra", "/api/compras/**").authenticated() // ⚠️ COMPRA REQUIERE LOGIN
 
                 // ============ APIs PÚBLICAS ============
                 .antMatchers(HttpMethod.POST, "/api/clientes").permitAll()
@@ -80,11 +81,15 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((req, res, exc) -> {
                     String requestURI = req.getRequestURI();
 
-                    // Si está intentando acceder a una página HTML protegida, redirigir
-                    if (requestURI.contains("/web/html/") && !requestURI.contains("index.html")) {
+                    // Si intenta acceder a una API protegida, devolver 401
+                    if (requestURI.startsWith("/api/")) {
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication required");
+                    }
+                    // Si intenta acceder a una página HTML protegida, redirigir
+                    else if (requestURI.contains("/web/html/") && !requestURI.contains("index.html")) {
                         res.sendRedirect("/web/html/index.html");
-                    } else {
-                        // Para APIs, devolver 401
+                    }
+                    else {
                         res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     }
                 });

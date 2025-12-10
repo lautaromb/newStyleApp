@@ -1,12 +1,10 @@
 package com.mindhub.newStyle.dtos;
 
 public class InformeProductoDTO {
+
     private String nombreProducto;
     private int cantidadVendida;
     private double totalRecaudado;
-
-    public InformeProductoDTO() {
-    }
 
     public InformeProductoDTO(String nombreProducto, int cantidadVendida, double totalRecaudado) {
         this.nombreProducto = nombreProducto;
@@ -16,10 +14,6 @@ public class InformeProductoDTO {
 
     public String getNombreProducto() {
         return nombreProducto;
-    }
-
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
     }
 
     public int getCantidadVendida() {

@@ -17,12 +17,11 @@
 <body>
     <!-- Navbar will be inserted here by navbar.js -->
     <script src="../components/navbar.js"></script>
-    
+
     <div id="app" style="margin-top: 80px;">
-        </header>
 
         <main>
-            
+
             <!-- CARDS PRODUCTOS -->
 
             <section style="margin-top: 1.5rem;">
@@ -37,8 +36,8 @@
 
 
                     <div class="row align-items-start">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg col-xl-3" style="display: flex; justify-content: center;"
-                            v-for="(producto, index) of productos">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg col-xl-3"
+                            style="display: flex; justify-content: center;" v-for="(producto, index) of productos">
                             <div class="card" style="width: 20rem; margin-bottom: 2rem;">
                                 <img src="https://i.imgur.com/FH8h7Un.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
@@ -49,8 +48,8 @@
                                     <li class="list-group-item" style="color: green;">${{producto.precio}}</li>
                                 </ul>
                                 <div class="card-body">
-                                    <button class="card-link" style="padding: 0.1rem;" @click="agregarCarrito(index)"
-                                        >Agregar al carrito</button>
+                                    <button class="card-link" style="padding: 0.1rem;"
+                                        @click="agregarCarrito(index)">Agregar al carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -71,9 +70,10 @@
                         </div>
                         <div class="modal-body">
                             <div class="container">
+
+                                <!-- Encabezado de columnas (solo desktop) -->
                                 <div class="row d-none d-md-flex">
-                                    <div class="col-1 col-md-1 text-center">
-                                    </div>
+                                    <div class="col-1 col-md-1 text-center"></div>
                                     <div class="col-12 col-md-4 text-center">
                                         <h4>Producto</h4>
                                     </div>
@@ -84,30 +84,52 @@
                                         <h4>Precio Unidad</h4>
                                     </div>
                                 </div>
+
+                                <!-- Productos en el carrito -->
                                 <div class="row align-items-baseline" v-for="(servicio, index) of carrito">
+
+                                    <!-- Botón eliminar (desktop) -->
                                     <div class="col-1 col-md-1 d-none d-md-flex justify-content-center">
                                         <button class="btn btn-danger" @click="quitarProducto(index)">X</button>
                                     </div>
+
+                                    <!-- Nombre del producto -->
                                     <div class="col-6 col-md-4 text-left text-md-center">
                                         <h4 class="d-flex d-md-none">Producto</h4>
                                         <p>{{servicio.nombre}}</p>
                                     </div>
+
+                                    <!-- CANTIDAD editable -->
                                     <div class="col-6 col-md-4 text-left text-md-center">
                                         <h4 class="d-flex d-md-none">Cantidad</h4>
-                                        <p>{{servicio.cantidad}}</p>
+
+                                        <select class="form-control cantidad-select" v-model="servicio.cantidad"
+                                            @change="actualizarCantidad(servicio)">
+                                            <option v-for="n in servicio.stock" :value="n">
+                                                {{ n }}
+                                            </option>
+                                        </select>
                                     </div>
+
+                                    <!-- Precio -->
                                     <div class="col-8 col-md-3 text-left text-md-center">
                                         <h4 class="d-flex d-md-none">Precio Unidad</h4>
                                         <p>${{servicio.precio}}</p>
                                     </div>
+
+                                    <!-- Botón eliminar (mobile) -->
                                     <div class="col-4 d-flex d-md-none justify-content-center">
                                         <button class="btn btn-danger" @click="quitarProducto(index)">X</button>
                                     </div>
+
                                     <div class="col-12 d-md-none">
                                         <hr>
                                     </div>
                                 </div>
+
                                 <hr class="d-none d-md-block">
+
+                                <!-- Total -->
                                 <div class="row" style="justify-content: center;">
                                     <div class="col-6 col-md-3 d-flex align-items-center">
                                         <h4 class="m-0">Total</h4>
@@ -116,12 +138,15 @@
                                         <p class="m-0">${{total}}</p>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <!-- Comprar: desactivado si carrito vacío -->
-                            <button type="button" class="btn btn-primary" :disabled="carrito.length === 0" @click="comprar()">
+                            <button type="button" class="btn btn-primary" :disabled="carrito.length === 0"
+                                @click="comprar()">
                                 Comprar
                             </button>
                         </div>
@@ -151,20 +176,26 @@
                         <p class="mb-3 metodos-redes" style="text-align: center;">Métodos De Pago</p>
                         <div class="metodosPago">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-credit-card" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-credit-card"
+                                width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <rect x="3" y="5" width="18" height="14" rx="3" />
                                 <line x1="3" y1="10" x2="21" y2="10" />
                                 <line x1="7" y1="15" x2="7.01" y2="15" />
                                 <line x1="11" y1="15" x2="13" y2="15" />
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cash" width="44"
+                                height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <rect x="7" y="9" width="14" height="10" rx="2" />
                                 <circle cx="14" cy="14" r="2" />
                                 <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2" />
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-paypal" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-paypal"
+                                width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path
                                     d="M10 13l2.5 0c2.5 0 5 -2.5 5 -5c0 -3 -1.9 -5 -5 -5h-5.5c-.5 0 -1 .5 -1 1l-2 14c0 .5 .5 1 1 1h2.8l1.2 -5c.1 -.6 .4 -1 1 -1zm7.5 -5.8c1.7 1 2.5 2.8 2.5 4.8c0 2.5 -2.5 4.5 -5 4.5h-2.6l-.6 3.6a1 1 0 0 1 -1 .8l-2.7 0a0.5 .5 0 0 1 -.5 -.6l.2 -1.4" />
@@ -177,7 +208,9 @@
                 <div class="datosFooter">
 
                     <div class="horario">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time"
+                            width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
                             <circle cx="18" cy="18" r="4" />
@@ -193,7 +226,9 @@
 
                     <div class="horario">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pin" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pin" width="44"
+                            height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4" />
                             <line x1="9" y1="15" x2="4.5" y2="19.5" />
@@ -205,7 +240,9 @@
                     </div>
 
                     <div class="horario">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44"
+                            height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <rect x="3" y="5" width="18" height="14" rx="2" />
                             <polyline points="3 7 12 13 21 7" />
@@ -224,7 +261,10 @@
                     <div class="d-flex redes-sociales">
                         <div class="me-2">
                             <a href="https://www.facebook.com/" target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path
                                         d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
@@ -267,16 +307,14 @@
         </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/carritoProducto.js"></script>
+
+
 </body>
 
 </html>

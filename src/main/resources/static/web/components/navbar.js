@@ -1,115 +1,192 @@
-// Navbar component
-document.addEventListener('DOMContentLoaded', function() {
-    // Create navbar HTML
-    const navbarHTML = `
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../js/auth-check.js"></script>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="index.html" class="navbar-logo">
-                <span>NewStyle</span>
-            </a>
-            <div class="menu-icon" onclick="toggleMenu()">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="servicios.html" class="nav-link">Servicios</a>
-                </li>
-                <li class="nav-item">
-                    <a href="productos.html" class="nav-link">Productos</a>
-                </li>
-                <li class="nav-item" id="adminLink1" style="display: none;">
-                    <a href="formularioServicio.html" class="nav-link">Crear Servicio</a>
-                </li>
-                <li class="nav-item" id="adminLink2" style="display: none;">
-                    <a href="formularioProducto.html" class="nav-link">Crear Producto</a>
-                </li>
-                <li class="nav-item" id="adminLink3" style="display: none;">
-                    <a href="informes.html" class="nav-link">Informes</a>
-                </li>
-                <li class="nav-item" id="adminLink4" style="display: none;">
-                    <a href="despacho.html" class="nav-link">Despacho</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contacto.html" class="nav-link">Contacto</a>
-                </li>
-                <li class="nav-item">
-                    <a href="login.html" class="nav-link login-btn" id="loginBtn">Iniciar Sesión</a>
-                </li>
-                <li class="nav-item" id="saldoLink" style="display: none;">
-                    <a href="saldo.html" class="nav-link">Mi Saldo</a>
-                </li>
-                <li class="nav-item" id="logoutBtn" style="display: none;">
-                    <a href="#" class="nav-link" onclick="logout()">Cerrar Sesión</a>
-                </li>
-            </ul>
-        </div>
-    </nav>`;
+/**
+ * Navbar Component - NewStyle
+ * Sistema de navegación + carrito conectado a Vue.
+ */
 
-    // Function to toggle mobile menu
-    window.toggleMenu = function() {
-        const navMenu = document.querySelector('.nav-menu');
-        navMenu.classList.toggle('active');
+(function () {
+    'use strict';
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    } else {
+        initNavbar();
+    }
+
+    function initNavbar() {
+        insertNavbarHTML();
+        setupMobileMenu();
+        setupCart();
+        checkAuthStatus();
+        highlightCurrentPage();
+    }
+
+    /**
+     * Inserta el navbar en el body
+     */
+    function insertNavbarHTML() {
+        const navbarHTML = `
+<header>
+    <nav>
+        <div class="logo">New Style</div>
+
+        <input type="checkbox" id="click">
+        <label for="click" class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </label>
+
+        <ul>
+            <!-- PÚBLICO -->
+            <li><a href="home.html" data-page="home">Inicio</a></li>
+            <li><a href="servicios.html" data-page="servicios">Servicios</a></li>
+            <li><a href="productos.html" data-page="productos">Productos</a></li>
+
+            <!-- ADMIN -->
+            <li class="admin-only" style="display:none;">
+                <a href="formularioProducto.html" data-page="formularioProducto">Crear Producto</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="gestionProductos.html" data-page="gestionProductos">Gestión Productos</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="gestionStock.html" data-page="gestionStock">Gestión Stock</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="informes.html" data-page="informes">Informes</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="despacho.html" data-page="despacho">Despacho</a>
+            </li>
+
+            <!-- AUTENTICADOS -->
+            <li class="auth-only" style="display:none;">
+                <a href="historialCompras.html" data-page="historialCompras">Mis Compras</a>
+            </li>
+            <li class="auth-only" style="display:none;">
+                <a href="saldo.html" data-page="saldo">Mi Saldo</a>
+            </li>
+            <li class="auth-only" style="display:none;">
+                <a href="#" id="logoutBtn">Salir</a>
+            </li>
+
+            <!-- VISITANTES -->
+            <li class="guest-only">
+                <a href="index.html">Iniciar Sesión</a>
+            </li>
+
+            <!-- CARRITO FUNCIONAL -->
+            <div id="carritoBox" style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                <box-icon name='cart' color='#ffffff' id="cartIcon"></box-icon>
+                <span id="cartCount" class="carrito" style="color:white; font-weight:bold;">0</span>
+            </div>
+
+        </ul>
+    </nav>
+</header>
+`;
+
+        document.body.insertAdjacentHTML('afterbegin', navbarHTML);
+    }
+
+    /**
+     * Menú hamburguesa
+     */
+    function setupMobileMenu() {
+        const menuButton = document.getElementById('click');
+        const ul = document.querySelector('nav ul');
+        if (!menuButton || !ul) return;
+
+        menuButton.addEventListener('change', () => {
+            ul.classList.toggle('active');
+        });
+    }
+
+    /**
+     * 🔥 Carrito: integración con Vue
+     */
+    function setupCart() {
+        const cartIcon = document.getElementById("cartIcon");
+        const cartBox = document.getElementById("carritoBox");
+
+        if (!cartIcon || !cartBox) return;
+
+        cartBox.addEventListener("click", () => {
+            // Ejecutar calcular() si Vue ya existe
+            if (window.vueApp && typeof window.vueApp.calcular === "function") {
+                window.vueApp.calcular();
+            }
+
+            // Abrir modal (Bootstrap 5)
+            const modal = document.getElementById("modal");
+            if (modal && bootstrap) {
+                const modalInstance = new bootstrap.Modal(modal);
+                modalInstance.show();
+            }
+        });
+    }
+
+    /** 
+     * 🔥 Función global para actualizar el contador 
+     * (Vue la llama cada vez que cambia el carrito)
+     */
+    window.updateCartCount = function (count) {
+        const cartCount = document.getElementById("cartCount");
+        if (cartCount) cartCount.textContent = count;
     };
 
-    // Function to check admin status
-    function checkAdminStatus() {
+    /**
+     * Estado del usuario
+     */
+    function checkAuthStatus() {
         const user = JSON.parse(localStorage.getItem('user'));
-        const adminLinks = document.querySelectorAll('[id^="adminLink"]');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const saldoLink = document.getElementById('saldoLink');
 
         if (user) {
-            // User is logged in
-            if (loginBtn) loginBtn.style.display = 'none';
-            if (logoutBtn) logoutBtn.style.display = 'block';
-            
-            // Show saldo link for all logged-in users
-            if (saldoLink) saldoLink.style.display = 'block';
-
-            // Check if user is admin
-            if (user.rol === 'admin') {
-                adminLinks.forEach(link => {
-                    link.style.display = 'block';
-                });
-            } else {
-                adminLinks.forEach(link => {
-                    link.style.display = 'none';
-                });
-            }
+            updateNavbarForUser(user);
         } else {
-            // User is not logged in
-            if (loginBtn) loginBtn.style.display = 'block';
-            if (logoutBtn) logoutBtn.style.display = 'none';
-            if (saldoLink) saldoLink.style.display = 'none';
-            adminLinks.forEach(link => {
-                link.style.display = 'none';
-            });
+            updateNavbarForGuest();
+        }
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', handleLogout);
         }
     }
 
-    // Logout function
-    window.logout = function() {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        window.location.href = 'index.html';
-    };
+    function updateNavbarForUser(user) {
+        document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'flex');
 
-    // Insert navbar at the beginning of the body
-    document.body.insertAdjacentHTML('afterbegin', navbarHTML);
-    
-    // Check admin status when page loads
-    checkAdminStatus();
-    
-    // Also check admin status when auth state changes
-    window.addEventListener('storage', function(event) {
-        if (event.key === 'user') {
-            checkAdminStatus();
+        if (user.rol === 'admin') {
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'flex');
         }
-    });
-});
+    }
+
+    function updateNavbarForGuest() {
+        document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'flex');
+        document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+    }
+
+    /**
+     * Resaltar página actual
+     */
+    function highlightCurrentPage() {
+        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+        const links = document.querySelectorAll('[data-page]');
+
+        links.forEach(link => {
+            if (link.getAttribute('data-page') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    /**
+     * Logout
+     */
+    function handleLogout(e) {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = 'index.html';
+    }
+
+})();
