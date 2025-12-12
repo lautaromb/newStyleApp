@@ -2,6 +2,7 @@ package com.mindhub.newStyle;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindhub.newStyle.dtos.CompraDTO;
 import com.mindhub.newStyle.dtos.InformeProductoDTO;
 import com.mindhub.newStyle.dtos.TicketDTO;
 import com.mindhub.newStyle.modelos.*;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -24,9 +26,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional // Rollback después de cada prueba
+@Transactional
 class ModuloSaldoTests {
 
     @Autowired
@@ -41,11 +44,8 @@ class ModuloSaldoTests {
     private Cliente clienteTest;
     private Cliente clienteDestino;
 
-    // ==================== SETUP ====================
-
     @BeforeEach
     void setUp() {
-        // Crear cliente de prueba si no existe
         clienteTest = repositorioCliente.findByEmail("test@test.com");
         if (clienteTest == null) {
             clienteTest = new Cliente("Test", "User", "test@test.com", "password123", "1234567890");
@@ -56,7 +56,6 @@ class ModuloSaldoTests {
             repositorioCliente.save(clienteTest);
         }
 
-        // Crear cliente destino para transferencias
         clienteDestino = repositorioCliente.findByEmail("destino@test.com");
         if (clienteDestino == null) {
             clienteDestino = new Cliente("Destino", "User", "destino@test.com", "password123", "0987654321");
@@ -67,8 +66,6 @@ class ModuloSaldoTests {
             repositorioCliente.save(clienteDestino);
         }
     }
-
-    // ==================== PRUEBAS UNITARIAS - MODELO ====================
 
     @Test
     void testClienteIniciaConSaldoCero() {
@@ -87,12 +84,8 @@ class ModuloSaldoTests {
     void testSaldoNoPuedeSerNegativo() {
         Cliente cliente = new Cliente("Test", "User", "test@test.com", "pass", "123");
         cliente.setSaldo(100.0);
-
-        // En producción, deberías validar esto en el controlador
         assertTrue(cliente.getSaldo() >= 0, "El saldo no debe ser negativo");
     }
-
-    // ==================== PRUEBAS DE INTEGRACIÓN - VER SALDO ====================
 
     @Test
     @WithMockUser(username = "test@test.com", authorities = {"CLIENTE"})
@@ -108,8 +101,6 @@ class ModuloSaldoTests {
                 .andExpect(status().isUnauthorized());
     }
 
-    // ==================== PRUEBAS DE INTEGRACIÓN - AGREGAR SALDO ====================
-
     @Test
     @WithMockUser(username = "test@test.com", authorities = {"CLIENTE"})
     void testAgregarSaldoExitoso() throws Exception {
@@ -118,7 +109,6 @@ class ModuloSaldoTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("7000")));
 
-        // Verificar en base de datos
         Cliente cliente = repositorioCliente.findByEmail("test@test.com");
         assertEquals(7000.0, cliente.getSaldo(), 0.01);
     }
@@ -141,8 +131,6 @@ class ModuloSaldoTests {
                 .andExpect(content().string(containsString("mayor a 0")));
     }
 
-    // ==================== PRUEBAS DE INTEGRACIÓN - REMOVER SALDO ====================
-
     @Test
     @WithMockUser(username = "test@test.com", authorities = {"CLIENTE"})
     void testRemoverSaldoExitoso() throws Exception {
@@ -151,7 +139,6 @@ class ModuloSaldoTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("3000")));
 
-        // Verificar en base de datos
         Cliente cliente = repositorioCliente.findByEmail("test@test.com");
         assertEquals(3000.0, cliente.getSaldo(), 0.01);
     }
@@ -174,8 +161,6 @@ class ModuloSaldoTests {
                 .andExpect(content().string(containsString("mayor a 0")));
     }
 
-    // ==================== PRUEBAS DE INTEGRACIÓN - TRANSFERIR ====================
-
     @Test
     @WithMockUser(username = "test@test.com", authorities = {"CLIENTE"})
     void testTransferirSaldoExitoso() throws Exception {
@@ -185,11 +170,9 @@ class ModuloSaldoTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Transferencia exitosa")));
 
-        // Verificar saldo origen
         Cliente origen = repositorioCliente.findByEmail("test@test.com");
         assertEquals(4000.0, origen.getSaldo(), 0.01);
 
-        // Verificar saldo destino
         Cliente destino = repositorioCliente.findByEmail("destino@test.com");
         assertEquals(2000.0, destino.getSaldo(), 0.01);
     }
@@ -234,38 +217,29 @@ class ModuloSaldoTests {
                 .andExpect(content().string(containsString("mayor a 0")));
     }
 
-    // ==================== PRUEBAS DE FLUJO COMPLETO ====================
-
     @Test
     @WithMockUser(username = "test@test.com", authorities = {"CLIENTE"})
     void testFlujoCompletoSaldo() throws Exception {
-        // 1. Ver saldo inicial
         mockMvc.perform(get("/api/cliente/saldo"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("5000.0"));
 
-        // 2. Agregar $3000
         mockMvc.perform(post("/api/cliente/saldo/agregar")
                         .param("monto", "3000"))
                 .andExpect(status().isOk());
 
-        // 3. Transferir $2000
         mockMvc.perform(post("/api/cliente/saldo/transferir")
                         .param("emailDestino", "destino@test.com")
                         .param("monto", "2000"))
                 .andExpect(status().isOk());
 
-        // 4. Remover $1000
         mockMvc.perform(post("/api/cliente/saldo/remover")
                         .param("monto", "1000"))
                 .andExpect(status().isOk());
 
-        // 5. Verificar saldo final: 5000 + 3000 - 2000 - 1000 = 5000
         Cliente cliente = repositorioCliente.findByEmail("test@test.com");
         assertEquals(5000.0, cliente.getSaldo(), 0.01);
     }
-
-    // ==================== PRUEBAS DE SERVICIO ====================
 
     @Test
     void testClienteServicioFindByEmail() {
@@ -286,6 +260,11 @@ class ModuloSaldoTests {
     }
 }
 
+// ==================== MÓDULO INFORMES ====================
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
 class ModuloInformesTests {
 
     @Autowired
@@ -307,6 +286,9 @@ class ModuloInformesTests {
     private RepositorioNegocio repositorioNegocio;
 
     @Autowired
+    private RepositorioClienteProducto repositorioClienteProducto;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private Cliente clienteTest;
@@ -314,18 +296,14 @@ class ModuloInformesTests {
     private Producto producto2;
     private Negocio negocio;
 
-    // ==================== SETUP ====================
-
     @BeforeEach
     void setUp() {
-        // Crear negocio si no existe
         negocio = repositorioNegocio.findByEmail("newStyle@gmail.com");
         if (negocio == null) {
             negocio = new Negocio("New Style", "newStyle@gmail.com", "Av. Test 123");
             repositorioNegocio.save(negocio);
         }
 
-        // Crear cliente de prueba
         clienteTest = repositorioCliente.findByEmail("test@test.com");
         if (clienteTest == null) {
             clienteTest = new Cliente("Test", "User", "test@test.com", "password123", "1234567890");
@@ -333,14 +311,39 @@ class ModuloInformesTests {
             repositorioCliente.save(clienteTest);
         }
 
-        // Crear productos de prueba
         producto1 = new Producto("Producto Test 1", 500.0, "url1", "url1", 100, "Descripción 1", negocio);
         producto2 = new Producto("Producto Test 2", 300.0, "url2", "url2", 100, "Descripción 2", negocio);
         repositorioProducto.save(producto1);
         repositorioProducto.save(producto2);
     }
 
-    // ==================== PRUEBAS DE SEGURIDAD ====================
+    /**
+     * Método helper para crear una compra completa con productos
+     */
+    private Compra crearCompraConProducto(String nombreProducto, double total, int cantidad, Producto producto) {
+        Ticket ticket = new Ticket(clienteTest);
+        ticket.setTotalCompraValor(total);
+        repositorioTicket.save(ticket);
+
+        Compra compra = new Compra();
+        compra.setCliente(clienteTest);
+        compra.setFecha(LocalDateTime.now());
+        compra.setTicket(ticket);
+        compra.setTotal(total);
+        repositorioCompra.save(compra);
+
+        ClienteProducto cp = new ClienteProducto();
+        cp.setCompra(compra);
+        cp.setProducto(producto);
+        cp.setCantidad(cantidad);
+        cp.setPrecioUnitario(producto.getValor());
+        repositorioClienteProducto.save(cp);
+
+        compra.getClienteProductos().add(cp);
+        repositorioCompra.save(compra);
+
+        return compra;
+    }
 
     @Test
     void testInformesSinAutenticacion() throws Exception {
@@ -356,16 +359,14 @@ class ModuloInformesTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformesConRolAdmin() throws Exception {
         mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk());
     }
 
-    // ==================== PRUEBAS DE FUNCIONALIDAD ====================
-
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeSinCompras() throws Exception {
         mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
@@ -373,106 +374,74 @@ class ModuloInformesTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeConUnaCompra() throws Exception {
-        // Crear una compra
-        Ticket ticket = new Ticket(1500.0);
-        repositorioTicket.save(ticket);
+        crearCompraConProducto("Producto Test 1", 1500.0, 3, producto1);
 
-        Compra compra = new Compra(clienteTest, "Producto Test 1", 1500.0, 3, ticket);
-        repositorioCompra.save(compra);
-
-        // Verificar informe
-        MvcResult result = mockMvc.perform(get("/api/informes/productos"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].nombreProducto").value("Producto Test 1"))
-                .andExpect(jsonPath("$[0].cantidadVendida").value(3))
-                .andExpect(jsonPath("$[0].totalRecaudado").value(1500.0))
-                .andReturn();
-    }
-
-    @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
-    void testInformeConVariasComprasMismoProducto() throws Exception {
-        // Crear varias compras del mismo producto
-        Ticket ticket1 = new Ticket(1000.0);
-        Ticket ticket2 = new Ticket(1500.0);
-        repositorioTicket.save(ticket1);
-        repositorioTicket.save(ticket2);
-
-        Compra compra1 = new Compra(clienteTest, "Producto Test 1", 1000.0, 2, ticket1);
-        Compra compra2 = new Compra(clienteTest, "Producto Test 1", 1500.0, 3, ticket2);
-        repositorioCompra.save(compra1);
-        repositorioCompra.save(compra2);
-
-        // Verificar que suma correctamente
         mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].nombreProducto").value("Producto Test 1"))
-                .andExpect(jsonPath("$[0].cantidadVendida").value(5)) // 2 + 3 = 5
-                .andExpect(jsonPath("$[0].totalRecaudado").value(2500.0)); // 1000 + 1500 = 2500
+                .andExpect(jsonPath("$[0].cantidadVendida").value(3))
+                .andExpect(jsonPath("$[0].totalRecaudado").value(1500.0));
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
+    void testInformeConVariasComprasMismoProducto() throws Exception {
+        crearCompraConProducto("Producto Test 1", 1000.0, 2, producto1);
+        crearCompraConProducto("Producto Test 1", 1500.0, 3, producto1);
+
+        mockMvc.perform(get("/api/informes/productos"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].nombreProducto").value("Producto Test 1"))
+                .andExpect(jsonPath("$[0].cantidadVendida").value(5))
+                .andExpect(jsonPath("$[0].totalRecaudado").value(2500.0));
+    }
+
+    @Test
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeConMultiplesProductos() throws Exception {
-        // Crear compras de diferentes productos
-        Ticket ticket1 = new Ticket(1500.0);
-        Ticket ticket2 = new Ticket(900.0);
-        repositorioTicket.save(ticket1);
-        repositorioTicket.save(ticket2);
+        crearCompraConProducto("Producto Test 1", 1500.0, 3, producto1);
+        crearCompraConProducto("Producto Test 2", 900.0, 3, producto2);
 
-        Compra compra1 = new Compra(clienteTest, "Producto Test 1", 1500.0, 3, ticket1);
-        Compra compra2 = new Compra(clienteTest, "Producto Test 2", 900.0, 3, ticket2);
-        repositorioCompra.save(compra1);
-        repositorioCompra.save(compra2);
-
-        // Verificar informe con múltiples productos
         MvcResult result = mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andReturn();
 
-        // Parsear respuesta
         String json = result.getResponse().getContentAsString();
-        List<InformeProductoDTO> informes = objectMapper.readValue(json, new TypeReference<List<InformeProductoDTO>>(){});
+        List<InformeProductoDTO> informes = objectMapper.readValue(json, new TypeReference<List<InformeProductoDTO>>() {
+        });
 
-        // Verificar que contiene ambos productos
         assertTrue(informes.stream().anyMatch(i -> i.getNombreProducto().equals("Producto Test 1")));
         assertTrue(informes.stream().anyMatch(i -> i.getNombreProducto().equals("Producto Test 2")));
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeOrdenadoPorRecaudacion() throws Exception {
-        // Crear compras con diferentes recaudaciones
-        Ticket ticket1 = new Ticket(3000.0);
-        Ticket ticket2 = new Ticket(1500.0);
-        Ticket ticket3 = new Ticket(2000.0);
-        repositorioTicket.save(ticket1);
-        repositorioTicket.save(ticket2);
-        repositorioTicket.save(ticket3);
+        Producto productoA = new Producto("Producto A", 500.0, "url", "url", 100, "Desc", negocio);
+        Producto productoB = new Producto("Producto B", 300.0, "url", "url", 100, "Desc", negocio);
+        Producto productoC = new Producto("Producto C", 500.0, "url", "url", 100, "Desc", negocio);
+        repositorioProducto.save(productoA);
+        repositorioProducto.save(productoB);
+        repositorioProducto.save(productoC);
 
-        Compra compra1 = new Compra(clienteTest, "Producto A", 3000.0, 6, ticket1); // Mayor recaudación
-        Compra compra2 = new Compra(clienteTest, "Producto B", 1500.0, 5, ticket2); // Menor recaudación
-        Compra compra3 = new Compra(clienteTest, "Producto C", 2000.0, 4, ticket3); // Recaudación media
+        crearCompraConProducto("Producto A", 3000.0, 6, productoA);
+        crearCompraConProducto("Producto B", 1500.0, 5, productoB);
+        crearCompraConProducto("Producto C", 2000.0, 4, productoC);
 
-        repositorioCompra.save(compra1);
-        repositorioCompra.save(compra2);
-        repositorioCompra.save(compra3);
-
-        // Verificar ordenamiento
         MvcResult result = mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        List<InformeProductoDTO> informes = objectMapper.readValue(json, new TypeReference<List<InformeProductoDTO>>(){});
+        List<InformeProductoDTO> informes = objectMapper.readValue(json, new TypeReference<List<InformeProductoDTO>>() {
+        });
 
-        // Verificar orden: Producto A (3000) > Producto C (2000) > Producto B (1500)
         assertEquals("Producto A", informes.get(0).getNombreProducto());
         assertEquals(3000.0, informes.get(0).getTotalRecaudado(), 0.01);
 
@@ -484,45 +453,29 @@ class ModuloInformesTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeCalculosCorrectos() throws Exception {
-        // Crear escenario complejo: múltiples compras de múltiples productos
-        Ticket ticket1 = new Ticket();
-        Ticket ticket2 = new Ticket();
-        Ticket ticket3 = new Ticket();
-        repositorioTicket.save(ticket1);
-        repositorioTicket.save(ticket2);
-        repositorioTicket.save(ticket3);
-
-        // Producto Test 1: 2 compras
-        Compra compra1 = new Compra(clienteTest, "Producto Test 1", 1000.0, 2, ticket1);
-        Compra compra2 = new Compra(clienteTest, "Producto Test 1", 2500.0, 5, ticket2);
-
-        // Producto Test 2: 1 compra
-        Compra compra3 = new Compra(clienteTest, "Producto Test 2", 900.0, 3, ticket3);
-
-        repositorioCompra.save(compra1);
-        repositorioCompra.save(compra2);
-        repositorioCompra.save(compra3);
+        crearCompraConProducto("Producto Test 1", 1000.0, 2, producto1);
+        crearCompraConProducto("Producto Test 1", 2500.0, 5, producto1);
+        crearCompraConProducto("Producto Test 2", 900.0, 3, producto2);
 
         MvcResult result = mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        List<InformeProductoDTO> informes = objectMapper.readValue(json, new TypeReference<List<InformeProductoDTO>>(){});
+        List<InformeProductoDTO> informes = objectMapper.readValue(json, new TypeReference<List<InformeProductoDTO>>() {
+        });
 
-        // Verificar Producto Test 1
         InformeProductoDTO informe1 = informes.stream()
                 .filter(i -> i.getNombreProducto().equals("Producto Test 1"))
                 .findFirst()
                 .orElse(null);
 
         assertNotNull(informe1);
-        assertEquals(7, informe1.getCantidadVendida()); // 2 + 5 = 7
-        assertEquals(3500.0, informe1.getTotalRecaudado(), 0.01); // 1000 + 2500 = 3500
+        assertEquals(7, informe1.getCantidadVendida());
+        assertEquals(3500.0, informe1.getTotalRecaudado(), 0.01);
 
-        // Verificar Producto Test 2
         InformeProductoDTO informe2 = informes.stream()
                 .filter(i -> i.getNombreProducto().equals("Producto Test 2"))
                 .findFirst()
@@ -534,14 +487,9 @@ class ModuloInformesTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeCantidadesGrandes() throws Exception {
-        // Probar con cantidades grandes
-        Ticket ticket = new Ticket(50000.0);
-        repositorioTicket.save(ticket);
-
-        Compra compra = new Compra(clienteTest, "Producto Test 1", 50000.0, 100, ticket);
-        repositorioCompra.save(compra);
+        crearCompraConProducto("Producto Test 1", 50000.0, 100, producto1);
 
         mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
@@ -549,16 +497,10 @@ class ModuloInformesTests {
                 .andExpect(jsonPath("$[0].totalRecaudado").value(50000.0));
     }
 
-    // ==================== PRUEBAS DE INTEGRACIÓN ====================
-
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testInformeFormatoJSON() throws Exception {
-        Ticket ticket = new Ticket(500.0);
-        repositorioTicket.save(ticket);
-
-        Compra compra = new Compra(clienteTest, "Test Producto", 500.0, 1, ticket);
-        repositorioCompra.save(compra);
+        crearCompraConProducto("Test Producto", 500.0, 1, producto1);
 
         mockMvc.perform(get("/api/informes/productos"))
                 .andExpect(status().isOk())
@@ -594,45 +536,80 @@ class ModuloDespachoTests {
     private RepositorioNegocio repositorioNegocio;
 
     @Autowired
+    private RepositorioClienteProducto repositorioClienteProducto;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     private Cliente clienteTest;
     private Ticket ticketEntregado;
     private Ticket ticketNoEntregado;
     private Negocio negocio;
+    private Producto producto;
 
     // ==================== SETUP ====================
 
     @BeforeEach
     void setUp() {
-        // Crear negocio si no existe
         negocio = repositorioNegocio.findByEmail("newStyle@gmail.com");
         if (negocio == null) {
             negocio = new Negocio("New Style", "newStyle@gmail.com", "Av. Test 123");
             repositorioNegocio.save(negocio);
         }
 
-        // Crear cliente de prueba
         clienteTest = repositorioCliente.findByEmail("test@test.com");
         if (clienteTest == null) {
             clienteTest = new Cliente("Test", "User", "test@test.com", "password123", "1234567890");
             repositorioCliente.save(clienteTest);
         }
 
-        // Crear ticket NO entregado
-        ticketNoEntregado = new Ticket(1500.0);
+        producto = new Producto("Producto Test", 500.0, "url", "url", 100, "Desc", negocio);
+        repositorioProducto.save(producto);
+
+        // Ticket NO entregado
+        ticketNoEntregado = new Ticket(clienteTest);
         ticketNoEntregado.setEntregado(false);
+        ticketNoEntregado.setTotalCompraValor(1500.0);
         repositorioTicket.save(ticketNoEntregado);
 
-        Compra compra1 = new Compra(clienteTest, "Producto Test 1", 1500.0, 3, ticketNoEntregado);
+        Compra compra1 = new Compra();
+        compra1.setCliente(clienteTest);
+        compra1.setFecha(LocalDateTime.now());
+        compra1.setTicket(ticketNoEntregado);
+        compra1.setTotal(1500.0);
         repositorioCompra.save(compra1);
 
-        // Crear ticket entregado
-        ticketEntregado = new Ticket(2000.0);
+        ClienteProducto cp1 = new ClienteProducto();
+        cp1.setCompra(compra1);
+        cp1.setProducto(producto);
+        cp1.setCantidad(3);
+        cp1.setPrecioUnitario(500.0);
+        repositorioClienteProducto.save(cp1);
+
+        compra1.getClienteProductos().add(cp1);
+        repositorioCompra.save(compra1);
+
+        // Ticket entregado
+        ticketEntregado = new Ticket(clienteTest);
         ticketEntregado.setEntregado(true);
+        ticketEntregado.setTotalCompraValor(2000.0);
         repositorioTicket.save(ticketEntregado);
 
-        Compra compra2 = new Compra(clienteTest, "Producto Test 2", 2000.0, 4, ticketEntregado);
+        Compra compra2 = new Compra();
+        compra2.setCliente(clienteTest);
+        compra2.setFecha(LocalDateTime.now());
+        compra2.setTicket(ticketEntregado);
+        compra2.setTotal(2000.0);
+        repositorioCompra.save(compra2);
+
+        ClienteProducto cp2 = new ClienteProducto();
+        cp2.setCompra(compra2);
+        cp2.setProducto(producto);
+        cp2.setCantidad(4);
+        cp2.setPrecioUnitario(500.0);
+        repositorioClienteProducto.save(cp2);
+
+        compra2.getClienteProductos().add(cp2);
         repositorioCompra.save(compra2);
     }
 
@@ -652,7 +629,7 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testDespachoConRolAdmin() throws Exception {
         mockMvc.perform(get("/api/despacho/ventas"))
                 .andExpect(status().isOk());
@@ -661,7 +638,7 @@ class ModuloDespachoTests {
     // ==================== PRUEBAS DE LISTADO ====================
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testObtenerTodasLasVentas() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/despacho/ventas"))
                 .andExpect(status().isOk())
@@ -669,46 +646,41 @@ class ModuloDespachoTests {
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        List<TicketDTO> tickets = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> tickets = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {});
 
         assertTrue(tickets.size() >= 2, "Debe haber al menos 2 tickets");
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testFiltrarVentasNoEntregadas() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/despacho/ventas?entregado=false"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        List<TicketDTO> tickets = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> tickets = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {});
 
-        // Verificar que todos son NO entregados
         assertTrue(tickets.stream().allMatch(t -> !t.isEntregado()),
                 "Todos los tickets deben estar NO entregados");
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testFiltrarVentasEntregadas() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/despacho/ventas?entregado=true"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        List<TicketDTO> tickets = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> tickets = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {});
 
-        // Verificar que todos son entregados
         assertTrue(tickets.stream().allMatch(TicketDTO::isEntregado),
                 "Todos los tickets deben estar entregados");
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testListadoVentasContieneInformacionCompleta() throws Exception {
         mockMvc.perform(get("/api/despacho/ventas"))
                 .andExpect(status().isOk())
@@ -721,7 +693,7 @@ class ModuloDespachoTests {
     // ==================== PRUEBAS DE DETALLE ====================
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testObtenerDetalleVentaExistente() throws Exception {
         mockMvc.perform(get("/api/despacho/ventas/" + ticketNoEntregado.getId()))
                 .andExpect(status().isOk())
@@ -732,7 +704,7 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testObtenerDetalleVentaInexistente() throws Exception {
         mockMvc.perform(get("/api/despacho/ventas/99999"))
                 .andExpect(status().isNotFound())
@@ -740,7 +712,7 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testDetalleVentaIncluyeCompras() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/despacho/ventas/" + ticketNoEntregado.getId()))
                 .andExpect(status().isOk())
@@ -756,20 +728,19 @@ class ModuloDespachoTests {
     // ==================== PRUEBAS DE MARCAR COMO ENTREGADO ====================
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testMarcarComoEntregadoExitoso() throws Exception {
         mockMvc.perform(patch("/api/despacho/ventas/" + ticketNoEntregado.getId() + "/entregar"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("entregada")));
 
-        // Verificar en base de datos
         Ticket ticket = repositorioTicket.findById(ticketNoEntregado.getId()).orElse(null);
         assertNotNull(ticket);
         assertTrue(ticket.isEntregado(), "El ticket debe estar marcado como entregado");
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testMarcarComoEntregadoVentaInexistente() throws Exception {
         mockMvc.perform(patch("/api/despacho/ventas/99999/entregar"))
                 .andExpect(status().isNotFound())
@@ -777,7 +748,7 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testMarcarComoEntregadoVentaYaEntregada() throws Exception {
         mockMvc.perform(patch("/api/despacho/ventas/" + ticketEntregado.getId() + "/entregar"))
                 .andExpect(status().isForbidden())
@@ -787,20 +758,19 @@ class ModuloDespachoTests {
     // ==================== PRUEBAS DE DESMARCAR ENTREGADO ====================
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testDesmarcarEntregadoExitoso() throws Exception {
         mockMvc.perform(patch("/api/despacho/ventas/" + ticketEntregado.getId() + "/no-entregar"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("desmarcada")));
 
-        // Verificar en base de datos
         Ticket ticket = repositorioTicket.findById(ticketEntregado.getId()).orElse(null);
         assertNotNull(ticket);
         assertFalse(ticket.isEntregado(), "El ticket debe estar desmarcado como entregado");
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testDesmarcarEntregadoVentaNoEntregada() throws Exception {
         mockMvc.perform(patch("/api/despacho/ventas/" + ticketNoEntregado.getId() + "/no-entregar"))
                 .andExpect(status().isForbidden())
@@ -808,7 +778,7 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testDesmarcarEntregadoVentaInexistente() throws Exception {
         mockMvc.perform(patch("/api/despacho/ventas/99999/no-entregar"))
                 .andExpect(status().isNotFound())
@@ -818,7 +788,7 @@ class ModuloDespachoTests {
     // ==================== PRUEBAS DE FLUJO COMPLETO ====================
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testFlujoCompletoDespacho() throws Exception {
         // 1. Verificar que hay ventas no entregadas
         MvcResult result1 = mockMvc.perform(get("/api/despacho/ventas?entregado=false"))
@@ -826,8 +796,7 @@ class ModuloDespachoTests {
                 .andReturn();
 
         String json1 = result1.getResponse().getContentAsString();
-        List<TicketDTO> noEntregadas = objectMapper.readValue(json1, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> noEntregadas = objectMapper.readValue(json1, new TypeReference<List<TicketDTO>>() {});
 
         int cantidadInicial = noEntregadas.size();
         assertTrue(cantidadInicial > 0, "Debe haber al menos una venta no entregada");
@@ -843,8 +812,7 @@ class ModuloDespachoTests {
                 .andReturn();
 
         String json2 = result2.getResponse().getContentAsString();
-        List<TicketDTO> noEntregadasDespues = objectMapper.readValue(json2, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> noEntregadasDespues = objectMapper.readValue(json2, new TypeReference<List<TicketDTO>>() {});
 
         assertEquals(cantidadInicial - 1, noEntregadasDespues.size(),
                 "Debe haber una venta menos en no entregadas");
@@ -855,8 +823,7 @@ class ModuloDespachoTests {
                 .andReturn();
 
         String json3 = result3.getResponse().getContentAsString();
-        List<TicketDTO> entregadas = objectMapper.readValue(json3, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> entregadas = objectMapper.readValue(json3, new TypeReference<List<TicketDTO>>() {});
 
         assertTrue(entregadas.stream().anyMatch(t -> t.getId().equals(idTicket)),
                 "El ticket debe estar en la lista de entregadas");
@@ -872,15 +839,14 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testEstadisticasDeDespacho() throws Exception {
         MvcResult result = mockMvc.perform(get("/api/despacho/ventas"))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String json = result.getResponse().getContentAsString();
-        List<TicketDTO> todos = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {
-        });
+        List<TicketDTO> todos = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {});
 
         long entregadas = todos.stream().filter(TicketDTO::isEntregado).count();
         long noEntregadas = todos.stream().filter(t -> !t.isEntregado()).count();
@@ -892,7 +858,7 @@ class ModuloDespachoTests {
     // ==================== PRUEBAS DE VALIDACIÓN ====================
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testCambioConcurrenteEstado() throws Exception {
         // Marcar como entregado
         mockMvc.perform(patch("/api/despacho/ventas/" + ticketNoEntregado.getId() + "/entregar"))
@@ -912,16 +878,68 @@ class ModuloDespachoTests {
     }
 
     @Test
-    @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
     void testTicketConMultiplesCompras() throws Exception {
         // Crear ticket con múltiples compras
-        Ticket ticketMultiple = new Ticket(3500.0);
+        Ticket ticketMultiple = new Ticket(clienteTest);
         ticketMultiple.setEntregado(false);
+        ticketMultiple.setTotalCompraValor(3500.0);
         repositorioTicket.save(ticketMultiple);
 
-        Compra compra1 = new Compra(clienteTest, "Producto A", 1000.0, 2, ticketMultiple);
-        Compra compra2 = new Compra(clienteTest, "Producto B", 1500.0, 3, ticketMultiple);
-        Compra compra3 = new Compra(clienteTest, "Producto C", 1000.0, 2, ticketMultiple);
+        Producto productoA = new Producto("Producto A", 500.0, "url", "url", 100, "Desc", negocio);
+        Producto productoB = new Producto("Producto B", 500.0, "url", "url", 100, "Desc", negocio);
+        Producto productoC = new Producto("Producto C", 500.0, "url", "url", 100, "Desc", negocio);
+        repositorioProducto.save(productoA);
+        repositorioProducto.save(productoB);
+        repositorioProducto.save(productoC);
+
+        // Primera compra
+        Compra compra1 = new Compra();
+        compra1.setCliente(clienteTest);
+        compra1.setFecha(LocalDateTime.now());
+        compra1.setTicket(ticketMultiple);
+        compra1.setTotal(1000.0);
+        repositorioCompra.save(compra1);
+
+        ClienteProducto cp1 = new ClienteProducto();
+        cp1.setCompra(compra1);
+        cp1.setProducto(productoA);
+        cp1.setCantidad(2);
+        cp1.setPrecioUnitario(500.0);
+        repositorioClienteProducto.save(cp1);
+        compra1.getClienteProductos().add(cp1);
+
+        // Segunda compra
+        Compra compra2 = new Compra();
+        compra2.setCliente(clienteTest);
+        compra2.setFecha(LocalDateTime.now());
+        compra2.setTicket(ticketMultiple);
+        compra2.setTotal(1500.0);
+        repositorioCompra.save(compra2);
+
+        ClienteProducto cp2 = new ClienteProducto();
+        cp2.setCompra(compra2);
+        cp2.setProducto(productoB);
+        cp2.setCantidad(3);
+        cp2.setPrecioUnitario(500.0);
+        repositorioClienteProducto.save(cp2);
+        compra2.getClienteProductos().add(cp2);
+
+        // Tercera compra
+        Compra compra3 = new Compra();
+        compra3.setCliente(clienteTest);
+        compra3.setFecha(LocalDateTime.now());
+        compra3.setTicket(ticketMultiple);
+        compra3.setTotal(1000.0);
+        repositorioCompra.save(compra3);
+
+        ClienteProducto cp3 = new ClienteProducto();
+        cp3.setCompra(compra3);
+        cp3.setProducto(productoC);
+        cp3.setCantidad(2);
+        cp3.setPrecioUnitario(500.0);
+        repositorioClienteProducto.save(cp3);
+        compra3.getClienteProductos().add(cp3);
 
         repositorioCompra.save(compra1);
         repositorioCompra.save(compra2);
@@ -937,5 +955,92 @@ class ModuloDespachoTests {
 
         assertEquals(3, ticket.getCompras().size(), "Debe tener 3 compras");
         assertEquals(3500.0, ticket.getTotalCompraValor(), 0.01, "El total debe ser correcto");
+    }
+
+    // ==================== PRUEBAS ADICIONALES ====================
+
+    @Test
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
+    void testVentasSinFiltroDevuelveTodas() throws Exception {
+        MvcResult result = mockMvc.perform(get("/api/despacho/ventas"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        List<TicketDTO> todos = objectMapper.readValue(json, new TypeReference<List<TicketDTO>>() {});
+
+        MvcResult resultEntregadas = mockMvc.perform(get("/api/despacho/ventas?entregado=true"))
+                .andExpect(status().isOk())
+                .andReturn();
+        List<TicketDTO> entregadas = objectMapper.readValue(
+                resultEntregadas.getResponse().getContentAsString(),
+                new TypeReference<List<TicketDTO>>() {}
+        );
+
+        MvcResult resultNoEntregadas = mockMvc.perform(get("/api/despacho/ventas?entregado=false"))
+                .andExpect(status().isOk())
+                .andReturn();
+        List<TicketDTO> noEntregadas = objectMapper.readValue(
+                resultNoEntregadas.getResponse().getContentAsString(),
+                new TypeReference<List<TicketDTO>>() {}
+        );
+
+        assertEquals(todos.size(), entregadas.size() + noEntregadas.size(),
+                "El total sin filtro debe ser igual a la suma de entregadas y no entregadas");
+    }
+
+    @Test
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
+    void testDetalleVentaMuestraProductosCorrectos() throws Exception {
+        MvcResult result = mockMvc.perform(get("/api/despacho/ventas/" + ticketNoEntregado.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        TicketDTO ticket = objectMapper.readValue(json, TicketDTO.class);
+
+        // Verificar que tiene compras
+        assertFalse(ticket.getCompras().isEmpty(), "Debe tener compras");
+
+        // Verificar que las compras tienen productos
+        CompraDTO primeraCompra = ticket.getCompras().iterator().next();
+        assertFalse(primeraCompra.getProductos().isEmpty(), "La compra debe tener productos");
+    }
+
+    @Test
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
+    void testMarcarYDesmarcarMultiplesVeces() throws Exception {
+        Long idTicket = ticketNoEntregado.getId();
+
+        // Ciclo 1: Marcar y desmarcar
+        mockMvc.perform(patch("/api/despacho/ventas/" + idTicket + "/entregar"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(patch("/api/despacho/ventas/" + idTicket + "/no-entregar"))
+                .andExpect(status().isOk());
+
+        // Ciclo 2: Marcar y desmarcar nuevamente
+        mockMvc.perform(patch("/api/despacho/ventas/" + idTicket + "/entregar"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(patch("/api/despacho/ventas/" + idTicket + "/no-entregar"))
+                .andExpect(status().isOk());
+
+        // Verificar estado final
+        Ticket ticket = repositorioTicket.findById(idTicket).orElse(null);
+        assertNotNull(ticket);
+        assertFalse(ticket.isEntregado(), "Debe estar como no entregado");
+    }
+
+    @Test
+    @WithMockUser(username = "admind@admin.com", authorities = {"ADMIN"})
+    void testFormatoRespuestaListadoVentas() throws Exception {
+        mockMvc.perform(get("/api/despacho/ventas"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[*].id").exists())
+                .andExpect(jsonPath("$[*].totalCompraValor").exists())
+                .andExpect(jsonPath("$[*].entregado").exists());
     }
 }

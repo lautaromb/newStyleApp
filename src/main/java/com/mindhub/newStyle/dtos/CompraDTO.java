@@ -13,21 +13,17 @@ public class CompraDTO {
     private LocalDateTime fecha;
     private double total;
     private Set<ClienteProductoDTO> productos;
-    private TicketDTO ticket;
+    private Long ticketId;
 
     public CompraDTO(Compra compra) {
         this.id = compra.getId();
         this.fecha = compra.getFecha();
         this.total = compra.getTotal();
-
+        this.ticketId = compra.getTicket() != null ? compra.getTicket().getId() : null;
         this.productos = compra.getClienteProductos()
                 .stream()
                 .map(ClienteProductoDTO::new)
                 .collect(Collectors.toSet());
-
-        if (compra.getTicket() != null) {
-            this.ticket = new TicketDTO(compra.getTicket());
-        }
     }
 
     public Long getId() {
@@ -58,11 +54,11 @@ public class CompraDTO {
         this.productos = productos;
     }
 
-    public TicketDTO getTicket() {
-        return ticket;
+    public Long getTicketId() {
+        return ticketId;
     }
 
-    public void setTicket(TicketDTO ticket) {
-        this.ticket = ticket;
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 }

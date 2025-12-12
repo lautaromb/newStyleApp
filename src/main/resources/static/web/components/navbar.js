@@ -37,7 +37,6 @@
         <ul>
             <!-- PÚBLICO -->
             <li><a href="home.html" data-page="home">Inicio</a></li>
-            <li><a href="servicios.html" data-page="servicios">Servicios</a></li>
             <li><a href="productos.html" data-page="productos">Productos</a></li>
 
             <!-- ADMIN -->

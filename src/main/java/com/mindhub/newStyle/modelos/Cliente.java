@@ -28,9 +28,6 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
     private Set<ClienteServicio> clienteServicio = new HashSet<>();
 
-    @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
-    private Set<ClienteProducto> clienteProducto = new HashSet<>();
-
     public Cliente() {
     }
 
@@ -91,8 +88,6 @@ public class Cliente {
     public Set<ClienteServicio> getClienteServicio() {return clienteServicio;}
     public void setClienteServicio(Set<ClienteServicio> clienteServicio) {this.clienteServicio = clienteServicio;}
 
-    public Set<ClienteProducto> getClienteProducto() {return clienteProducto;}
-    public void setClienteProducto(Set<ClienteProducto> clienteProducto) {this.clienteProducto = clienteProducto;}
 
     public double getSaldo() { return saldo;  }
 

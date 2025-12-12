@@ -1,6 +1,7 @@
 package com.mindhub.newStyle.dtos;
 
 import com.mindhub.newStyle.modelos.Ticket;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ public class TicketDTO {
     private Long id;
     private double totalCompraValor;
     private boolean entregado;
+    @JsonIgnore
     private Set<CompraDTO> compras;
 
     public TicketDTO() {
