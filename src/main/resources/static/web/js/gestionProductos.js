@@ -51,6 +51,7 @@ const app = new Vue({
         },
 
         guardarEdicion() {
+            console.log("ID producto " + this.productoEditando.id)
             if (!this.productoEditando) return;
 
             // Validaciones
@@ -81,8 +82,10 @@ const app = new Vue({
                 stock: parseInt(this.productoEditando.stock),
                 descripcion: this.productoEditando.descripcion,
                 imagenProducto: this.productoEditando.imagenProducto,
-                imagenCard: this.productoEditando.imagenCard
+                imagenCard: this.productoEditando.imagenCard,
+                activo: this.productoEditando.activo
             };
+            console.log("ID producto " + this.productoEditando.id)
 
             axios.put(`/api/producto/${this.productoEditando.id}`, productoDTO)
                 .then(response => {
@@ -139,6 +142,43 @@ const app = new Vue({
                         });
                 }
             });
-        }
+        },
+
+activarProducto(id) {
+    Swal.fire({
+        title: '¿Activar producto?',
+        text: 'El producto volverá a estar disponible.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, activar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (!result.isConfirmed) return;
+
+        axios.put(`/api/producto/${id}/activar`)
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Producto activado',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                this.cargarProductos();
+            })
+            .catch(error => {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.response?.data || 'No se pudo activar el producto'
+                });
+            });
+    });
+}
+
+
+
     }
 });

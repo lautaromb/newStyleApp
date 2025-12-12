@@ -1,7 +1,5 @@
-// Configuración global de Axios
 import axios from 'axios';
 
-// Interceptor para redirigir en caso de error 401
 axios.interceptors.response.use(
   response => response,
   error => {

@@ -30,14 +30,14 @@ public class ProductoControlador {
     return productoDTOS;
     }
 
-    @PostMapping("/producto")
+    @PostMapping(value = "/producto", consumes = "application/json")
     public ResponseEntity<Object> createProducto(@RequestBody ProductoDTO productoDTO){
 
         Negocio negocio = repositorioNegocio.findByEmail("newStyle@gmail.com");
 
         if (productoDTO.getNombre().isEmpty() || productoDTO.getPrecio() <= 0 ||
                 productoDTO.getImagenProducto().isEmpty() || productoDTO.getImagenCard().isEmpty() ||
-                productoDTO.getDescripcion().isEmpty()) {
+                productoDTO.getDescripcion().isEmpty() || productoDTO.getStock() <= 0) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
@@ -65,6 +65,7 @@ public class ProductoControlador {
         producto.setImagenCard(productoDTO.getImagenCard());
         producto.setStock(productoDTO.getStock());
         producto.setDescripcion(productoDTO.getDescripcion());
+        producto.setActivo(productoDTO.isActivo());
 
         repositorioProducto.save(producto);
 
@@ -85,6 +86,21 @@ public class ProductoControlador {
         repositorioProducto.save(producto);
 
         return new ResponseEntity<>("Producto eliminado", HttpStatus.OK);
+    }
+
+    @PutMapping("/producto/{id}/activar")
+    public ResponseEntity<Object> activarProducto(@PathVariable Long id){
+
+        Producto producto = repositorioProducto.findById(id).orElse(null);
+
+        if(producto == null){
+            return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        producto.setActivo(true);
+        repositorioProducto.save(producto);
+
+        return new ResponseEntity<>("Producto activado", HttpStatus.OK);
     }
 
 }

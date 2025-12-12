@@ -1,15 +1,16 @@
-import axios from '../js/axios-config';
 const app = new Vue({
     el: '#app',
     data: {
         ventas: [],
-        filtro: null
+        filtro: null,
+        cargando: false
     },
     created() {
         this.cargarVentas();
     },
     methods: {
         cargarVentas() {
+            this.cargando = true;
             let url = '/api/despacho/ventas';
             if (this.filtro !== null) {
                 url += `?entregado=${this.filtro}`;
@@ -17,10 +18,21 @@ const app = new Vue({
 
             axios.get(url)
                 .then(response => {
-                    this.ventas = response.data;
+                    if (Array.isArray(response.data)) {
+                        this.ventas = response.data;
+                    } else {
+                        this.ventas = [];
+                    }
+                    this.cargando = false;
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('Error cargando ventas:', error);
+                    this.cargando = false;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudieron cargar las ventas'
+                    });
                 });
         },
         filtrarVentas(estado) {
@@ -42,8 +54,7 @@ const app = new Vue({
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.response?.data || 'No se pudo actualizar',
-                        timer: 2000
+                        text: error.response?.data || 'No se pudo actualizar'
                     });
                 });
         },
@@ -62,10 +73,14 @@ const app = new Vue({
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.response?.data || 'No se pudo actualizar',
-                        timer: 2000
+                        text: error.response?.data || 'No se pudo actualizar'
                     });
                 });
+        },
+        formatearFecha(fecha) {
+            if (!fecha) return '';
+            const date = new Date(fecha);
+            return date.toLocaleDateString('es-AR') + ' ' + date.toLocaleTimeString('es-AR');
         }
     }
 });

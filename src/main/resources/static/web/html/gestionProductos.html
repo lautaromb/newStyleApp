@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,10 @@
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/home.css">
 </head>
+
 <body>
     <script src="../components/navbar.js"></script>
-    
+
     <div id="app" style="margin-top: 80px;">
         <main class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -23,11 +25,7 @@
 
             <!-- Filtro de búsqueda -->
             <div class="mb-4">
-                <input 
-                    type="text" 
-                    v-model="busqueda" 
-                    class="form-control" 
-                    placeholder="Buscar por nombre..."
+                <input type="text" v-model="busqueda" class="form-control" placeholder="Buscar por nombre..."
                     @input="filtrarProductos">
             </div>
 
@@ -54,15 +52,15 @@
                         <tr v-for="producto in productosFiltrados" :key="producto.id">
                             <td>{{ producto.id }}</td>
                             <td>
-                                <img :src="producto.imagenCard" 
-                                     :alt="producto.nombre" 
-                                     style="width: 50px; height: 50px; object-fit: cover;"
-                                     onerror="this.src='../assets/placeholder.jpg'">
+                                <img :src="producto.imagenCard" :alt="producto.nombre"
+                                    style="width: 50px; height: 50px; object-fit: cover;"
+                                    @error="$event.target.src='https://i.imgur.com/FH8h7Un.jpg'">
                             </td>
                             <td>{{ producto.nombre }}</td>
                             <td>${{ producto.precio.toFixed(2) }}</td>
                             <td>
-                                <span :class="{'text-danger': producto.stock < 10, 'text-warning': producto.stock >= 10 && producto.stock < 50}">
+                                <span
+                                    :class="{'text-danger': producto.stock < 10, 'text-warning': producto.stock >= 10 && producto.stock < 50}">
                                     {{ producto.stock }}
                                 </span>
                             </td>
@@ -72,70 +70,98 @@
                                 </span>
                             </td>
                             <td>
-                                <button 
-                                    @click="editarProducto(producto)" 
-                                    class="btn btn-sm btn-primary me-2"
+                                <button @click="editarProducto(producto)" class="btn btn-sm btn-primary me-2"
                                     title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button 
-                                    @click="eliminarProducto(producto.id)" 
-                                    class="btn btn-sm btn-danger"
-                                    title="Eliminar"
-                                    v-if="producto.activo">
+                                <button @click="eliminarProducto(producto.id)" class="btn btn-sm btn-danger"
+                                    title="Eliminar" v-if="producto.activo">
                                     <i class="fas fa-trash"></i>
                                 </button>
+                                <button v-else @click="activarProducto(producto.id)" class="btn btn-sm btn-success"
+                                    title="Activar">
+                                    <i class="fas fa-check"></i>
+                                </button>
+
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </main>
-    </div>
 
-    <!-- Modal de Edición -->
-    <div class="modal fade" id="modalEditar" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body" v-if="productoEditando">
+
+        <div class="modal fade" id="modalEditar" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
                     <form @submit.prevent="guardarEdicion">
-                        <div class="mb-3">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" v-model="productoEditando.nombre" class="form-control" required>
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Producto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Precio</label>
-                            <input type="number" v-model="productoEditando.precio" class="form-control" step="0.01" min="0" required>
+
+                        <div class="modal-body" v-if="productoEditando">
+
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" v-model="productoEditando.nombre" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Precio</label>
+                                <input type="number" v-model="productoEditando.precio" class="form-control" min="0"
+                                    step="0.01" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Stock</label>
+                                <input type="number" v-model="productoEditando.stock" class="form-control" min="0"
+                                    required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea v-model="productoEditando.descripcion" class="form-control" rows="3"
+                                    required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">URL Imagen Principal</label>
+                                <input type="url" v-model="productoEditando.imagenProducto" class="form-control"
+                                    required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">URL Imagen Card</label>
+                                <input type="url" v-model="productoEditando.imagenCard" class="form-control" required>
+                            </div>
+
+                            <div class="form-check form-switch mt-4">
+                                <input class="form-check-input" type="checkbox" id="switchActivo"
+                                    v-model="productoEditando.activo">
+                                <label class="form-check-label" for="switchActivo">Producto activo</label>
+                            </div>
+
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Stock</label>
-                            <input type="number" v-model="productoEditando.stock" class="form-control" min="0" required>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <textarea v-model="productoEditando.descripcion" class="form-control" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">URL Imagen Principal</label>
-                            <input type="url" v-model="productoEditando.imagenProducto" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">URL Imagen Card</label>
-                            <input type="url" v-model="productoEditando.imagenCard" class="form-control" required>
-                        </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                        </div>
+
                     </form>
+
                 </div>
             </div>
         </div>
+
+
     </div>
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -143,4 +169,5 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/gestionProductos.js"></script>
 </body>
+
 </html>

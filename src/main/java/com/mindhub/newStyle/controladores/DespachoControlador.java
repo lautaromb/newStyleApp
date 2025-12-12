@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,7 @@ public class DespachoControlador {
         }
 
         if (tickets.isEmpty()) {
-            return new ResponseEntity<>("No hay ventas registradas", HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
 
         List<TicketDTO> ticketsDTO = tickets.stream()
