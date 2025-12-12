@@ -1,6 +1,7 @@
 (function ($) {
     'use strict';
-
+    /*==================================================================
+        [ Daterangepicker ]*/
     try {
         $('.js-datepicker').daterangepicker({
             "singleDatePicker": true,
@@ -46,7 +47,8 @@
     
     
     } catch(er) {console.log(er);}
-
+    /*[ Select 2 Config ]
+        ===========================================================*/
     
     try {
         var selectSimple = $('.js-select-simple');

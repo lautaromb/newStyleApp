@@ -14,55 +14,58 @@ var app = new Vue({
     },
 
     methods: {
-verificarSiYaEstaLogeado() {
-    axios.get('/api/cliente/current')
-        .then(response => {
-            // Ya está logeado
-            const carritoProductos = localStorage.getItem('carrito-productos-vue');
-            const carritoServicios = localStorage.getItem('carrito-servicios-vue');
-            
-            const tieneProductos = carritoProductos && JSON.parse(carritoProductos).length > 0;
-            const tieneServicios = carritoServicios && JSON.parse(carritoServicios).length > 0;
-            
-            if (tieneProductos || tieneServicios) {
-                let mensaje = 'Tienes ';
-                if (tieneProductos && tieneServicios) {
-                    mensaje += 'productos y servicios en tu carrito';
-                } else if (tieneProductos) {
-                    mensaje += 'productos en tu carrito';
-                } else {
-                    mensaje += 'servicios en tu carrito';
-                }
-                
-                Swal.fire({
-                    icon: 'question',
-                    title: mensaje,
-                    text: '¿Quieres continuar con tu compra?',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, ver carrito',
-                    cancelButtonText: 'No, ir a inicio',
-                    confirmButtonColor: '#007bff'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        if (tieneProductos) {
-                            window.location.href = '/web/html/productos.html';
+        verificarSiYaEstaLogeado() {
+            axios.get('/api/cliente/current')
+                .then(response => {
+                    // Ya está logeado, verificar si tiene carrito pendiente
+                    const carritoProductos = localStorage.getItem('carrito-productos-vue');
+                    const carritoServicios = localStorage.getItem('carrito-servicios-vue');
+                    
+                    const tieneProductos = carritoProductos && JSON.parse(carritoProductos).length > 0;
+                    const tieneServicios = carritoServicios && JSON.parse(carritoServicios).length > 0;
+                    
+                    if (tieneProductos || tieneServicios) {
+                        // Tiene productos/servicios en el carrito
+                        let mensaje = 'Tienes ';
+                        if (tieneProductos && tieneServicios) {
+                            mensaje += 'productos y servicios en tu carrito';
+                        } else if (tieneProductos) {
+                            mensaje += 'productos en tu carrito';
                         } else {
-                            window.location.href = '/web/html/servicios.html';
+                            mensaje += 'servicios en tu carrito';
                         }
+                        
+                        Swal.fire({
+                            icon: 'question',
+                            title: mensaje,
+                            text: '¿Quieres continuar con tu compra?',
+                            showCancelButton: true,
+                            confirmButtonText: 'Sí, ver carrito',
+                            cancelButtonText: 'No, ir a inicio',
+                            confirmButtonColor: '#007bff'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Redirigir según qué tipo de carrito tenga
+                                if (tieneProductos) {
+                                    window.location.href = '/web/html/productos.html';
+                                } else {
+                                    window.location.href = '/web/html/servicios.html';
+                                }
+                            } else {
+                                window.location.href = '/web/html/home.html';
+                            }
+                        });
                     } else {
+                        // No tiene carrito, ir a home
                         window.location.href = '/web/html/home.html';
                     }
+                })
+                .catch(error => {
+                    // No está logeado, quedarse en index
+                    console.log('Usuario no logeado, mostrando formulario');
                 });
-            } else {
-                // No tiene carrito, ir a home
-                window.location.href = '/web/html/home.html';
-            }
-        })
-        .catch(error => {
-            // No está logeado, quedarse en index (NO hacer nada)
-            console.log('Usuario no autenticado, mostrando formulario de login');
-        });
-},
+        },
+
         iniciarSesion() {
             axios.post('/api/login', 
                 "email=" + this.email + "&password=" + this.password, 

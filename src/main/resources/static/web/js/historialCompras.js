@@ -11,7 +11,6 @@ const app = new Vue({
             axios.get('/api/compras/historial')
                 .then(response => {
                     this.compras = response.data;
-                    console.log('Compras cargadas:', this.compras);
                     // Ordenar por ID descendente (más recientes primero)
                     this.compras.sort((a, b) => b.id - a.id);
                 })
@@ -39,18 +38,15 @@ const app = new Vue({
 
         calcularTotalGastado() {
             const total = this.compras.reduce((sum, compra) => 
-                sum + (Number(compra.total) || 0), 0
+                sum + compra.totalCompraProducto, 0
             );
             return total.toFixed(2);
         },
 
         calcularTotalProductos() {
-            return this.compras.reduce((sum, compra) => {
-                const productosCompra = compra.productos.reduce((psum, prod) => 
-                    psum + (Number(prod.cantidad) || 0), 0
-                );
-                return sum + productosCompra;
-            }, 0);
+            return this.compras.reduce((sum, compra) => 
+                sum + compra.stock, 0
+            );
         }
     }
 });

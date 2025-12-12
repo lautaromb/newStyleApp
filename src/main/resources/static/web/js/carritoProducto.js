@@ -22,6 +22,7 @@ const app = new Vue({
         }
     },
     methods: {
+        // Cargar productos desde el backend
         loadData: function () {
             axios.get("/api/producto")
                 .then((response) => {
@@ -33,52 +34,24 @@ const app = new Vue({
                 });
         },
 
-        getStockOptions(stock) {
-            const options = [];
-            for (let i = 1; i <= stock; i++) {
-                options.push(i);
-            }
-            return options;
-        },
-
+        // Agregar producto al carrito
         agregarCarrito: function (index) {
             const producto = this.productos[index];
-
-            if (!producto.stock || producto.stock <= 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Sin stock',
-                    text: 'Este producto no tiene stock disponible',
-                    showConfirmButton: false,
-                    timer: 1800
-                });
-                return;
-            }
 
             // Verificar si ya existe en el carrito
             const indexEnCarrito = this.carrito.findIndex(item => item.id === producto.id);
 
             if (indexEnCarrito !== -1) {
-                // Ya existe, verificar si puede incrementar
-                if (this.carrito[indexEnCarrito].cantidad < producto.stock) {
-                    this.carrito[indexEnCarrito].cantidad++;
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Stock máximo',
-                        text: `Solo hay ${producto.stock} unidades disponibles`,
-                        showConfirmButton: false,
-                        timer: 1800
-                    });
-                    return;
-                }
+                // Ya existe, incrementar cantidad
+                this.carrito[indexEnCarrito].cantidad++;
             } else {
+                // No existe, agregarlo con cantidad 1
                 const nuevoItem = {
                     id: producto.id,
                     nombre: producto.nombre,
                     precio: producto.precio,
                     cantidad: 1,
-                    stock: producto.stock 
+                    stock: producto.stock
                 };
                 this.carrito.push(nuevoItem);
                 contcarrito++;
@@ -89,6 +62,7 @@ const app = new Vue({
             this.calcular();
             this.$forceUpdate();
 
+            // 🎉 Feedback visual
             Swal.fire({
                 icon: 'success',
                 title: 'Producto agregado',
@@ -100,6 +74,7 @@ const app = new Vue({
             });
         },
 
+        // Quitar producto del carrito
         quitarProducto: function (index) {
             this.carrito.splice(index, 1);
             contcarrito = Math.max(0, contcarrito - 1);
@@ -109,6 +84,7 @@ const app = new Vue({
             this.guardarLocal();
         },
 
+        // Calcular total del carrito
         calcular: function () {
             var total = 0;
             for (var i = 0; i < this.carrito.length; i++) {
@@ -119,22 +95,22 @@ const app = new Vue({
             this.total = total.toFixed(2);
             return this.total;
         },
-
         actualizarCantidad(servicio) {
             if (servicio.cantidad < 1) servicio.cantidad = 1;
             if (servicio.cantidad > servicio.stock) servicio.cantidad = servicio.stock;
 
             this.calcular();
             updateCartCount(this.carrito.length);
-            this.guardarLocal();
-            this.$forceUpdate();
+            localStorage.setItem('carrito-productos-vue', JSON.stringify(this.carrito));
         },
 
+        // Guardar carrito en localStorage
         guardarLocal: function () {
             localStorage.setItem('carrito-productos-vue', JSON.stringify(this.carrito));
             localStorage.setItem('contador-productos-vue', JSON.stringify(contcarrito));
         },
 
+        // 🔐 GUEST CHECKOUT: Verificar autenticación antes de comprar
         comprar() {
             if (!this.carrito || !this.carrito.length) {
                 Swal.fire({
@@ -154,6 +130,7 @@ const app = new Vue({
                     this.procesarCompra();
                 })
                 .catch(error => {
+                    // ❌ No autenticado, redirigir a login
                     Swal.fire({
                         icon: 'info',
                         title: 'Inicia sesión para continuar',
@@ -173,6 +150,7 @@ const app = new Vue({
                 });
         },
 
+        // 💳 Procesar la compra (solo si está autenticado)
         procesarCompra() {
             // Validar stock antes de enviar
             for (let item of this.carrito) {
@@ -188,6 +166,7 @@ const app = new Vue({
                 }
             }
 
+            // Formato esperado por el backend
             const carritoDTO = this.carrito.map(item => ({
                 idProducto: item.id,
                 nombre: item.nombre,
@@ -215,6 +194,8 @@ const app = new Vue({
                     contcarrito = 0;
                     updateCartCount(0);
 
+                    // $('#modal').modal('hide');
+
                     const modalEl = document.getElementById('modal');
                     const modalInstance =
                         bootstrap.Modal.getInstance(modalEl) ||
@@ -237,7 +218,9 @@ const app = new Vue({
                     });
                 });
         }
-    }
+
+    },
+
 });
 
 window.vueApp = app;

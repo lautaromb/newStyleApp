@@ -34,52 +34,53 @@
             <i class="fas fa-bars"></i>
         </label>
 
-<ul>
+        <ul>
+            <!-- PÚBLICO -->
+            <li><a href="home.html" data-page="home">Inicio</a></li>
+            <li><a href="productos.html" data-page="productos">Productos</a></li>
 
-    <!-- PÚBLICO -->
-    <li><a href="home.html" data-page="home">Inicio</a></li>
-    <li><a href="productos.html" data-page="productos">Productos</a></li>
+            <!-- ADMIN -->
+            <li class="admin-only" style="display:none;">
+                <a href="formularioProducto.html" data-page="formularioProducto">Crear Producto</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="gestionProductos.html" data-page="gestionProductos">Gestión Productos</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="gestionStock.html" data-page="gestionStock">Gestión Stock</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="informes.html" data-page="informes">Informes</a>
+            </li>
+            <li class="admin-only" style="display:none;">
+                <a href="despacho.html" data-page="despacho">Despacho</a>
+            </li>
 
-    <!-- ADMIN (solo admin) -->
-    <li class="admin-only" style="display:none;">
-        <a href="gestionProductos.html" data-page="gestionProductos">Gestión Productos</a>
-    </li>
-    <li class="admin-only" style="display:none;">
-        <a href="informes.html" data-page="informes">Informes</a>
-    </li>
-    <li class="admin-only" style="display:none;">
-        <a href="despacho.html" data-page="despacho">Despacho</a>
-    </li>
+            <!-- AUTENTICADOS -->
+            <li class="auth-only" style="display:none;">
+                <a href="historialCompras.html" data-page="historialCompras">Mis Compras</a>
+            </li>
+            <li class="auth-only" style="display:none;">
+                <a href="saldo.html" data-page="saldo">Mi Saldo</a>
+            </li>
+            <li class="auth-only" style="display:none;">
+                <a href="#" id="logoutBtn">Salir</a>
+            </li>
 
-    <!-- USUARIO (logueado + NO admin) -->
-    <li class="user-only" style="display:none;">
-        <a href="historialCompras.html" data-page="historialCompras">Mis Compras</a>
-    </li>
-    <li class="user-only" style="display:none;">
-        <a href="saldo.html" data-page="saldo">Mi Saldo</a>
-    </li>
-    <li class="user-only" style="display:none;">
-        <a href="#" id="logoutBtn">Salir</a>
-    </li>
+            <!-- VISITANTES -->
+            <li class="guest-only">
+                <a href="index.html">Iniciar Sesión</a>
+            </li>
 
-    <!-- VISITANTE -->
-    <li class="guest-only">
-        <a href="index.html">Iniciar Sesión</a>
-    </li>
+            <!-- CARRITO FUNCIONAL -->
+            <div id="carritoBox" style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                <box-icon name='cart' color='#ffffff' id="cartIcon"></box-icon>
+                <span id="cartCount" class="carrito" style="color:white; font-weight:bold;">0</span>
+            </div>
 
-    <!-- CARRITO SOLO PARA USUARIO COMÚN -->
-    <li class="user-only" style="display:none;">
-        <div id="carritoBox" style="display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <box-icon name="cart" color="#ffffff" id="cartIcon"></box-icon>
-            <span id="cartCount" class="carrito" style="color:white; font-weight:bold;">0</span>
-        </div>
-    </li>
-
-</ul>
-
+        </ul>
     </nav>
 </header>
-
 `;
 
         document.body.insertAdjacentHTML('afterbegin', navbarHTML);
@@ -150,23 +151,11 @@
     }
 
     function updateNavbarForUser(user) {
-
-        // Ocultamos todo por defecto
         document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.user-only').forEach(el => el.style.display = 'none'); // nuevo
+        document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'flex');
 
         if (user.rol === 'admin') {
-
-            // SOLO ADMIN
             document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'flex');
-
-        } else {
-
-            // USUARIO NORMAL
-            document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'flex');
-            document.querySelectorAll('.user-only').forEach(el => el.style.display = 'flex');
         }
     }
 
@@ -174,9 +163,7 @@
         document.querySelectorAll('.guest-only').forEach(el => el.style.display = 'flex');
         document.querySelectorAll('.auth-only').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.user-only').forEach(el => el.style.display = 'none');
     }
-
 
     /**
      * Resaltar página actual
@@ -197,20 +184,8 @@
      */
     function handleLogout(e) {
         e.preventDefault();
-
-        // Hacer logout en el backend
-        axios.post('/api/logout')
-            .then(() => {
-                localStorage.clear();
-
-                window.location.href = 'index.html';
-            })
-            .catch(error => {
-                console.error('Error en logout:', error);
-
-                localStorage.clear();
-                window.location.href = 'index.html';
-            });
+        localStorage.clear();
+        window.location.href = 'index.html';
     }
 
 })();
